@@ -17,7 +17,9 @@ def dashboard():
     user_id = session.get('user_id')
     user = User.query.get(user_id)
 
-    if user.username == 'PT1':
-        return render_template('subscribed_dashboard.html')
+    if user.username == 'PT1': # nome é para teste
+        # ...
+        return render_template('page_that_shows.html')
     else:
-        return render_template('not_subscribed_dashboard.html')
+        # ...
+        return render_template('page_that_doesnt.html')
