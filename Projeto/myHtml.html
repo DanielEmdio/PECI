@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Videos for {{ username }}</title>
+</head>
+<body>
+    <h1>Videos for {{ username }}</h1>
+    <ul>
+        {% for video in videos %}
+            <li>{{ video[0] }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
