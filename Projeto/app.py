@@ -1,12 +1,11 @@
 from flask import Flask, render_template, send_from_directory, request
 import sqlite3
-import os
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
 @app.route('/html/<path:filename>')
 def serve_html(filename):
-    return send_from_directory('static/html', filename)
+    return send_from_directory('templates', filename)
 
 @app.route('/js/<path:filename>')
 def serve_js(filename):
@@ -24,21 +23,19 @@ def serve_img(filename):
 def serve_favicon():
     return send_from_directory('static/img/html', 'icon.ico')
 
-"""# Route to display videos for a user
-@app.route('/user_videos/<username>')
-def user_videos(username):
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-
-    # Fetch non-restricted videos for the specified user
-    cursor.execute("SELECT video FROM PTs WHERE user = ? AND restrictedVideo = 0", (username,))
-
-    videos = cursor.fetchall()
-    conn.close()
-    ##
-    return render_template('videos.html', username=username, videos=videos)
-
-"""
+# # Route to display videos for a user
+# @app.route('/user_videos/<username>')
+# def user_videos(username):
+#     conn = sqlite3.connect('database.db')
+#     cursor = conn.cursor()
+# 
+#     # Fetch non-restricted videos for the specified user
+#     cursor.execute("SELECT video FROM PTs WHERE user = ? AND restrictedVideo = 0", (username,))
+# 
+#     videos = cursor.fetchall()
+#     conn.close()
+#     ##
+#     return render_template('videos.html', username=username, videos=videos)
 
 """@app.route('/post')
 def exibir_video():
@@ -72,7 +69,6 @@ def get_video_path_from_database(username):
     #video_paths = [(video_path0,restrictedVideo==1),(video_path1,restrictedVideo==1)]
     return videos_paths
 
-
 @app.route('/')
 def blogHome():
     username = 'user1'  # Change this to the desired username
@@ -95,15 +91,14 @@ def post():
     video = request.args.get('video')
     return render_template('post.html',video=video)
 
-@app.route('/user_video')
-def user_video():
-    username = 'user1'  # Change this to the desired username
-    videos = get_video_path_from_database(username)
-    print("--------------------------------")
-    print(videos)
-    return render_template('user_videos.html', username=username, videos=videos)
-    return render_template('user_video.html')
-
+# @app.route('/user_video')
+# def user_video():
+#     username = 'user1'  # Change this to the desired username
+#     videos = get_video_path_from_database(username)
+#     print("--------------------------------")
+#     print(videos)
+#     return render_template('user_videos.html', username=username, videos=videos)
+#     return render_template('user_video.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
