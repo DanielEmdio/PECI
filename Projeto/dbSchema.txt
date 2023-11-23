@@ -2,6 +2,7 @@ CREATE TABLE Users(
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
     user TEXT,
     password TEXT,
+    token TEXT,
     PTid INTEGER,
     FOREIGN KEY (PTid) REFERENCES PTs(Id)
 );
