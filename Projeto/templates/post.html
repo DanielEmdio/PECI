@@ -66,13 +66,22 @@
                     <hr class="tm-hr-primary tm-mb-55">
                     <!-- Video player 1422x800 -->
                     <!-- AQUI VÃO APARECER OS VIDEOS TODOS A QUE O UTILIZADOR TEM ACESSO-->
-                    <ul>
-                        {% for video in video_path %}
+                    <ul><!--
+                        SE QUISERMOS USAR UM VIDEO DO YOUTUBE
+                        
+                        <div>
+                            <iframe width="560" height="315" src="https://www.youtube.com/embed/YOUR_VIDEO_ID" title="YouTube Video" frameborder="0" allowfullscreen></iframe>
+                        </div>
+
+                        You can get the YouTube video ID from the URL of the video. For example, if the URL of the YouTube video is 
+                        https://www.youtube.com/watch?v=abcdefghijk, the video ID is abcdefghijk.
+                        Simply replace YOUR_VIDEO_ID in the code above with the actual ID of the YouTube video you want to embed, 
+                        and it will display the video on your HTML page using an iframe
+                        -->
                             <video width="954" height="535" controls class="tm-mb-40">
                                 <source src="{{ video }}" type="video/mp4">							  
                                 Your browser does not support the video tag.
                             </video>
-                        {% endfor %}
                     </ul>
                     <!-- #############################################  -->
                 </div>

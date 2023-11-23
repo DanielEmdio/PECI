@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, request
 import sqlite3
 import os
 
@@ -40,11 +40,11 @@ def user_videos(username):
 
 """
 
-@app.route('/post')
+"""@app.route('/post')
 def exibir_video():
     video_path = get_video_path_from_database('user1')  # Obtém o caminho do vídeo do banco de dados
     return render_template('post.html', video_path=video_path)       
-
+"""
 def get_video_path_from_database(username):    
     # video_path = "video/wheat-field.mp4"  
 
@@ -56,20 +56,30 @@ def get_video_path_from_database(username):
     print(PTid)
     #print(PTid)
     #if PTid is None:
-    videos_paths = cursor.execute("SELECT video FROM PTs WHERE restrictedVideo=0")
-    videos_paths = [video[0] for video in cursor.fetchall()]
+    videos_paths=[]
+    print("------------------------------")
+    print(PTid)
     if PTid[0]!= None:
         PTname = cursor.execute("SELECT user FROM PTs WHERE Id = ?", (PTid[0],)).fetchone()[0]
         
         cursor.execute("SELECT video FROM PTs WHERE user = ? AND restrictedVideo=1", (PTname,))
-        videos_paths += [video[0] for video in cursor.fetchall()]
-
+        videos_paths += [(video[0],1) for video in cursor.fetchall()]
+        print("HERE")
+        print(videos_paths)
+    cursor.execute("SELECT video FROM PTs WHERE restrictedVideo=0")
+    videos_paths += [(video[0],0) for video in cursor.fetchall()]
     conn.close()
+    #video_paths = [(video_path0,restrictedVideo==1),(video_path1,restrictedVideo==1)]
     return videos_paths
 
 
 @app.route('/')
 def blogHome():
+    username = 'user2'  # Change this to the desired username
+    videos_path = get_video_path_from_database(username)
+    # print("--------------------------------")
+    # print(videos)
+    return render_template('index.html', username=username, videos_path=videos_path)
     return render_template('index.html')
 
 @app.route('/about')
@@ -82,7 +92,8 @@ def contact():
 
 @app.route('/post')
 def post():
-    return render_template('post.html')
+    video = request.args.get('video')
+    return render_template('post.html',video=video)
 
 @app.route('/user_video')
 def user_video():

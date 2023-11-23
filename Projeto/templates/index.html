@@ -80,13 +80,19 @@
                 </div>                
             </div>            
             <div class="row tm-row">
+                {% for video,restricted in videos_path %}
                 <article class="col-12 col-md-6 tm-post">
                     <hr class="tm-hr-primary">
-                    <a href="/post" class="effect-lily tm-post-link tm-pt-60">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-01.jpg" alt="Image" class="img-fluid">                            
-                        </div>
-                        <span class="position-absolute tm-new-badge">Premium</span>
+                    
+                    <a href="/post?video={{ video }}" class="effect-lily tm-post-link tm-pt-60">
+                        
+                        <video width="954" height="535" class="tm-mb-40">
+                            <source src="{{ video }}" type="video/mp4">							  
+                            Your browser does not support the video tag.
+                        </video>
+                        {% if restricted == 1 %}
+                            <span class="position-absolute tm-new-badge">Premium</span>
+                        {% endif %}
                         <h2 class="tm-pt-30 tm-color-primary tm-post-title">sessão de treino #1</h2>
                     </a>                    
                     <p class="tm-pt-30">
@@ -102,12 +108,17 @@
                         <span>UA</span>
                     </div>  
                 </article>
+                            
+                {% endfor %}
+                <!--
                 <article class="col-12 col-md-6 tm-post">
                     <hr class="tm-hr-primary">
-                    <a href="/post" class="effect-lily tm-post-link tm-pt-60">
-                        <div class=" tm-post-link-inner">
-                            <img src="img/img-02.jpg" alt="Image" class="img-fluid">                            
-                        </div>
+                    <a href="/post?video=video/car.mp4" class="effect-lily tm-post-link tm-pt-60">
+                        
+                        <video width="320" height="240"  >
+                            <source src="video/car.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                         <span class="position-absolute tm-new-badge">Premium</span>
                         <h2 class="tm-pt-30 tm-color-primary tm-post-title">Multi-purpose blog template</h2>
                     </a>                    
@@ -126,11 +137,12 @@
                 </article>
                 <article class="col-12 col-md-6 tm-post">
                     <hr class="tm-hr-primary">
-                    <a href="/post" class="effect-lily tm-post-link tm-pt-20">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-03.jpg" alt="Image" class="img-fluid">
-                        </div>
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">How can you apply PlaceHolder</h2>
+                    <a href="/post?video=video/little_squirrel.mp4" class="effect-lily tm-post-link tm-pt-20">
+                        
+                        <video width="320" height="240" >
+                            <source src="video/little_squirrel.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                         <h2 class="tm-pt-30 tm-color-primary tm-post-title">How can you apply PlaceHolder</h2>
                     </a>                    
                     <p class="tm-pt-30">
@@ -148,10 +160,12 @@
                 </article>
                 <article class="col-12 col-md-6 tm-post">
                     <hr class="tm-hr-primary">
-                    <a href="/post" class="effect-lily tm-post-link tm-pt-20">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-04.jpg" alt="Image" class="img-fluid">
-                        </div>
+                    <a href="/post?video=video/pexels.mp4" class="effect-lily tm-post-link tm-pt-20">
+                        
+                        <video width="320" height="240" >
+                            <source src="video/pexels.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                         <h2 class="tm-pt-30 tm-color-primary tm-post-title">A little restriction to apply</h2>
                     </a>                    
                     <p class="tm-pt-30">
@@ -170,10 +184,12 @@
                 </article>
                 <article class="col-12 col-md-6 tm-post">
                     <hr class="tm-hr-primary">
-                    <a href="/post" class="effect-lily tm-post-link tm-pt-20">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-05.jpg" alt="Image" class="img-fluid">
-                        </div>
+                    <a href="/post?video=video/pintainhos.mp4" class="effect-lily tm-post-link tm-pt-20">
+                        
+                        <video width="320" height="240"  >
+                            <source src="video/pintainhos.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                         <h2 class="tm-pt-30 tm-color-primary tm-post-title">Color hexa values of PlaceHolder</h2>
                     </a>                    
                     <p class="tm-pt-30">
@@ -194,10 +210,11 @@
                 </article>
                 <article class="col-12 col-md-6 tm-post">
                     <hr class="tm-hr-primary">
-                    <a href="/post" class="effect-lily tm-post-link tm-pt-20">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-06.jpg" alt="Image" class="img-fluid">
-                        </div>
+                    <a href="/post?video=video/wheat-field.mp4" class="effect-lily tm-post-link tm-pt-20">
+                        <video width="320" height="240" >
+                            <source src="video/wheat-field.mp4" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
                         <h2 class="tm-pt-30 tm-color-primary tm-post-title">Donec convallis varius risus</h2>
                     </a>                    
                     <p class="tm-pt-30">
@@ -213,6 +230,7 @@
                         <span>by Admin Sam</span>
                     </div>
                 </article>
+                -->
             </div>
             <div class="row tm-row tm-mt-100 tm-mb-75">
                 <div class="tm-prev-next-wrapper">
