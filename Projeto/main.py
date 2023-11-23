@@ -24,7 +24,7 @@ def serve_img(filename):
 def serve_favicon():
     return send_from_directory('static/img/html', 'icon.ico')
 
-# Route to display videos for a user
+"""# Route to display videos for a user
 @app.route('/user_videos/<username>')
 def user_videos(username):
     conn = sqlite3.connect('database.db')
@@ -38,12 +38,12 @@ def user_videos(username):
     ##
     return render_template('videos.html', username=username, videos=videos)
 
-
+"""
 
 @app.route('/post')
 def exibir_video():
     video_path = get_video_path_from_database('user1')  # Obtém o caminho do vídeo do banco de dados
-    return render_template('post.html', video_path=video_path)       # DEPOIS TEMOS DE ALTERAR ISTO PARA SER A LISTA DE VIDEOS EM VEZ DE SER APAENAS O PRIMEIRO
+    return render_template('post.html', video_path=video_path)       
 
 def get_video_path_from_database(username):
     
@@ -52,14 +52,18 @@ def get_video_path_from_database(username):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
-    PTid = cursor.fetchone()
+    PTid = cursor.fetchone()    #id do PT em que está inscrito
+    print("--------------------------------")
+    print(PTid)
     #print(PTid)
-    if PTid is None:
-        videos_paths = "nothing"
-    else:
+    #if PTid is None:
+    videos_paths = cursor.execute("SELECT video FROM PTs WHERE restrictedVideo=0")
+    videos_paths = [video[0] for video in cursor.fetchall()]
+    if PTid[0]!= None:
         PTname = cursor.execute("SELECT user FROM PTs WHERE Id = ?", (PTid[0],)).fetchone()[0]
-        cursor.execute("SELECT video FROM PTs WHERE user = ? AND restrictedVideo=0", (PTname,))
-        videos_paths = [video[0] for video in cursor.fetchall()]
+        
+        cursor.execute("SELECT video FROM PTs WHERE user = ? AND restrictedVideo=1", (PTname,))
+        videos_paths += [video[0] for video in cursor.fetchall()]
 
     conn.close()
     return videos_paths
