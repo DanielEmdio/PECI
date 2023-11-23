@@ -75,7 +75,7 @@ def get_video_path_from_database(username):
 
 @app.route('/')
 def blogHome():
-    username = 'user2'  # Change this to the desired username
+    username = 'user1'  # Change this to the desired username
     videos_path = get_video_path_from_database(username)
     # print("--------------------------------")
     # print(videos)
