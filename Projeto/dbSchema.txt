@@ -7,7 +7,6 @@ CREATE TABLE Users(
     FOREIGN KEY (PTid) REFERENCES PTs(Id)
 );
 
-
 CREATE TABLE PTs(
     Id INTEGER PRIMARY KEY AUTOINCREMENT,
     user TEXT,
@@ -15,7 +14,6 @@ CREATE TABLE PTs(
     video TEXT,
     restrictedVideo INTEGER
 );
-
 
 INSERT INTO PTs(Id,user, password,video,restrictedVideo) VALUES (1,'PT1', '123','./video/arms_workout.mp4',0);
 INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT1', '123','./video/Boyka_Workout.mp4',1);
@@ -25,10 +23,5 @@ INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT22', '123','./v
 INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT22', '123','./video/pintainhos.mp4',1);
 INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT22', '123','./video/camera.mp4',0);
 
-
-
-
 INSERT INTO Users(user, password,PTid) VALUES ('user1', '123',1);
 INSERT INTO Users(user, password) VALUES ('user2', '123');
-
-
