@@ -1,12 +1,6 @@
-from flask import Flask, render_template, send_from_directory
 import sqlite3 as sql
-import os
-import hashlib
 
 def get_video_path_from_database(username):
-    
-    #video_path = "video/wheat-field.mp4"  
-    
     conn = sql.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
@@ -37,7 +31,7 @@ def signin(nome, password):
     #    return (False, "User already exists.")
 
     # Encrypt password with sha256, using the hashlib library, so that the password is not stored in plain text
-    password = hashlib.sha256(password.encode()).hexdigest()
+    # password = hashlib.sha256(password.encode()).hexdigest()
     
     # Check if the password was encrypted correctly
     #print(password)
@@ -47,16 +41,8 @@ def signin(nome, password):
     db.close()
     return (True, "")
 
-
 def login(nome, password):
-    db = sql.connect("database.db")
-    
-    # Encrypt password with sha256, so that it can be compared with the encrypted password in the database
-    password = hashlib.sha256(password.encode()).hexdigest()
-
-    # Check if the password was encrypted correctly
-    #print(password)
-    
+    db = sql.connect("database.db")    
     user = db.execute("SELECT * FROM Users WHERE user = ? AND password = ?", (nome, password)).fetchall()
     if len(user) == 0:
         db.close()
