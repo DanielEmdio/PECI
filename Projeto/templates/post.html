@@ -3,7 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Placeholder</title>
+	<title>PlaceHolder</title>
 	<link rel="stylesheet" href="fontawesome/css/all.min.css"> <!-- https://fontawesome.com/ -->
 	<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro&display=swap" rel="stylesheet"> <!-- https://fonts.google.com/ -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -17,24 +17,24 @@
                 <i class="fas fa-bars"></i>
             </button>
             <div class="tm-site-header">
-                <div class="mb-3 mx-auto tm-site-logo"><img src="img/logo.png" alt=""></div>            
-                <h1 class="text-center">Placeholder</h1>
+                <div class="mb-3 mx-auto tm-site-logo"><i class="fas fa-times fa-2x"></i></div>            
+                <h1 class="text-center">PlaceHolder</h1>
             </div>
             <nav class="tm-nav" id="tm-nav">            
                 <ul>
-                    <li class="tm-nav-item active"><a href="index.html" class="tm-nav-link">
-                        <i class="fa-solid fa-play"></i>
-                        Home
+                    <li class="tm-nav-item active"><a href="/index" class="tm-nav-link">
+                        <i class="fas fa-home"></i>
+                        Blog Home
                     </a></li>
-                    <li class="tm-nav-item"><a href="about.html" class="tm-nav-link">
-                        <i class="fa-solid fa-user"></i>
-                        Subcription
+                    <li class="tm-nav-item"><a href="/post" class="tm-nav-link">
+                        <i class="fas fa-pen"></i>
+                        Single Post
                     </a></li>
-                    <li class="tm-nav-item"><a href="" class="tm-nav-link">
-                        <i class="fa-solid fa-dumbbell"></i>
-                        Progression
+                    <li class="tm-nav-item"><a href="/about" class="tm-nav-link">
+                        <i class="fas fa-users"></i>
+                        About Xtra
                     </a></li>
-                    <li class="tm-nav-item"><a href="contact.html" class="tm-nav-link">
+                    <li class="tm-nav-item"><a href="/contact" class="tm-nav-link">
                         <i class="far fa-comments"></i>
                         Contact Us
                     </a></li>
@@ -67,10 +67,16 @@
                 <div class="col-12">
                     <hr class="tm-hr-primary tm-mb-55">
                     <!-- Video player 1422x800 -->
-                    <video width="954" height="535" controls class="tm-mb-40">
-                        <source src="video/wheat-field.mp4" type="video/mp4">							  
-                        Your browser does not support the video tag.
-                    </video>
+                    <!-- AQUI VÃO APARECER OS VIDEOS TODOS A QUE O UTILIZADOR TEM ACESSO-->
+                    <ul>
+                        {% for video in video_path %}
+                            <video width="954" height="535" controls class="tm-mb-40">
+                                <source src="{{ video }}" type="video/mp4">							  
+                                Your browser does not support the video tag.
+                            </video>
+                        {% endfor %}
+                    </ul>
+                    <!-- #############################################  -->
                 </div>
             </div>
             <div class="row tm-row">
@@ -168,6 +174,14 @@
                     </div>                    
                 </aside>
             </div>
+            <footer class="row tm-row">
+                <div class="col-md-6 col-12 tm-color-gray">
+                    Design: <a rel="nofollow" target="_parent" href="https://templatemo.com" class="tm-external-link">TemplateMo</a>
+                </div>
+                <div class="col-md-6 col-12 tm-color-gray tm-copyright">
+                    Copyright 2020 PlaceHolder Company Co. Ltd.
+                </div>
+            </footer>
         </main>
     </div>
     <script src="js/jquery.min.js"></script>

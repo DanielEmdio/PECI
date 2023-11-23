@@ -7,7 +7,10 @@
     <h1>Videos for {{ username }}</h1>
     <ul>
         {% for video in videos %}
-            <li>{{ video[0] }}</li>
+            <li><video width="954" height="535" controls class="tm-mb-40">
+                <source src="{{ video }}" type="video/mp4">							  
+                Your browser does not support the video tag.
+            </video></li>
         {% endfor %}
     </ul>
 </body>
