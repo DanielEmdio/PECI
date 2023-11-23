@@ -1,6 +1,9 @@
-from flask import Flask, render_template, send_from_directory
-import sqlite3
+from flask import Flask, render_template, send_from_directory, request
 import os
+from utils import *
+import json
+import random
+import string
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
@@ -45,33 +48,44 @@ def exibir_video():
     video_path = get_video_path_from_database('user1')  # Obtém o caminho do vídeo do banco de dados
     return render_template('post.html', video_path=video_path)       
 
-def get_video_path_from_database(username):
-    
-    #video_path = "video/wheat-field.mp4"  
-    
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
-    PTid = cursor.fetchone()    #id do PT em que está inscrito
-    print("--------------------------------")
-    print(PTid)
-    #print(PTid)
-    #if PTid is None:
-    videos_paths = cursor.execute("SELECT video FROM PTs WHERE restrictedVideo=0")
-    videos_paths = [video[0] for video in cursor.fetchall()]
-    if PTid[0]!= None:
-        PTname = cursor.execute("SELECT user FROM PTs WHERE Id = ?", (PTid[0],)).fetchone()[0]
-        
-        cursor.execute("SELECT video FROM PTs WHERE user = ? AND restrictedVideo=1", (PTname,))
-        videos_paths += [video[0] for video in cursor.fetchall()]
+@app.route('/auth',methods=['POST' , 'GET'])
+def auth():
+    username = request.args.get('username')
+    password = request.args.get('password')
+    result = {"authentication": "INVALID", "token": ""}
+    print("password", password)
+    if login(username, password):
+        result["authentication"] = "OK"
+        result["token"] = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(10))
+        setToken(username, result["token"])
+        return json.dumps(result)
+    else:
+        return json.dumps(result)
 
-    conn.close()
-    return videos_paths
+@app.route('/valid')
+def valid():
+    token = request.args.get('token')
+    if validToken(token):
+        return json.dumps({"tokenIsValid": "VALID"})
+    else:
+        return json.dumps({"tokenIsValid": "INVALID"})
+
+'''@app.route('/logout')
+def logOut(self, token=None):
+    if (deleteToken(token)):
+        return json.dumps({"deleted": "YES"})
+    else:
+        return json.dumps({"deleted": "NO"})
+'''
 
 
 @app.route('/')
 def blogHome():
     return render_template('index.html')
+
+@app.route('/login')
+def loginSign():
+    return render_template('login.html')
 
 @app.route('/about')
 def about():
