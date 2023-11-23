@@ -1,4 +1,4 @@
-from flask import Flask, render_template, send_from_directory
+from flask import Flask, render_template, send_from_directory, session
 import sqlite3
 import os
 
@@ -67,6 +67,25 @@ def get_video_path_from_database(username):
     conn.close()
     return video_path
 
+@app.route('/dashboard')
+def dashboard():
+    user_id = 1
+    conn = sqlite3.connect('database.db')
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM Users WHERE Id=?", (user_id,))
+    user = cursor.fetchone()
+    ptId = user[3]
+
+    if ptId != 0:
+        cursor.execute("SELECT * FROM PTs WHERE Id=?", (ptId,))
+        pt = cursor.fetchone()
+        if pt[4] == 0:
+            # ...
+            return render_template('post.html', video_path="./video/wheat-field.mp4")
+        else:
+            # ...
+            return render_template('page_that_doesnt.html')
 
 @app.route('/')
 def index():
