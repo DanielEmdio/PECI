@@ -5,7 +5,7 @@ app = Flask(__name__, static_url_path='', static_folder='static')
 
 @app.route('/html/<path:filename>')
 def serve_html(filename):
-    return send_from_directory('static/html', filename)
+    return send_from_directory('templates', filename)
 
 @app.route('/js/<path:filename>')
 def serve_js(filename):
@@ -63,7 +63,6 @@ def get_video_path_from_database(username):
 
     conn.close()
     return videos_paths
-
 
 @app.route('/')
 def blogHome():
