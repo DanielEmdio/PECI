@@ -17,5 +17,6 @@ CREATE TABLE PTs(
 
 
 INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT1', '123','./video/wheat-field.mp4',0);
+INSERT INTO Users(user, password,PTid) VALUES ('user1', '123',1);
 
 
