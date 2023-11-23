@@ -43,12 +43,12 @@ def user_videos(username):
     return render_template('videos.html', username=username, videos=videos)
 
 """
-
+"""
 @app.route('/post')
 def exibir_video():
     video_path = get_video_path_from_database('user1')  # Obtém o caminho do vídeo do banco de dados
     return render_template('post.html', video_path=video_path)       
-
+"""
 def get_video_path_from_database(username):
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
@@ -107,6 +107,11 @@ def logOut(self, token=None):
 
 @app.route('/')
 def blogHome():
+    username = 'user1'  # Change this to the desired username
+    videos_path = get_video_path_from_database(username)
+    # print("--------------------------------")
+    # print(videos)
+    return render_template('index.html', username=username, videos_path=videos_path)
     return render_template('index.html')
 
 @app.route('/login')

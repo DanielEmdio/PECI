@@ -24,9 +24,9 @@ INSERT INTO PTs(user, password,video,videoname,description,muscletargets,release
 INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT1', '123','./video/Boyka_Workout.mp4','The "Yuri Boyka" Workout',"Arms killer workout","Biceps,Triceps,Chest","June 29, 2022",1);
 INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT1', '123','./video/pullUps.mp4','Wider back workout','Pull ups challenge to widen your back',"Back","September 14, 2023",1);
 
-INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT22', '123','./video/uatreino1.mp4','Full body workout',"Good workout for beginners","Upper and Lower Body","November 2, 2023",0);
-INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT22', '123','./video/uatreino2.mp4','Upper body workout',"A good all-around upper body target workout","Biceps,Triceps,Chest,Shoulders","June 29, 2022",1);
-INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT22', '123','./video/uatreino3.mp4','Leg day','A legs focused workout with some abs in between',"Legs,Abs","September 14, 2023",1);
+INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT22', '123','./video/uatreino1.mp4','Full body workout',"Good workout for beginners","Upper and Lower Body","January 25, 2023",0);
+INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT22', '123','./video/uatreino2.mp4','Upper body workout',"A good all-around upper body target workout","Biceps,Triceps,Chest,Shoulders","February 7, 2023",1);
+INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT22', '123','./video/uatreino3.mp4','Leg day','A legs focused workout with some abs in between',"Legs,Abs","May 13, 2023",1);
 
 
 INSERT INTO Users(user, password,PTid) VALUES ('user1', '123',1);
