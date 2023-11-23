@@ -426,6 +426,7 @@ a:hover figcaption { color: #056767; }
 .tm-contact-form label { font-size: 1.4rem; }
 .tm-contact-form .form-group { display: flex; }
 
+
 .navbar ul{
     list-style-type: none;
     background-color: #0CC;
@@ -445,6 +446,8 @@ a:hover figcaption { color: #056767; }
 
 .navbar li:hover{
     background-color: #09b6b6;
+    color: black;
+    cursor: pointer;
 }
 
 @media (max-width: 1540px) {
