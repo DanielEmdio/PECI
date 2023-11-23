@@ -1,6 +1,5 @@
-from flask import Flask, render_template, send_from_directory, session
+from flask import Flask, render_template, send_from_directory
 import sqlite3
-import os
 
 app = Flask(__name__, static_url_path='', static_folder='static')
 
@@ -42,17 +41,15 @@ def user_videos(username):
     videos = get_non_restricted_videos(username)
     return render_template('videos.html', username=username, videos=videos)
 
-
-
 @app.route('/post')
 def exibir_video():
     video_path = get_video_path_from_database('user1')  # Obtém o caminho do vídeo do banco de dados
     return render_template('post.html', video_path=video_path)
 
 def get_video_path_from_database(username):
-    
+
     #video_path = "video/wheat-field.mp4"  
-    
+
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
@@ -110,7 +107,6 @@ def post():
 @app.route('/user_video')
 def user_video():
     return render_template('user_video.html')
-
 
 if __name__ == '__main__':
     app.run(debug=True)
