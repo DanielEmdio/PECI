@@ -12,13 +12,17 @@ CREATE TABLE PTs(
     user TEXT,
     password TEXT,
     video TEXT,
+    videoName TEXT,
+    description TEXT,
+    muscletargets TEXT,
+    releaseDate TEXT,
     restrictedVideo INTEGER
 );
 
 
-INSERT INTO PTs(Id,user, password,video,restrictedVideo) VALUES (1,'PT1', '123','./video/arms_workout.mp4',0);
-INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT1', '123','./video/Boyka_Workout.mp4',1);
-INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT1', '123','./video/pullUps.mp4',1);
+INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT1', '123','./video/arms_workout.mp4','arms workout',"Good workout for you arms","Biceps,Triceps","November 2, 2023",0);
+INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT1', '123','./video/Boyka_Workout.mp4','The "Yuri Boyka" Workout',"Arms killer workout","Biceps,Triceps,Chest","June 29, 2022",1);
+INSERT INTO PTs(user, password,video,videoname,description,muscletargets,releaseDate,restrictedVideo) VALUES ('PT1', '123','./video/pullUps.mp4','Wider back workout','Pull ups challenge to widen your back',"Back","September 14, 2023",1);
 
 INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT22', '123','./video/car.mp4',1);
 INSERT INTO PTs(user, password,video,restrictedVideo) VALUES ('PT22', '123','./video/pintainhos.mp4',1);

@@ -59,13 +59,14 @@ def get_video_path_from_database(username):
     if PTid[0]!= None:
         PTname = cursor.execute("SELECT user FROM PTs WHERE Id = ?", (PTid[0],)).fetchone()[0]
         
-        cursor.execute("SELECT video FROM PTs WHERE user = ? AND restrictedVideo=1", (PTname,))
-        videos_paths += [(video[0],1) for video in cursor.fetchall()]
+        cursor.execute("SELECT video,videoname,description,muscletargets,releaseDate FROM PTs WHERE user = ? AND restrictedVideo=1", (PTname,))
+        videos_paths += [(video[0],video[1],video[2],video[3],video[4],1) for video in cursor.fetchall()]
         print("HERE")
         print(videos_paths)
-    cursor.execute("SELECT video FROM PTs WHERE restrictedVideo=0")
-    videos_paths += [(video[0],0) for video in cursor.fetchall()]
+    cursor.execute("SELECT video,videoname,description,muscletargets,releaseDate FROM PTs WHERE restrictedVideo=0")
+    videos_paths += [(video[0],video[1],video[2],video[3],video[4],0) for video in cursor.fetchall()]
     conn.close()
+    print(videos_paths)
     #video_paths = [(video_path0,restrictedVideo==1),(video_path1,restrictedVideo==1)]
     return videos_paths
 
@@ -89,7 +90,12 @@ def contact():
 @app.route('/post')
 def post():
     video = request.args.get('video')
-    return render_template('post.html',video=video)
+    videoname = request.args.get('videoname')
+    description = request.args.get('description')
+    muscletargets = request.args.get('muscletargets')
+    releaseDate = request.args.get('releaseDate')
+
+    return render_template('post.html',video=video,videoname=videoname,description=description,muscletargets=muscletargets,releaseDate=releaseDate)
 
 # @app.route('/user_video')
 # def user_video():
