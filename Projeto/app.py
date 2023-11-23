@@ -45,10 +45,9 @@ def exibir_video():
     video_path = get_video_path_from_database('user1')  # Obtém o caminho do vídeo do banco de dados
     return render_template('post.html', video_path=video_path)       
 
-def get_video_path_from_database(username):
-    
-    #video_path = "video/wheat-field.mp4"  
-    
+def get_video_path_from_database(username):    
+    # video_path = "video/wheat-field.mp4"  
+
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
