@@ -48,10 +48,12 @@ def user_videos(username):
 def exibir_video():
     video_path = get_video_path_from_database('user1')  # Obtém o caminho do vídeo do banco de dados
     return render_template('post.html', video_path=video_path)       
-"""
+""" 
 def get_video_path_from_database():
-    conn = sqlite3.connect('database.db')
     token = request.cookies.get('token')
+    if not token:
+        return (None, None)
+    conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT user FROM Users WHERE token = ?", (token,))
     username = cursor.fetchone()[0]
@@ -112,11 +114,13 @@ def logOut():
 @app.route('/')
 def blogHome():
       # Change this to the desired username
-    username,videos_path = get_video_path_from_database()
+    username, videos_path = get_video_path_from_database()
+
+    if username == None or videos_path == None:
+        return render_template('index.html')
     # print("--------------------------------")
     # print(videos)
     return render_template('index.html', username=username, videos_path=videos_path)
-    return render_template('index.html')
 
 @app.route('/login')
 def loginSign():
