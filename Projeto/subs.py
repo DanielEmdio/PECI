@@ -9,15 +9,14 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100), unique=True)
-    video = db.Column(db.String(100), unique=True)
-    restrictedVideo = db.Column(db.Integer, primary_key=True)
+    ptId = db.Column(db.Integer, primary_key=True)
 
 @app.route('/dashboard')
 def dashboard():
     user_id = session.get('user_id')
     user = User.query.get(user_id)
 
-    if user.username == 'PT1': # nome é para teste
+    if user.ptId == 1: # testar isto
         # ...
         return render_template('page_that_shows.html')
     else:
