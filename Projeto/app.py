@@ -49,9 +49,13 @@ def exibir_video():
     video_path = get_video_path_from_database('user1')  # Obtém o caminho do vídeo do banco de dados
     return render_template('post.html', video_path=video_path)       
 """
-def get_video_path_from_database(username):
+def get_video_path_from_database():
     conn = sqlite3.connect('database.db')
+    token = request.cookies.get('token')
     cursor = conn.cursor()
+    cursor.execute("SELECT user FROM Users WHERE token = ?", (token,))
+    username = cursor.fetchone()[0]
+    print(username)
     cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
     PTid = cursor.fetchone()    #id do PT em que está inscrito
     print("--------------------------------")
@@ -73,7 +77,7 @@ def get_video_path_from_database(username):
     conn.close()
     print(videos_paths)
     #video_paths = [(video_path0,restrictedVideo==1),(video_path1,restrictedVideo==1)]
-    return videos_paths
+    return username,videos_paths
 
 @app.route('/auth', methods=['POST' , 'GET'])
 def auth():
@@ -107,8 +111,8 @@ def logOut(self, token=None):
 
 @app.route('/')
 def blogHome():
-    username = 'user1'  # Change this to the desired username
-    videos_path = get_video_path_from_database(username)
+      # Change this to the desired username
+    username,videos_path = get_video_path_from_database()
     # print("--------------------------------")
     # print(videos)
     return render_template('index.html', username=username, videos_path=videos_path)
@@ -138,8 +142,8 @@ def post():
 
 @app.route('/user_video')
 def user_video():
-    username = 'user1'  # Change this to the desired username
-    videos = get_video_path_from_database(username)
+     # Change this to the desired username
+    username,videos = get_video_path_from_database()
     print("--------------------------------")
     print(videos)
     return render_template('user_videos.html', username=username, videos=videos)
