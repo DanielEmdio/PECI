@@ -53,37 +53,37 @@ def get_video_path_from_database():
     token = request.cookies.get('token')
     if not token:
         return (None, None)
-    conn = sqlite3.connect('database.db')
-    cursor = conn.cursor()
-    cursor.execute("SELECT user FROM Users WHERE token = ?", (token,))
     try:
+        conn = sqlite3.connect('database.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT user FROM Users WHERE token = ?", (token,))
         username = cursor.fetchone()[0]
+        print(username)
+        cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
+        PTid = cursor.fetchone()    #id do PT em que está inscrito
+        print("--------------------------------")
+        print(PTid)
+        #print(PTid)
+        #if PTid is None:
+        videos_paths=[]
+        print("------------------------------")
+        print(PTid)
+        if PTid[0]!= None:
+            PTname = cursor.execute("SELECT user FROM PTs WHERE Id = ?", (PTid[0],)).fetchone()[0]
+
+            cursor.execute("SELECT video,videoname,description,muscletargets,releaseDate FROM PTs WHERE user = ? AND restrictedVideo=1", (PTname,))
+            videos_paths += [(video[0],video[1],video[2],video[3],video[4],1) for video in cursor.fetchall()]
+            print("HERE")
+            print(videos_paths)
+
+        cursor.execute("SELECT video,videoname,description,muscletargets,releaseDate FROM PTs WHERE restrictedVideo=0")
+        videos_paths += [(video[0],video[1],video[2],video[3],video[4],0) for video in cursor.fetchall()]
+        conn.close()
+        print(videos_paths)
     except:
         conn.close()
         return (None, None)
-    print(username)
-    cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
-    PTid = cursor.fetchone()    #id do PT em que está inscrito
-    print("--------------------------------")
-    print(PTid)
-    #print(PTid)
-    #if PTid is None:
-    videos_paths=[]
-    print("------------------------------")
-    print(PTid)
-    if PTid[0]!= None:
-        PTname = cursor.execute("SELECT user FROM PTs WHERE Id = ?", (PTid[0],)).fetchone()[0]
-        
-        cursor.execute("SELECT video,videoname,description,muscletargets,releaseDate FROM PTs WHERE user = ? AND restrictedVideo=1", (PTname,))
-        videos_paths += [(video[0],video[1],video[2],video[3],video[4],1) for video in cursor.fetchall()]
-        print("HERE")
-        print(videos_paths)
-    cursor.execute("SELECT video,videoname,description,muscletargets,releaseDate FROM PTs WHERE restrictedVideo=0")
-    videos_paths += [(video[0],video[1],video[2],video[3],video[4],0) for video in cursor.fetchall()]
-    conn.close()
-    print(videos_paths)
-    #video_paths = [(video_path0,restrictedVideo==1),(video_path1,restrictedVideo==1)]
-    return username,videos_paths
+    return username, videos_paths
 
 @app.route('/auth', methods=['POST' , 'GET'])
 def auth():
