@@ -110,6 +110,14 @@ body {
   cursor: pointer;
 }
 
+.screen-1 .logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 2em;
+  margin-top: auto;
+}
+
 button {
   cursor: pointer;
 }
