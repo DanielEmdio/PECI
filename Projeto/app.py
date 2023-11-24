@@ -56,7 +56,11 @@ def get_video_path_from_database():
     conn = sqlite3.connect('database.db')
     cursor = conn.cursor()
     cursor.execute("SELECT user FROM Users WHERE token = ?", (token,))
-    username = cursor.fetchone()[0]
+    try:
+        username = cursor.fetchone()[0]
+    except:
+        conn.close()
+        return (None, None)
     print(username)
     cursor.execute("SELECT PTid FROM Users WHERE user = ?", (username,))
     PTid = cursor.fetchone()    #id do PT em que está inscrito
