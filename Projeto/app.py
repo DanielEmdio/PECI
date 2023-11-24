@@ -103,7 +103,7 @@ def valid():
     else:
         return json.dumps({"tokenIsValid": "INVALID"})
 
-@app.route('/logout', methods=['POST' , 'GET'])
+@app.route('/logOut', methods=['POST' , 'GET'])
 def logOut():
     token = request.form.get("token")
     if (deleteToken(token)):
