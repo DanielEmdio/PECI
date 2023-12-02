@@ -7,16 +7,31 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 URL_DATABASE = 'postgresql://postgres:postgres@localhost:5432/peci'
-
-engine = create_engine(URL_DATABASE)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
-def get_db():
-    db = SessionLocal()
-    return db
+class DatabaseSession():
+    def __init__(self):
+        self.session = None
+        self.engine = None
 
-    # try:
-    #     return db
-    # except:
-    #     db.close()
+    def __getattr__(self, name):
+        return getattr(self.session, name)
+
+    def init(self):
+        self.engine = create_engine(URL_DATABASE)
+        Base.metadata.create_all(bind=self.engine)
+        self.session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)()
+
+db = DatabaseSession()
+
+# engine = create_engine(URL_DATABASE)
+# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+# def get_db():
+#     db = SessionLocal()
+#     return db
+# 
+#     # try:
+#     #     return db
+#     # except:
+#     #     db.close()

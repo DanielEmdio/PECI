@@ -1,20 +1,24 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from database import engine, get_db
+from database import db
 from contextlib import asynccontextmanager
-import models
+from routers import users
+from models import Users
+from repository.users import UsersRepository
+from repository.videos import VideosRepository
 
 @asynccontextmanager
 async def lifespan(app):
-    global db
-    models.Base.metadata.create_all(bind=engine)
-    db = get_db()
+    # global db
+    # models.Base.metadata.create_all(bind=engine)
+    db.init()
 
     yield
 
     db.close()
 
 app = FastAPI(lifespan=lifespan)
+app.include_router(users.router)
 # models.Base.metadata.create_all(bind=engine)
 # db = get_db()
 
@@ -38,7 +42,7 @@ def read_root():
 @app.post("/add")
 async def read_root2():
     # add a user with name 'user2' and password 'password'
-    newUser = models.Users(user="user2", password="password", token="")
+    newUser = Users(user="user2", password="password", token="")
     db.add(newUser)
     db.commit()
     return {"hi": "hello"}
@@ -46,5 +50,5 @@ async def read_root2():
 @app.get("/printuser2")
 async def read_root2():
     # this return all the users with name 'user'
-    print(db.query(models.Users).filter(models.Users.user == "user").all())
+    print(db.query(Users).filter(Users.user == "user").all())
     return {"hi": "hello"}
