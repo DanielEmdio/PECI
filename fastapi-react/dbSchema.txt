@@ -1,0 +1,48 @@
+CREATE TABLE Users(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    usr TEXT,
+    password TEXT,
+    token TEXT,
+    PTid INTEGER,
+    FOREIGN KEY (PTid) REFERENCES PTs(id)
+);
+
+CREATE TABLE PTs(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    PT TEXT,
+    password TEXT,
+);
+
+CREATE TABLE Video(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    videopath TEXT,
+    videoname TEXT,
+    description TEXT,
+    muscletargets TEXT,
+    releasedate TEXT,
+    restrictedvideo INTEGER
+);
+
+CREATE TABLE PT_Video_Connection (
+    PT_id INTEGER REFERENCES PTs(id),
+    Video_id INTEGER REFERENCES Video(id),
+    PRIMARY KEY (PT_id, Video_id)
+);
+
+
+INSERT INTO "Video"(videopath,videoname,description,muscletargets,releasedate,restrictedvideo) VALUES ('./video/arms_workout.mp4','arms workout','Good workout for you arms','Biceps,Triceps','November 2, 2023',0);
+INSERT INTO "Video"(videopath,videoname,description,muscletargets,releasedate,restrictedvideo) VALUES ('./video/Boyka_Workout.mp4','The Yuri Boyka Workout','Arms killer workout','Biceps,Triceps,Chest','June 29, 2022',1);
+INSERT INTO "Video"(videopath,videoname,description,muscletargets,releasedate,restrictedvideo) VALUES ('./video/pullUps.mp4','Wider back workout','Pull ups challenge to widen your back','Back','September 14, 2023',1);
+INSERT INTO "PTs"("PT", pass) VALUES ('PT1', '123');
+INSERT INTO "PTs"("PT", pass) VALUES ('PT1', '123');
+INSERT INTO "PTs"("PT", pass) VALUES ('PT1', '123');
+
+
+INSERT INTO "Video"(videopath,videoname,description,muscletargets,releasedate,restrictedvideo) VALUES ('./video/uatreino2.mp4','Upper body workout','A good all-around upper body target workout','Biceps,Triceps,Chest,Shoulders','February 7, 2023',1);
+INSERT INTO "Video"(videopath,videoname,description,muscletargets,releasedate,restrictedvideo) VALUES ('./video/uatreino3.mp4','Leg day','A legs focused workout with some abs in between','Legs,Abs','May 13, 2023',1);
+INSERT INTO "PTs"("PT", pass,videoid) VALUES ('PT22', '123',4);
+INSERT INTO "PTs"("PT", pass,videoid) VALUES ('PT22', '123',5);
+
+
+INSERT INTO "Users"(usr, pass,"PTid") VALUES ('user1', '123',1);
+INSERT INTO "Users"(usr, pass) VALUES ('user2', '123');

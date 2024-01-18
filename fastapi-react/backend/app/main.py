@@ -1,10 +1,41 @@
+"""from typing import Union
+
+from fastapi import FastAPI
+from pydantic import BaseModel
+
+app = FastAPI()
+
+
+class Item(BaseModel):
+    name: str
+    price: float
+    is_offer: Union[bool, None] = None
+
+
+@app.get("/")
+def read_root():
+    return {"Hello": "World"}
+
+
+@app.get("/items/{item_id}")
+def read_item(item_id: int, q: Union[str, None] = None):
+    return {"item_id": item_id, "q": q}
+
+
+@app.put("/items/{item_id}")
+def update_item(item_id: int, item: Item):
+    return {"item_name": item.name, "item_id": item_id}
+
+
+"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import db
 from contextlib import asynccontextmanager
 from routers import users
-from models import Users
+from models import Users, PTs
 from repository.users import UsersRepository
+from repository.pts import PTsRepository
 from repository.videos import VideosRepository
 
 @asynccontextmanager
@@ -39,10 +70,19 @@ app.add_middleware(
 def read_root():
     return {"hi": "hello"}
 
-@app.post("/add")
+@app.get("/addPT")
+async def add_PT():
+    # add a pt with name 'PT1' and password '123'
+    print("--------------HELLOOOOO--------")
+    newPT = PTs(token="",PT="PT3", password="123")
+    db.add(newPT)
+    db.commit()
+    return {"message": "PT added successfully"}
+
+@app.get("/add")
 async def read_root2():
     # add a user with name 'user2' and password 'password'
-    newUser = Users(user="user2", password="password", token="")
+    newUser = Users(username="user3", password="password", token="",PTid=1)
     db.add(newUser)
     db.commit()
     return {"hi": "hello"}
@@ -50,5 +90,6 @@ async def read_root2():
 @app.get("/printuser2")
 async def read_root2():
     # this return all the users with name 'user'
-    print(db.query(Users).filter(Users.user == "user").all())
-    return {"hi": "hello"}
+    user = db.query(Users).filter(Users.username == "user2").all()
+    print(user)
+    return {"hi": user}
