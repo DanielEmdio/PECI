@@ -39,7 +39,7 @@ class PTs(Base):
 
     id = Column(Integer, primary_key=True)
     token = Column(String, index=True)
-    PT = Column(String, index=True)
+    username = Column(String, index=True)
     password = Column(String, index=True)
     subscriptors_id = Column(Integer, ForeignKey("users.id"))
 

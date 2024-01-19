@@ -6,7 +6,7 @@ class PTBase(BaseModel):
 
 
 class PTCreate(PTBase):
-    PT:str
+    pt:str
     password: str
 
 

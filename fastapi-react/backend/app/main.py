@@ -76,7 +76,7 @@ def read_root():
 async def add_PT():
     # add a pt with name 'PT1' and password '123'
     print("--------------HELLOOOOO--------")
-    newPT = PTs(PT="PT3", password="123",token="",subscriptors_id=2)
+    newPT = PTs(username="PT3", password="123",token="",subscriptors_id=2)
     db.add(newPT)
     db.commit()
     return {"message": "PT added successfully"}
@@ -120,3 +120,11 @@ async def read_root3():
         return {"hi": pts_list}
     else:
         return {"hi": "User not found"}
+    
+
+@app.get("/printpt")
+async def read_root3():
+    # Retrieve the user with name 'user2' and eagerly load the related PTs
+    pt = crud.get_pt_by_username(db,"PT3")
+    print(pt)
+    return {"hi": pt}
