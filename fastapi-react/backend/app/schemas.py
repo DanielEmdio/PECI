@@ -1,25 +1,6 @@
 from pydantic import BaseModel
 
 
-
-
-class UserBase(BaseModel):
-    token: str
-
-
-class UserCreate(UserBase):
-    password: str
-
-
-class User(UserBase):
-    id: int
-    PTid:int
-   
-
-    class Config:
-        orm_mode = True
-
-
 class PTBase(BaseModel):
     token: str
 
@@ -31,10 +12,31 @@ class PTCreate(PTBase):
 
 class PT(PTBase):
     id: int
+    subscriptors_id: int
+
+    class Config:
+        orm_mode = True
+
+
+
+
+
+class UserBase(BaseModel):
+    token: str
+
+class UserCreate(UserBase):
+    username: str
+    password: str
+
+
+class User(UserBase):
+    id: int
+    pts:list[PT] = []
    
 
     class Config:
         orm_mode = True
+
 
 
 

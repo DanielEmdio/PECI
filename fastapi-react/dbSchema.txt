@@ -3,14 +3,16 @@ CREATE TABLE Users(
     usr TEXT,
     password TEXT,
     token TEXT,
-    PTid INTEGER,
-    FOREIGN KEY (PTid) REFERENCES PTs(id)
+    
 );
 
 CREATE TABLE PTs(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     PT TEXT,
     password TEXT,
+    token TEXT
+    subscriptors_id INTEGER,
+    FOREIGN KEY (subscriptors_id) REFERENCES Users(id)
 );
 
 CREATE TABLE Video(

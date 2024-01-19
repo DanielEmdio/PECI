@@ -5,6 +5,25 @@ from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from database import Base
 
+# class Users(Base):
+#     __tablename__ = 'users'
+
+#     id = Column(Integer, primary_key=True)
+#     username = Column(String, index=True)
+#     password = Column(String, index=True)
+#     token = Column(String, index=True)
+#     #role = Column(String, index=True) # free, premium, pt, admin
+#     PTid = Column(Integer, ForeignKey("pts.id")) # refers to a pt id
+#     #videos = Column(String, index=True)
+
+# class PTs(Base):
+#     __tablename__ = 'pts'
+
+#     id = Column(Integer, primary_key=True)
+#     token = Column(String, index=True)
+#     PT = Column(String, index=True)
+#     password = Column(String, index=True)
+
 class Users(Base):
     __tablename__ = 'users'
 
@@ -12,18 +31,19 @@ class Users(Base):
     username = Column(String, index=True)
     password = Column(String, index=True)
     token = Column(String, index=True)
-    #role = Column(String, index=True) # free, premium, pt, admin
-    PTid = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a pt id
-    #videos = Column(String, index=True)
+    
+    pts = relationship("PTs",back_populates="subscriptors")     # se fizermos um request pedindo pela coluna "pts", isso retornará todos os pts a que o "user" se subscreveu
 
 class PTs(Base):
     __tablename__ = 'pts'
 
     id = Column(Integer, primary_key=True)
     token = Column(String, index=True)
-
     PT = Column(String, index=True)
     password = Column(String, index=True)
+    subscriptors_id = Column(Integer, ForeignKey("users.id"))
+
+    subscriptors = relationship("Users", back_populates="pts")
 
 class Videos(Base):
     __tablename__ = 'videos'

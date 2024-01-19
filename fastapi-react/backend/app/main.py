@@ -29,8 +29,10 @@ def update_item(item_id: int, item: Item):
 
 """
 from fastapi import FastAPI
+import crud
 from fastapi.middleware.cors import CORSMiddleware
 from database import db
+from sqlalchemy.orm import joinedload
 from contextlib import asynccontextmanager
 from routers import users
 from models import Users, PTs
@@ -74,7 +76,7 @@ def read_root():
 async def add_PT():
     # add a pt with name 'PT1' and password '123'
     print("--------------HELLOOOOO--------")
-    newPT = PTs(token="",PT="PT3", password="123")
+    newPT = PTs(PT="PT3", password="123",token="",subscriptors_id=2)
     db.add(newPT)
     db.commit()
     return {"message": "PT added successfully"}
@@ -82,7 +84,7 @@ async def add_PT():
 @app.get("/add")
 async def read_root2():
     # add a user with name 'user2' and password 'password'
-    newUser = Users(username="user3", password="password", token="",PTid=1)
+    newUser = Users(username="user3", password="password", token="")
     db.add(newUser)
     db.commit()
     return {"hi": "hello"}
@@ -90,6 +92,31 @@ async def read_root2():
 @app.get("/printuser2")
 async def read_root2():
     # this return all the users with name 'user'
-    user = db.query(Users).filter(Users.username == "user2").all()
+    # print("--------------HELLOOOOO--------")
+    # user = db.query(Users).filter(Users.username == "user2").all()
+    # print(user)
+    # return {"hi": user}
+    user = crud.get_users(db)
     print(user)
     return {"hi": user}
+
+
+@app.get("/printuser3")
+async def read_root3():
+    # Retrieve the user with name 'user2' and eagerly load the related PTs
+    user = (
+        db.query(Users)
+        .filter(Users.username == "user2")
+        .options(joinedload(Users.pts))
+        .first()
+    )
+
+    if user:
+        # Access the related PTs objects using user.pts
+        pts_list = user.pts
+        #print(pts_list)
+        #pt_ids = [pt.id for pt in pts_list]        # para dar return apenas ao id de cada um dos pts
+        #print(pt_ids)
+        return {"hi": pts_list}
+    else:
+        return {"hi": "User not found"}
