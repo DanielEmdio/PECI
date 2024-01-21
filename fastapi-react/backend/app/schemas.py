@@ -1,57 +1,80 @@
 from pydantic import BaseModel
-
-
-class PTBase(BaseModel):
-    token: str
-
-
-class PTCreate(PTBase):
-    pt:str
-    password: str
-
-
-class PT(PTBase):
-    id: int
-    subscriptors_id: int
-
-    class Config:
-        orm_mode = True
-
-
-
+#from typing import List
 
 
 class UserBase(BaseModel):
-    token: str
+    username: str
 
 class UserCreate(UserBase):
-    username: str
     password: str
-
 
 class User(UserBase):
     id: int
-    pts:list[PT] = []
+    token: str
+    subscriptions:list['Subscription'] = [] # the quotes are needed because the class "Subscription" is defined later (at the end of the file)
    
 
     class Config:
-        orm_mode = True
+        from_attributes = True # orm_mode = True
+
+
+
+
+
+class PersonalTrainerBase(BaseModel):
+    username:str
+
+
+class PersonalTrainerCreate(PersonalTrainerBase):
+    password: str
+
+
+class PersonalTrainer(PersonalTrainerBase):
+    id: int
+    token: str
+    subscriptions: list['Subscription'] = []
+    workout: list['Video'] = []
+
+    class Config:
+        from_attributes = True #orm_mode = True
+
 
 
 
 
 
 class VideoBase(BaseModel):
-    email: str
-
+    pass
 
 class VideoCreate(VideoBase):
-    password: str
+    videopath: str
+    videoname: str
+    description: str
+    muscletargets: str
+    releasedate: str
+    restricted: int
 
 
 class Video(VideoBase):
     id: int
-   
+    personal_trainer_id:int
 
     class Config:
-        orm_mode = True
+        from_attributes = True #orm_mode = True
+
+
+
+
+
+class SubscriptionBase(BaseModel):
+    pass
+
+class SubscriptionCreate(SubscriptionBase):
+    pass
+
+class Subscription(SubscriptionBase):
+    user: User
+    personal_trainer: PersonalTrainer
+
+    class Config:
+        from_attributes = True #orm_mode = True

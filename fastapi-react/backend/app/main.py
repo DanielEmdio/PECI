@@ -35,7 +35,7 @@ from database import db
 from sqlalchemy.orm import joinedload
 from contextlib import asynccontextmanager
 from routers import users
-from models import Users, PTs
+from models import User, PersonalTrainer
 from repository.users import UsersRepository
 from repository.pts import PTsRepository
 from repository.videos import VideosRepository
@@ -72,24 +72,24 @@ app.add_middleware(
 def read_root():
     return {"hi": "hello"}
 
-@app.get("/addPT")
+@app.post("/addPT")
 async def add_PT():
     # add a pt with name 'PT1' and password '123'
     print("--------------HELLOOOOO--------")
-    newPT = PTs(username="PT3", password="123",token="",subscriptors_id=2)
+    newPT = PersonalTrainer(username="PT3", password="123",token="")
     db.add(newPT)
     db.commit()
     return {"message": "PT added successfully"}
 
-@app.get("/add")
+@app.post("/add")
 async def read_root2():
     # add a user with name 'user2' and password 'password'
-    newUser = Users(username="user3", password="password", token="")
+    newUser = User(username="user3", password="password", token="")
     db.add(newUser)
     db.commit()
     return {"hi": "hello"}
 
-@app.get("/printuser2")
+@app.post("/printuser2")
 async def read_root2():
     # this return all the users with name 'user'
     # print("--------------HELLOOOOO--------")
@@ -101,28 +101,33 @@ async def read_root2():
     return {"hi": user}
 
 
-@app.get("/printuser3")
+@app.post("/printuser3")
 async def read_root3():
     # Retrieve the user with name 'user2' and eagerly load the related PTs
     user = (
-        db.query(Users)
-        .filter(Users.username == "user2")
-        .options(joinedload(Users.pts))
+        db.query(User)
+        .filter(User.username == "user2")
+        .options(joinedload(User.subscriptions))
         .first()
     )
 
     if user:
         # Access the related PTs objects using user.pts
-        pts_list = user.pts
-        #print(pts_list)
-        #pt_ids = [pt.id for pt in pts_list]        # para dar return apenas ao id de cada um dos pts
+        subs_list = user.subscriptions
+        pt_ids = [subscription.personal_trainer_id for subscription in subs_list]
+        pts = []
+        for id in pt_ids:
+            pts+=db.query(PersonalTrainer).filter(PersonalTrainer.id==id)
+        print(pts)
+        #print(subs_list)
+        #pt_ids = [pt.id for pt in subs_list]        # para dar return apenas ao id de cada um dos pts
         #print(pt_ids)
-        return {"hi": pts_list}
+        return {"relation list": subs_list, "pts":pts}
     else:
         return {"hi": "User not found"}
     
 
-@app.get("/printpt")
+@app.post("/printpt")
 async def read_root3():
     # Retrieve the user with name 'user2' and eagerly load the related PTs
     pt = crud.get_pt_by_username(db,"PT3")

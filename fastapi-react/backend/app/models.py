@@ -24,7 +24,7 @@ from database import Base
 #     PT = Column(String, index=True)
 #     password = Column(String, index=True)
 
-class Users(Base):
+class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
@@ -32,20 +32,20 @@ class Users(Base):
     password = Column(String, index=True)
     token = Column(String, index=True)
     
-    pts = relationship("PTs",back_populates="subscriptors")     # se fizermos um request pedindo pela coluna "pts", isso retornará todos os pts a que o "user" se subscreveu
+    subscriptions = relationship("Subscription", back_populates="user")    # se fizermos um request pedindo pela coluna "subscriptions", isso retornará todos os pts a que o "user" se subscreveu
 
-class PTs(Base):
-    __tablename__ = 'pts'
+class PersonalTrainer(Base):
+    __tablename__ = 'personal_trainers'
 
     id = Column(Integer, primary_key=True)
     token = Column(String, index=True)
     username = Column(String, index=True)
     password = Column(String, index=True)
-    subscriptors_id = Column(Integer, ForeignKey("users.id"))
+    subscriptions = relationship("Subscription", back_populates="personal_trainer")
+    workouts = relationship("Video", back_populates="personal_trainer")
 
-    subscriptors = relationship("Users", back_populates="pts")
 
-class Videos(Base):
+class Video(Base):
     __tablename__ = 'videos'
 
     id = Column(Integer, primary_key=True)
@@ -54,14 +54,34 @@ class Videos(Base):
     description = Column(String,index=True)
     muscletargets = Column(String,index=True)
     releasedate = Column(String,index=True)
-    restricted = Column(Boolean, index=True)
+    restricted = Column(Integer, index=True)
     #Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
 
-class Pt_video_connection(Base):
-    __tablename__ = "pt_video_connection"
+    personal_trainer = relationship("PersonalTrainer", back_populates="workouts")
 
-    pt_id = Column(Integer, ForeignKey("pts.id"),primary_key=True)
-    video_id = Column(Integer, ForeignKey("videos.id"),primary_key=True)
+
+    
+class Subscription(Base):
+    __tablename__ = "subscriptions"
+
+    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), primary_key=True)
+    #Both user_id and personal_trainer_id are defined as primary keys because, together, they form a composite primary key for the subscriptions table. 
+    #This means that each combination of user_id and personal_trainer_id must be unique in the table
+
+    user = relationship("User", back_populates="subscriptions")
+    personal_trainer = relationship("PersonalTrainer", back_populates="subscriptions")
+
+
+# class Pt_video_connection(Base):
+#     __tablename__ = "pt_video_connection"
+
+#     pt_id = Column(Integer, ForeignKey("pts.id"),primary_key=True)
+#     video_id = Column(Integer, ForeignKey("videos.id"),primary_key=True)
+
+#     video = relationship("Videos",back_populates="owner")
+#     pt = relationship("Pts",back_populates="workouts")
 
 # class Users(Base):
 #     __tablename__ = 'users'
