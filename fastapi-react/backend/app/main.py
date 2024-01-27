@@ -29,7 +29,6 @@ def update_item(item_id: int, item: Item):
 
 """
 from fastapi import FastAPI
-import crud
 from fastapi.middleware.cors import CORSMiddleware
 from database import db
 from sqlalchemy.orm import joinedload
@@ -37,8 +36,9 @@ from contextlib import asynccontextmanager
 from routers import users
 from models import User, PersonalTrainer
 from repository.users import UsersRepository
-from repository.pts import PTsRepository
+from repository.pts import PersonalTrainersRepository
 from repository.videos import VideosRepository
+from repository.subs import SubscriptionsRepository
 
 @asynccontextmanager
 async def lifespan(app):
@@ -72,41 +72,113 @@ app.add_middleware(
 def read_root():
     return {"hi": "hello"}
 
-@app.post("/addPT")
-async def add_PT():
-    # add a pt with name 'PT1' and password '123'
-    print("--------------HELLOOOOO--------")
-    newPT = PersonalTrainer(username="PT3", password="123",token="")
-    db.add(newPT)
-    db.commit()
-    return {"message": "PT added successfully"}
 
-@app.post("/add")
+@app.post("/addUser")
 async def read_root2():
     # add a user with name 'user2' and password 'password'
     newUser = User(username="user3", password="password", token="")
-    db.add(newUser)
-    db.commit()
+    UsersRepository.create(newUser)
     return {"hi": "hello"}
 
-@app.post("/printuser2")
+@app.post("/printusers")
 async def read_root2():
     # this return all the users with name 'user'
     # print("--------------HELLOOOOO--------")
     # user = db.query(Users).filter(Users.username == "user2").all()
     # print(user)
     # return {"hi": user}
-    user = crud.get_users(db)
-    print(user)
-    return {"hi": user}
+    users = UsersRepository.get_users()
+    print(users)
+    return {"hi": users}
 
 
-@app.post("/printuser3")
+
+@app.post("/printusersubs")
+async def read_root3():
+    # Retrieve the user with name 'user2' and eagerly load the related PTs
+    # PTs_info = crud.get_subs(db,2)
+    # print(PTs_info)
+    # return {"hi": PTs_info}
+    user_id=2
+    PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
+    return {"hi": PTs_info}
+
+
+
+@app.post("/printMyVideos")
+async def read_root3():
+    # Retrieve the videos that the user has access to
+    user_id=2
+    my_videos = UsersRepository.get_my_videos(user_id)
+    if my_videos!=None:
+        my_videos=my_videos
+        print("My videos: ")
+        for vid in my_videos:
+            video = {key: value for key, value in vid.__dict__.items() if key != '_sa_instance_state'}
+            print(video,"\n")
+        return {"hi":my_videos}
+    return {"hi":None}
+    
+
+
+
+
+@app.post("/addPT")
+async def add_PT():
+    # add a pt with name 'PT1' and password '123'
+    print("--------------HELLOOOOO--------")
+    newPT = PersonalTrainer(username="PT3", password="123",token="")
+    PersonalTrainersRepository.create(newPT)
+    return {"message": "PT added successfully"}    
+
+@app.post("/printPTbyUsername")
+async def read_root3():
+    username = "PT3"
+    pt = PersonalTrainersRepository.get_pt_by_username(username)
+    print(pt)
+    return {"hi": pt}
+
+
+
+@app.post("/printPTvideos")
+async def read_root3():
+    # Retrieve the videos from pt with id '1'
+    pt_id = 1
+    videos = VideosRepository.get_pt_videos(pt_id)
+    print(videos)
+    return {"hi": videos}
+
+
+
+
+    
+
+@app.post("/printAllVideos")
+async def read_root3():
+    # Retrieve the user with name 'user2' and eagerly load the related PTs
+    videos = VideosRepository.getAllVideos()
+    print(videos)
+    return {"hi": videos}
+
+
+
+
+
+
+# testing
+@app.post("/printPTUsernameToken")
+async def read_root3():
+    # Retrieve the user with name 'user2' and eagerly load the related PTs
+    username,token = PersonalTrainersRepository.get_pt_username_token(1)
+    return {"username": username, "token":token}
+
+
+@app.post("/printusersubsV2")
 async def read_root3():
     # Retrieve the user with name 'user2' and eagerly load the related PTs
     user = (
         db.query(User)
-        .filter(User.username == "user2")
+        .filter(User.username == "user1")
         .options(joinedload(User.subscriptions))
         .first()
     )
@@ -125,11 +197,5 @@ async def read_root3():
         return {"relation list": subs_list, "pts":pts}
     else:
         return {"hi": "User not found"}
-    
 
-@app.post("/printpt")
-async def read_root3():
-    # Retrieve the user with name 'user2' and eagerly load the related PTs
-    pt = crud.get_pt_by_username(db,"PT3")
-    print(pt)
-    return {"hi": pt}
+
