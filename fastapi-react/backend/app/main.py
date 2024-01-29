@@ -108,7 +108,7 @@ async def read_root3():
 @app.post("/printMyVideos")
 async def read_root3():
     # Retrieve the videos that the user has access to
-    user_id=2
+    user_id=3
     my_videos = UsersRepository.get_my_videos(user_id)
     if my_videos!=None:
         my_videos=my_videos
