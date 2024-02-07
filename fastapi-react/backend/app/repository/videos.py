@@ -3,6 +3,14 @@ import models, schemas
 
 class VideosRepository():
     @staticmethod
+    def create(video: schemas.VideoCreate): # ESTA FUNÇÃO NÃO ASSOCIA O VIDEO AO PT 
+        db_video = video
+        db.add(db_video)
+        db.commit()
+        db.refresh(db_video)
+        return db_video
+    
+    @staticmethod
     def getUnrestrictedVideos():
         return db.query(models.Video).filter(models.Video.restricted == 0).all()
         pass

@@ -34,11 +34,12 @@ from database import db
 from sqlalchemy.orm import joinedload
 from contextlib import asynccontextmanager
 from routers import users
-from models import User, PersonalTrainer
+from models import User, PersonalTrainer, Video
 from repository.users import UsersRepository
 from repository.pts import PersonalTrainersRepository
 from repository.videos import VideosRepository
 from repository.subs import SubscriptionsRepository
+import schemas
 
 @asynccontextmanager
 async def lifespan(app):
@@ -72,6 +73,12 @@ app.add_middleware(
 def read_root():
     return {"hi": "hello"}
 
+@app.post("/addUserCustom",response_model=schemas.UserCreate)
+async def read_root2(user: schemas.UserCreate):
+    # add a user with name 'user2' and password 'password'
+    new_user = User(**user.model_dump())
+    UsersRepository.create(new_user)
+    return new_user
 
 @app.post("/addUser")
 async def read_root2():
@@ -122,6 +129,11 @@ async def read_root3():
 
 
 
+@app.post("/addPTCustom",response_model=schemas.PersonalTrainerCreate)
+async def add_pt(pt: schemas.PersonalTrainerCreate):
+    new_pt = PersonalTrainer(**pt.model_dump())
+    PersonalTrainersRepository.create(new_pt)
+    return new_pt   
 
 @app.post("/addPT")
 async def add_PT():
@@ -150,8 +162,11 @@ async def read_root3():
 
 
 
-
-    
+@app.post("/addVideo")  # NÃO ASSOCIA O VIDEO AO PT 
+async def read_root3(videopath,videoname,description,muscletargets,releasedate,restricted=0):
+    video = Video(videopath=videopath,videoname=videoname,description=description,muscletargets=muscletargets,releasedate=releasedate,restricted=restricted)
+    video = VideosRepository.create(video)
+    return video
 
 @app.post("/printAllVideos")
 async def read_root3():

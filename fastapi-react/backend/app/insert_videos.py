@@ -50,7 +50,7 @@ def main():
             video+= last2parameters
             print(video)
             
-            video_class = Video(videopath=video[0],videoname=video[1],description=video[2],muscletargets=video[3],releasedate=video[4],restricted=int(video[5]),personal_trainer_id=1)
+            video_class = Video(videopath=video[0],videoname=video[1],description=video[2],muscletargets=video[3],releasedate=video[4],restricted=int(video[5]))
         elif method == 'no':
             videopath=input("videopath? ")
             videoname=input("videoname? ")
