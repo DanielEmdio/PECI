@@ -75,15 +75,14 @@ def read_root():
 
 @app.post("/addUserCustom",response_model=schemas.UserCreate)
 async def read_root2(user: schemas.UserCreate):
-    # add a user with name 'user2' and password 'password'
     new_user = User(**user.model_dump())
     UsersRepository.create(new_user)
     return new_user
 
 @app.post("/addUser")
-async def read_root2():
-    # add a user with name 'user2' and password 'password'
-    newUser = User(username="user3", password="password", token="")
+async def read_root2(username,password):
+    # add a user with name 'user3' and password 'password'
+    newUser = User(username=username, password=password)
     UsersRepository.create(newUser)
     return {"hi": "hello"}
 
@@ -102,10 +101,6 @@ async def read_root2():
 
 @app.post("/printusersubs")
 async def read_root3():
-    # Retrieve the user with name 'user2' and eagerly load the related PTs
-    # PTs_info = crud.get_subs(db,2)
-    # print(PTs_info)
-    # return {"hi": PTs_info}
     user_id=2
     PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
     return {"hi": PTs_info}
@@ -137,7 +132,7 @@ async def add_pt(pt: schemas.PersonalTrainerCreate):
 
 @app.post("/addPT")
 async def add_PT():
-    # add a pt with name 'PT1' and password '123'
+    # add a pt with name 'PT3' and password '123'
     print("--------------HELLOOOOO--------")
     newPT = PersonalTrainer(username="PT3", password="123",token="")
     PersonalTrainersRepository.create(newPT)
