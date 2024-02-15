@@ -1,5 +1,5 @@
 from database import db
-#from sqlalchemy.orm import joinedload
+# from sqlalchemy.orm import joinedload
 import models, schemas
 
 class PersonalTrainersRepository():

@@ -44,7 +44,6 @@ class PersonalTrainer(Base):
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
     workouts = relationship("Video", back_populates="personal_trainer")
 
-
 class Video(Base):
     __tablename__ = 'videos'
 
@@ -60,8 +59,6 @@ class Video(Base):
 
     personal_trainer = relationship("PersonalTrainer", back_populates="workouts")
 
-
-    
 class Subscription(Base):
     __tablename__ = "subscriptions"
 
@@ -72,7 +69,6 @@ class Subscription(Base):
 
     user = relationship("User", back_populates="subscriptions")
     personal_trainer = relationship("PersonalTrainer", back_populates="subscriptions")
-
 
 # class Pt_video_connection(Base):
 #     __tablename__ = "pt_video_connection"

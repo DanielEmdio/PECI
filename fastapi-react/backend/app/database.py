@@ -23,15 +23,3 @@ class DatabaseSession():
         self.session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)()
 
 db = DatabaseSession()
-
-# engine = create_engine(URL_DATABASE)
-# SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-# def get_db():
-#     db = SessionLocal()
-#     return db
-# 
-#     # try:
-#     #     return db
-#     # except:
-#     #     db.close()

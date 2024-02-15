@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models import User  # Import your User model
+from models import PersonalTrainer  # Import your User model
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -20,31 +20,31 @@ class DatabaseSession():
         Base.metadata.create_all(bind=self.engine)
         self.session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)()
 
-
-def create_user(db: Session, username: str, password: str):
+def create_pt(db: Session, username: str, password: str):
     try:
-        db_user = User(username=username, password=password)
-        db.add(db_user)
+        db_pt = PersonalTrainer(username=username, password=password,token=None)
+        db.add(db_pt)
         db.commit()
-        db.refresh(db_user)
-        print(f"User '{username}' inserted into the database.")
+        db.refresh(db_pt)
+        print(f"Personal trainer '{username}' inserted into the database.")
     except Exception as e:
         print(f"An error ocurred: {e}")
 
+    return db_pt
+
 def main():
     
-
     db = DatabaseSession()
     db.init()
-
-    # Insert users interactively
+    
+    # Insert Personal Trainers interactively
     while True:
         username = input("Enter username (or type 'exit' to finish): ")
         if username.lower() == 'exit':
             break
         password = input("Enter password: ")
-
-        create_user(db, username=username, password=password)
+        
+        create_pt(db, username=username, password=password)
 
     db.close()
 

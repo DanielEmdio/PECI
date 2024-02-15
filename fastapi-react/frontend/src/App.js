@@ -5,7 +5,6 @@ import RegisterForm from './Components/RegisterForm/RegisterForm';
 //import api from './api';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
-
 function App() {
   return(
     <>

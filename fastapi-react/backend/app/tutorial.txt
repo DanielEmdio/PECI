@@ -5,5 +5,4 @@ models.py -> Contém essencialmente a estrutura das tabelas
 schemas.py -> serve para evitar confusão entre os modelos SQLAlchemy e os modelos Pydantic. Assim, teremos o arquivo models.py com os modelos SQLAlchemy, 
              e o arquivo schemas.py com os modelos Pydantic. Esses modelos Pydantic definem mais ou menos um "esquema" (um formato de dados válido).
 
-
 mais informações: https://fastapi.tiangolo.com/tutorial/sql-databases/

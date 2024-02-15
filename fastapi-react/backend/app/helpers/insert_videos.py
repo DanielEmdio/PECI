@@ -20,7 +20,6 @@ class DatabaseSession():
         Base.metadata.create_all(bind=self.engine)
         self.session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)()
 
-
 def create_video(db: Session,video: Video):
     try:
         db_video = video

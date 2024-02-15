@@ -5,29 +5,23 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-
 class Item(BaseModel):
     name: str
     price: float
     is_offer: Union[bool, None] = None
 
-
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
-
 
 @app.get("/items/{item_id}")
 def read_item(item_id: int, q: Union[str, None] = None):
     return {"item_id": item_id, "q": q}
 
-
 @app.put("/items/{item_id}")
 def update_item(item_id: int, item: Item):
-    return {"item_name": item.name, "item_id": item_id}
+    return {"item_name": item.name, "item_id": item_id}"""
 
-
-"""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import db
@@ -51,10 +45,9 @@ async def lifespan(app):
 
     db.close()
 
+# start app and inport the app routes
 app = FastAPI(lifespan=lifespan)
 app.include_router(users.router)
-# models.Base.metadata.create_all(bind=engine)
-# db = get_db()
 
 origins = [
     "http://localhost:3000",
@@ -73,8 +66,9 @@ app.add_middleware(
 def read_root():
     return {"hi": "hello"}
 
-@app.post("/addUserCustom",response_model=schemas.UserCreate)
-async def read_root2(user: schemas.UserCreate):
+
+@app.post("/addUserCustom",response_model=schemas.BasicUser)
+async def read_root2(user: schemas.BasicUser):
     # add a user with name 'user2' and password 'password'
     new_user = User(**user.model_dump())
     UsersRepository.create(new_user)
@@ -98,8 +92,6 @@ async def read_root2():
     print(users)
     return {"hi": users}
 
-
-
 @app.post("/printusersubs")
 async def read_root3():
     # Retrieve the user with name 'user2' and eagerly load the related PTs
@@ -109,8 +101,6 @@ async def read_root3():
     user_id=2
     PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
     return {"hi": PTs_info}
-
-
 
 @app.post("/printMyVideos")
 async def read_root3():
@@ -125,9 +115,6 @@ async def read_root3():
             print(video,"\n")
         return {"hi":my_videos}
     return {"hi":None}
-    
-
-
 
 @app.post("/addPTCustom",response_model=schemas.PersonalTrainerCreate)
 async def add_pt(pt: schemas.PersonalTrainerCreate):
@@ -150,8 +137,6 @@ async def read_root3():
     print(pt)
     return {"hi": pt}
 
-
-
 @app.post("/printPTvideos")
 async def read_root3():
     # Retrieve the videos from pt with id '1'
@@ -159,8 +144,6 @@ async def read_root3():
     videos = VideosRepository.get_pt_videos(pt_id)
     print(videos)
     return {"hi": videos}
-
-
 
 @app.post("/addVideo")  # NÃO ASSOCIA O VIDEO AO PT 
 async def read_root3(videopath,videoname,description,muscletargets,releasedate,restricted=0):
@@ -179,14 +162,12 @@ async def read_root3():
 
 
 
-
-# testing
+########################  TESTING  ########################
 @app.post("/printPTUsernameToken")
 async def read_root3():
     # Retrieve the user with name 'user2' and eagerly load the related PTs
     username,token = PersonalTrainersRepository.get_pt_username_token(1)
     return {"username": username, "token":token}
-
 
 @app.post("/printusersubsV2")
 async def read_root3():
@@ -212,5 +193,3 @@ async def read_root3():
         return {"relation list": subs_list, "pts":pts}
     else:
         return {"hi": "User not found"}
-
-
