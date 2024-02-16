@@ -1,5 +1,5 @@
 from database import db
-#from sqlalchemy.orm import joinedload
+# from sqlalchemy.orm import joinedload
 import models, schemas
 
 class SubscriptionsRepository():
@@ -10,7 +10,6 @@ class SubscriptionsRepository():
         db.commit()
         db.refresh(db_sub)
         return db_sub
-    
 
     @staticmethod
     def get_pts_for_user(user_id: int):     # retrieve all personal_trainers to which the user is subscribed to
@@ -26,7 +25,6 @@ class SubscriptionsRepository():
         else:
             return "User not found"
 
-
     @staticmethod
     def get_pt_ids_for_user(user_id: int):
         result = (
@@ -34,13 +32,13 @@ class SubscriptionsRepository():
             .filter(models.User.id == user_id)
             .first()
         )
-        PTs_id=[]
+
+        PTs_id = []
         print("func->get_subs_id ______ result: ",result)
         if result:
             PTs_id = [sub.personal_trainer_id for sub in result.subscriptions]
             print("PTs_id: ",PTs_id)
         return PTs_id
-
 
     @staticmethod
     def get_user_ids_for_pt(pt_id: int):
@@ -49,14 +47,10 @@ class SubscriptionsRepository():
             .filter(models.PersonalTrainer.id == pt_id)
             .first()
         )
-        users_id=[]
+
+        users_id = []
         print("func->get_subs_id ______ result: ",result)
         if result:
             users_id = [sub.user_id for sub in result.subscriptions]
             print("users_id: ",users_id)
         return users_id
-    
-    
-    
-    
-

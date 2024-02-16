@@ -1,5 +1,5 @@
 from sqlalchemy.orm import Session
-from models import Subscription, User,PersonalTrainer  # Import your User model
+from models import Subscription, User, PersonalTrainer  # Import your User model
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -20,7 +20,6 @@ class DatabaseSession():
         Base.metadata.create_all(bind=self.engine)
         self.session = sessionmaker(autocommit=False, autoflush=False, bind=self.engine)()
 
-
 # def create_sub_by_username(db: Session, user_username: str, pt_username: str):
 #     try:
 #         user_id = db.query(User.id).filter(User.username==user_username).scalar()
@@ -36,7 +35,6 @@ class DatabaseSession():
 #             print(f"Invalid username(s). Failed to make subscription")
 #     except Exception as e:
 #         print(f"An error ocurred: {e} (in create_sub_by_username)")
-
 
 def create_sub(db: Session, user_identifier: str, pt_identifier: str, use_usernames):
     try:
