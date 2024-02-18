@@ -11,9 +11,6 @@ COPY . ./
 # install dependencies
 RUN npm install
 
-# install serve dependency to serve in production mode
-# RUN npm install serve
-
 # build for production
 RUN npm run build
 

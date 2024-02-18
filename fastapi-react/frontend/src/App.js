@@ -6,15 +6,15 @@ import RegisterForm from './Components/RegisterForm/RegisterForm';
 import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 
 function App() {
-  return(
+  return (
     <>
       <Router>
         <Routes>
-          <Route path="/" element={<LoginForm/>} />  
-          <Route path="/register" element={<RegisterForm/>} />
+          <Route path="/" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
         </Routes>
       </Router>
-    </> 
+    </>
   );
 }
 

@@ -7,8 +7,8 @@ RUN rm /etc/nginx/conf.d/default.conf
 # copy the custom config file
 COPY nginx.conf /etc/nginx/conf.d
 
-# expose port 80 to the outer world
-EXPOSE 80
+# expose port 80
+# EXPOSE 80
 
 # start nginx 
 CMD ["nginx", "-g", "daemon off;"]

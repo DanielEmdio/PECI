@@ -24,16 +24,12 @@ services:
       - URL_DATABASE=postgresql://postgres:postgres@db:5432/peci
     expose:
       - 8000
-    # ports:
-    #   - "8000:8000"
 
   frontend:
     container_name: peci-frontend
     build: ./frontend
     expose:
       - 3000
-    # ports:
-    #   - "3000:3000"
 
   nginx:
     container_name: peci-nginx
