@@ -46,7 +46,7 @@ async def lifespan(app):
     db.close()
 
 # start app and inport the app routes
-app = FastAPI(lifespan=lifespan)
+app = FastAPI(lifespan=lifespan, root_path="/api")
 app.include_router(users.router)
 
 origins = [
