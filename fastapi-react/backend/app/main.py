@@ -33,6 +33,7 @@ from repository.users import UsersRepository
 from repository.pts import PersonalTrainersRepository
 from repository.videos import VideosRepository
 from repository.subs import SubscriptionsRepository
+from os import environ
 import schemas
 
 @asynccontextmanager
@@ -45,8 +46,9 @@ async def lifespan(app):
 
     db.close()
 
-# start app and inport the app routes
-app = FastAPI(lifespan=lifespan)
+# start app and import the app routes
+root_path = "/api" if "URL_DATABASE" in environ else ""
+app = FastAPI(lifespan=lifespan, root_path=root_path)
 app.include_router(users.router)
 
 origins = [

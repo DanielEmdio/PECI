@@ -5,8 +5,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from os import environ
 
-URL_DATABASE = 'postgresql://postgres:postgres@localhost:5432/peci'
+URL_DATABASE = environ.get("URL_DATABASE", "postgresql://postgres:postgres@localhost:5432/peci")
 Base = declarative_base()
 
 class DatabaseSession():
