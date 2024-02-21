@@ -2,6 +2,8 @@ from repository.users import UsersRepository
 from fastapi import APIRouter
 from typing import Tuple
 import schemas
+from models import User
+from repository.subs import SubscriptionsRepository
 
 router = APIRouter(prefix="/users")
 
@@ -50,3 +52,32 @@ def login_user(user: schemas.BasicUser):
     token = UsersRepository.logIn(user_login)
 
     return {"result": "ok", "token": token}
+
+@router.post("/addUserCustom",response_model=schemas.BasicUser)
+async def read_root2(user: schemas.BasicUser):
+    # add a user with name 'user2' and password 'password'
+    new_user = User(**user.model_dump())
+    UsersRepository.create(new_user)
+    return new_user
+
+# @router.post("/add")
+# async def read_root2(username,password):
+#     # add a user with name 'user3' and password 'password'
+#     newUser = User(username=username, password=password)
+#     UsersRepository.create(newUser)
+#     return newUser
+
+@router.post("/getAll")
+async def read_root2():
+    users = UsersRepository.get_users()
+    print(users)
+    return users
+
+@router.post("/getSubs")
+async def read_root3():
+    user_id=2
+    PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
+    return PTs_info
+
+
+
