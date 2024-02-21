@@ -1,12 +1,9 @@
 from repository.users import UsersRepository
 from fastapi import APIRouter
-from typing import Tuple
-import schemas
 from models import Video
 from repository.videos import VideosRepository
 
 router = APIRouter(prefix="/videos")
-
 
 @router.post("/getAccessibleVideos")        
 async def read_root3():
@@ -41,5 +38,3 @@ async def read_root3():
     videos = VideosRepository.getAllVideos()
     print(videos)
     return videos
-
-

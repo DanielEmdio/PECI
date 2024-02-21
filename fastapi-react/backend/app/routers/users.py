@@ -78,6 +78,3 @@ async def read_root3():
     user_id=2
     PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
     return PTs_info
-
-
-

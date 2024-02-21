@@ -28,13 +28,9 @@ from database import db
 from sqlalchemy.orm import joinedload
 from contextlib import asynccontextmanager
 from routers import users, pts, videos
-from models import User, PersonalTrainer, Video
-from repository.users import UsersRepository
+from models import User, PersonalTrainer
 from repository.pts import PersonalTrainersRepository
-from repository.videos import VideosRepository
-from repository.subs import SubscriptionsRepository
 from os import environ
-import schemas
 
 @asynccontextmanager
 async def lifespan(app):
@@ -53,17 +49,9 @@ app.include_router(users.router)
 app.include_router(pts.router)
 app.include_router(videos.router)
 
-
-
-
-origins = [
-    "http://localhost:3000",
-    "localhost:3000"
-]
-
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"]
@@ -72,11 +60,6 @@ app.add_middleware(
 @app.get("/")
 def read_root():
     return {"hi": "hello"}
-
-
-
-
-
 
 
 ########################  TESTING  ########################

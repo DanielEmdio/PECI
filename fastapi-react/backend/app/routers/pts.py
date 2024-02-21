@@ -1,13 +1,9 @@
-from repository.users import UsersRepository
 from fastapi import APIRouter
-from typing import Tuple
 import schemas
 from models import PersonalTrainer
 from repository.pts import PersonalTrainersRepository
 
 router = APIRouter(prefix="/pts")
-
-
 
 @router.post("/addPTCustom",response_model=schemas.PersonalTrainerCreate)
 async def add_pt(pt: schemas.PersonalTrainerCreate):
