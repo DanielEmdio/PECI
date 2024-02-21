@@ -1,21 +1,10 @@
-import './App.css';
-// import React, {useState} from 'react';
-import LoginForm from './Components/LoginForm/LoginForm';
-import RegisterForm from './Components/RegisterForm/RegisterForm';
-//import api from './api';
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import React from 'react'
+import Router from './Utils/Router'
+import ReactDOM from 'react-dom/client'
+import './App.css'
 
-function App() {
-  return(
-    <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LoginForm/>} />  
-          <Route path="/register" element={<RegisterForm/>} />
-        </Routes>
-      </Router>
-    </> 
-  );
-}
-
-export default App;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <Router/>
+  </React.StrictMode>,
+)

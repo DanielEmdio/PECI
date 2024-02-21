@@ -18,7 +18,7 @@ def check_password_requirements(password: str) -> Tuple[bool, str]:
     elif not any(char.islower() for char in password):
         return(False, "The password needs at least one lowercase letter.")
     elif not any(char in special_chars for char in password):
-        return(False, "The passwords needs at least one of these characters: \"$\", \"&\", \"!\"")
+        return(False, 'The passwords needs at least one of these characters: "$", "&", "!"')
     else: 
         return (True, "")
 
