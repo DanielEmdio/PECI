@@ -6,7 +6,7 @@ from sqlalchemy.orm import relationship
 from database import Base
 
 class User(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     id = Column(Integer, primary_key=True)
     username = Column(String, index=True)
@@ -16,7 +16,7 @@ class User(Base):
     subscriptions = relationship("Subscription", back_populates="user") # se fizermos um request pedindo pela coluna "subscriptions", isso retornará todos os pts a que o "user" se subscreveu
 
 class PersonalTrainer(Base):
-    __tablename__ = 'personal_trainers'
+    __tablename__ = "personal_trainers"
 
     id = Column(Integer, primary_key=True)
     token = Column(String, index=True)
@@ -26,7 +26,7 @@ class PersonalTrainer(Base):
     workouts = relationship("Video", back_populates="personal_trainer")
 
 class Video(Base):
-    __tablename__ = 'videos'
+    __tablename__ = "videos"
 
     id = Column(Integer, primary_key=True)
     videopath = Column(String, index=True)
@@ -37,14 +37,13 @@ class Video(Base):
     restricted = Column(Integer, index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
-
     personal_trainer = relationship("PersonalTrainer", back_populates="workouts")
 
 class Subscription(Base):
     __tablename__ = "subscriptions"
 
     user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), primary_key=True)
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
     # Both user_id and personal_trainer_id are defined as primary keys because, together, they form a composite primary key for the subscriptions table. 
     # This means that each combination of user_id and personal_trainer_id must be unique in the table
 
@@ -55,14 +54,14 @@ class Chats(Base):
     __tablename__ = "chats"
 
     id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), index=True)
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
 
 class Messages(Base):
     __tablename__ = "messages"
 
-    message_id = Column(Integer, primary_key=True)
-    chat_id = Column(Integer, ForeignKey("chats.id"), primary_key=True)
+    id = Column(Integer, primary_key=True)
+    chat_id = Column(Integer, ForeignKey("chats.id"), index=True)
     sent_by_user = Column(Boolean, index=True)
     text = Column(String, index=True)
 
