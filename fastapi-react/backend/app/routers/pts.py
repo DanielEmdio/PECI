@@ -6,7 +6,7 @@ from repository.pts import PersonalTrainersRepository
 router = APIRouter(prefix="/pts")
 
 @router.post("/addPTCustom",response_model=schemas.PersonalTrainerCreate)
-async def add_pt(pt: schemas.PersonalTrainerCreate):
+async def add_pt_custom(pt: schemas.PersonalTrainerCreate):
     new_pt = PersonalTrainer(**pt.model_dump())
     PersonalTrainersRepository.create(new_pt)
     return new_pt   
@@ -19,8 +19,7 @@ async def add_PT():
     return newPT    
 
 @router.post("/getPTbyUsername")
-async def read_root3():
-    username = "PT3"
+async def get_PT_by_username(username):
     pt = PersonalTrainersRepository.get_pt_by_username(username)
     print(pt)
     return pt

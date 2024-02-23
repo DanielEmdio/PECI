@@ -54,7 +54,7 @@ def login_user(user: schemas.BasicUser):
     return {"result": "ok", "token": token}
 
 @router.post("/addUserCustom",response_model=schemas.BasicUser)
-async def read_root2(user: schemas.BasicUser):
+async def add_user_custom(user: schemas.BasicUser):
     # add a user with name 'user2' and password 'password'
     new_user = User(**user.model_dump())
     UsersRepository.create(new_user)
@@ -68,13 +68,13 @@ async def read_root2(user: schemas.BasicUser):
 #     return newUser
 
 @router.post("/getAll")
-async def read_root2():
+async def get_all():
     users = UsersRepository.get_users()
     print(users)
     return users
 
 @router.post("/getSubs")
-async def read_root3():
+async def get_subs():
     user_id=2
     PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
     return PTs_info
