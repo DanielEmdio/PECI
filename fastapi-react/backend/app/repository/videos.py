@@ -1,5 +1,6 @@
 from database import db
 import models, schemas
+from typing import List
 
 class VideosRepository():
     @staticmethod
@@ -11,7 +12,7 @@ class VideosRepository():
         return db_video
 
     @staticmethod
-    def getUnrestrictedVideos():
+    def getUnrestrictedVideos() -> List[models.Video]:
         return db.query(models.Video).filter(models.Video.restricted == 0).all()
 
     @staticmethod

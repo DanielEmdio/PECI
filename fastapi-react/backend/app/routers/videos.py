@@ -1,22 +1,28 @@
+from repository.pts import PersonalTrainersRepository
+from repository.videos import VideosRepository
 from repository.users import UsersRepository
 from fastapi import APIRouter
+from auth.oauth2_jwt import *
 from models import Video
-from repository.videos import VideosRepository
 
 router = APIRouter(prefix="/videos")
 
 @router.post("/getAccessibleVideos")        
-async def read_root3():
-    # Retrieve the videos that the user has access to
-    user_id=3
-    my_videos = UsersRepository.get_my_videos(user_id)
-    if my_videos!=None:
-        my_videos=my_videos
-        print("My videos: ")
-        for vid in my_videos:
-            video = {key: value for key, value in vid.__dict__.items() if key != '_sa_instance_state'}
-            print(video,"\n")
-    return my_videos
+def get_accessible_videos(jwt_token: str):
+    jwt_data: Optional[str] = verify_jwt_token_access(jwt_token=jwt_token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == True:
+        user_id: str = UsersRepository.get_user_by_token(token=jwt_data["token"])
+
+        # retrieve the videos that the user has access to
+        videos = UsersRepository.get_accessible_videos(user_id)
+    else:
+        pt_id: str = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"])
+        videos = PersonalTrainersRepository.get_my_videos(pt_id)
+
+    return { "result": "ok", "videos": videos if videos != None else [] }
 
 @router.post("/getPTvideos")
 async def read_root3():
