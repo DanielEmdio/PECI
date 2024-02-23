@@ -18,19 +18,19 @@ class UsersRepository():
         return db_user
 
     @staticmethod
-    def get_user(user_id: int) -> models.User:
+    def get_user(user_id: int) -> Optional[models.User]:
         return db.query(models.User).filter(models.User.id == user_id).first()
 
     @staticmethod
-    def get_user_by_token(token: str) -> models.User:
+    def get_user_by_token(token: str) -> Optional[models.User]:
         return db.query(models.User).filter(models.User.token == token).first()
 
     @staticmethod
-    def get_user_by_username(username: str) -> models.User:
+    def get_user_by_username(username: str) -> Optional[models.User]:
         return db.query(models.User).filter(models.User.username == username).first()
 
     @staticmethod
-    def get_user_by_username_password(username: str, password: str) -> models.User:
+    def get_user_by_username_password(username: str, password: str) -> Optional[models.User]:
         return db.query(models.User).filter(models.User.username == username and models.User.password == password).first()
 
     @staticmethod
@@ -91,7 +91,7 @@ class UsersRepository():
     #     return PTs_id
 
     @staticmethod
-    def get_accessible_videos(user_id: int) -> Optional[List[models.Video]]:
+    def getAccessibleVideos(user_id: int) -> Optional[List[models.Video]]:
         videos = VideosRepository.getUnrestrictedVideos()
         # print("UnrestrictedVideos: ")
         # for vid in videos:

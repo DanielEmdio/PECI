@@ -2,6 +2,7 @@ from repository.pts import PersonalTrainersRepository
 from repository.subs import SubscriptionsRepository
 from repository.users import UsersRepository
 from fastapi import APIRouter
+from auth.oauth2_jwt import *
 from typing import Tuple
 from models import User
 import schemas
@@ -61,14 +62,28 @@ def login_user(user: schemas.BasicUser):
         jwt_token: str = UsersRepository.logIn(user_login)
         # jwt_token: str = UsersRepository.getJwtToken(user_login)
         return {"result": "ok", "token": jwt_token}
-    
+
     pt_login = UsersRepository.get_user_by_username_password(**user.model_dump())
-    if PersonalTrainersRepository.logIn(pt_login):
+    if PersonalTrainersRepository.get_user_by_username_password(**user.model_dump()):
         # login as a pt
-        jwt_token = PersonalTrainersRepository.logIn()
+        jwt_token = PersonalTrainersRepository.logIn(pt_login)
         return {"result": "ok", "token": jwt_token}
 
     return {"result": "no", "error": "User does not exist."}
+
+@router.post("/checkAuthentication")
+def check_authentication(token: str):
+    jwt_token_data = get_jwt_token_data(token=token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+
+    if jwt_token_data["isNormalUser"]:
+        if UsersRepository.get_user_by_token(token=jwt_token_data["token"]) == None:
+            return { "result": "no", "error": "Invalid token." }
+    elif PersonalTrainersRepository.get_pt_by_token(token=jwt_token_data["token"]) == None:
+            return { "result": "no", "error": "Invalid token." }
+
+    return { "result": "ok" }
 
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):

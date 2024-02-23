@@ -1,7 +1,7 @@
 export default function PtTable() {
-    return ( 
+    return (
         <div className="flex flex-row border-solid bg-slate-400 rounded-xl">
-            <img src="https://picsum.photos/200/200" alt="" className="basis-1/4 m-3"/>
+            <img src="https://picsum.photos/200/200" alt="" className="basis-1/4 m-3" />
             <div className="basis-3/4 grid grid-cols-3">
                 <div className="self-center"><h1 className="text-2xl font-bold ">Name:</h1><p className="bg-white">Igor Voitenko</p></div>
                 <div className="self-center"><h1 className="text-2xl font-bold">Specialty:</h1><div className="flex flex-row">

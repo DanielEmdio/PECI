@@ -1,7 +1,7 @@
 from fastapi.security import OAuth2PasswordBearer
 from datetime import timedelta, datetime
-from jose import JWTError, jwt
 from typing import Optional
+from jose import jwt
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/login')
 
@@ -16,11 +16,11 @@ def create_jwt_access_token(data: dict) -> str:
     encoded_jwt = jwt.encode(to_encode, SECRET_KEY, ALGORITHM)
     return encoded_jwt
 
-def verify_jwt_token_access(token: str) -> Optional[str]:
+def get_jwt_token_data(token: str) -> Optional[dict]:
     # try to decode the data (also checks the signature)
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
-    except JWTError as e:
+    except:
         return None
 
     # return token_data

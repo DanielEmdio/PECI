@@ -7,23 +7,20 @@ import NewPtTable from "../Pages/Subscription/NewPtTable";
 import SubscriptionDetails from '../Pages/Subscription/SubscriptionDetails';
 
 export default function Router() {
+    const router = createBrowserRouter([
+        {
+            path: '/', element: <Base />, children: [
+                { path: '/', element: <Home /> },
+                { path: '/subscriptions', element: <Subscription />, },
+                { path: '/pt', element: <NewPtTable /> },
+                { path: '/progress', element: <Progress /> },
+                { path: '/temp', element: <SubscriptionDetails /> }
+            ]
+        }
+    ])
 
-  const router = createBrowserRouter([
-      {
-          path: '/', element: <Base/>, children: [
-              { path: '/', element: <Home/> },
-              { path: '/subscriptions', element: <Subscription/>,},
-              { path: '/pt', element: <NewPtTable/>},
-              { path: '/progress', element: <Progress/> },
-              { path: '/temp', element: <SubscriptionDetails/>}
-          ]
-      }
-  ])
-  return <RouterProvider router={router} />
-  
+    return <RouterProvider router={router} />
 }
-  
-
 
 /*
 function App() {
