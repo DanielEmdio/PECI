@@ -5,6 +5,7 @@ import Subscription from "../Pages/Subscription/Subscription";
 import Progress from "../Pages/Progress/Progress";
 import NewPtTable from "../Pages/Subscription/NewPtTable";
 import SubscriptionDetails from '../Pages/Subscription/SubscriptionDetails';
+import VideoPlayer from '../Pages/VideoPlayer/VideoPlayer';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -14,7 +15,8 @@ export default function Router() {
                 { path: '/subscriptions', element: <Subscription />, },
                 { path: '/pt', element: <NewPtTable /> },
                 { path: '/progress', element: <Progress /> },
-                { path: '/temp', element: <SubscriptionDetails /> }
+                { path: '/temp', element: <SubscriptionDetails /> },
+                { path: '/video', element: <VideoPlayer /> }
             ]
         }
     ])
