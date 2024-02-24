@@ -11,8 +11,7 @@ import RegisterForm from '../Components/RegisterForm/RegisterForm';
 
 
 export default function Router() {
-
-  const router = createBrowserRouter([
+    const router = createBrowserRouter([
       {
           path: '/', element: <Base/>, children: [
               
@@ -30,8 +29,6 @@ export default function Router() {
   return <RouterProvider router={router} />
   
 }
-  
-
 
 /*
 function App() {
