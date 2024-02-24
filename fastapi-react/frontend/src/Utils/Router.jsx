@@ -8,9 +8,7 @@ import SubscriptionDetails from '../Pages/Subscription/SubscriptionDetails';
 import LoginForm from '../Pages/Login/LoginForm';
 import RegisterForm from '../Pages/Register/RegisterForm';
 import Sign from '../Layouts/Sign';
-import VideoPlayer from '../Pages/Video/VideoPlayer';
-
-
+import VideoPlayer from '../Pages/VideoPlayer/VideoPlayer';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -35,4 +33,3 @@ export default function Router() {
   return <RouterProvider router={router} />
   
 }
-

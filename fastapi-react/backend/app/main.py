@@ -55,7 +55,6 @@ app.add_middleware(
 def read_root():
     return {"hi": "hello"}
 
-
 ########################  TESTING  ########################
 # @app.post("/getPTUsernameToken")
 # async def read_root3():
