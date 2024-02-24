@@ -19,7 +19,8 @@ export default function Router() {
               { path: '/subscriptions', element: <Subscription/>,},
               { path: '/pt', element: <NewPtTable/>},
               { path: '/progress', element: <Progress/> },
-              { path: '/temp', element: <SubscriptionDetails/>}
+              { path: '/temp', element: <SubscriptionDetails/>},
+              { path: '/video', element: <VideoPlayer /> }
           ]
       },
       { path: '/login', element: <LoginForm/> },
