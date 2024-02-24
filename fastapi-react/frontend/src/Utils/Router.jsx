@@ -5,8 +5,9 @@ import Subscription from "../Pages/Subscription/Subscription";
 import Progress from "../Pages/Progress/Progress";
 import NewPtTable from "../Pages/Subscription/NewPtTable";
 import SubscriptionDetails from '../Pages/Subscription/SubscriptionDetails';
-import LoginForm from '../Components/LoginForm/LoginForm';
-import RegisterForm from '../Components/RegisterForm/RegisterForm';
+import LoginForm from '../Pages/Login/LoginForm';
+import RegisterForm from '../Pages/Register/RegisterForm';
+import Sign from '../Layouts/Sign';
 
 
 
@@ -22,28 +23,14 @@ export default function Router() {
               { path: '/temp', element: <SubscriptionDetails/>}
           ]
       },
-      { path: '/login', element: <LoginForm/> },
-      {path: '/register', element: <RegisterForm/> },
+      { path: '/',element: <Sign/>, children: [
 
+        { path: '/login', element: <LoginForm/> },
+        {path: '/register', element: <RegisterForm/> },
+      ]  
+      },
   ])
   return <RouterProvider router={router} />
   
 }
 
-/*
-function App() {
-  return(
-    <>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LoginForm/>} />  
-          <Route path="/register" element={<RegisterForm/>} />
-          <Route path="/home" element={<Home/>} />
-        </Routes>
-      </Router>
-    </> 
-  );
-}
-
-export default App;
-*/
