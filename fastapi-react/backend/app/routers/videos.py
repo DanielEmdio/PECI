@@ -1,11 +1,27 @@
 from repository.pts import PersonalTrainersRepository
-from repository.videos import VideosRepository
 from repository.users import UsersRepository
+from fastapi.responses import FileResponse
 from fastapi import APIRouter
 from auth.oauth2_jwt import *
-from models import Video
+from pathlib import Path
 
+VIDEO_DIR = Path("videos")
 router = APIRouter(prefix="/videos")
+
+def is_safe_path(video_name: str) -> bool:
+    # basic directory traversal mitigation
+    return not (".." in video_name or "\\" in video_name or "/" in video_name)
+
+@router.get("/{video_name}")
+def get_video(video_name: str):
+    if not is_safe_path(video_name):
+        return { "result": "no", "error": "Video not found." }
+
+    video_path = VIDEO_DIR / video_name
+    if not video_path.exists():
+        return { "result": "no", "error": "Video not found." }
+
+    return FileResponse(video_path)
 
 @router.post("/getAccessibleVideos")        
 def get_accessible_videos(jwt_token: str):
