@@ -8,6 +8,7 @@ import SubscriptionDetails from '../Pages/Subscription/SubscriptionDetails';
 import LoginForm from '../Pages/Login/LoginForm';
 import RegisterForm from '../Pages/Register/RegisterForm';
 import Sign from '../Layouts/Sign';
+import VideoPlayer from '../Pages/Video/VideoPlayer';
 
 
 
