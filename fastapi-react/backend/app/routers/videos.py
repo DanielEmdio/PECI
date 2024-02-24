@@ -13,7 +13,13 @@ def is_safe_path(video_name: str) -> bool:
     return not (".." in video_name or "\\" in video_name or "/" in video_name)
 
 @router.get("/{video_name}")
-def get_video(video_name: str):
+def get_video(token: str, video_name: str):
+    jwt_token_data = get_jwt_token_data(token=token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    # TODO: CHECK IF USER HAS PERMISSIONS TO ACCESS THE REQUESTED VIDEO
+
     if not is_safe_path(video_name):
         return { "result": "no", "error": "Video not found." }
 
@@ -24,7 +30,14 @@ def get_video(video_name: str):
     return FileResponse(video_path)
 
 @router.post("/upload")
-async def upload_video(video: UploadFile = File(...)):
+async def upload_video(token: str, video: UploadFile = File(...)):
+    jwt_token_data = get_jwt_token_data(token=token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_token_data["isNormalUser"]:
+        return { "result": "no", "error": "Unauthorized." }
+
     # save the video to disk
     with open(VIDEO_DIR / video.filename, "wb") as buffer:
         buffer.write(video.file.read())

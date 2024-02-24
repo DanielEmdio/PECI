@@ -13,7 +13,7 @@ body {
     display: flex;
     justify-content: center;
     margin-top: 12%;
-    background: url('../Assets/Gym.jpg');
+    background: url('../../Assets/Gym.jpg');
 }
 
 .wrapper {
