@@ -4,11 +4,6 @@
 from pydantic import BaseModel
 # from typing import Any, Dict
 
-######################## REQUEST RESPONSE RELATED  ########################
-# class ResponseModel(BaseModel):
-#     Dict[str, Any]
-
-
 ########################  USER RELATED  ########################
 class UserBase(BaseModel):
     username: str
@@ -23,6 +18,9 @@ class User(UserBase):
 
     class Config:
         from_attributes = True # orm_mode = True
+
+class UserRegister(BasicUser):
+    isNormalUser: bool
 
 
 ########################  PERSONAL TRAINER RELATED  ########################
@@ -75,3 +73,8 @@ class Subscription(SubscriptionBase):
 
     class Config:
         from_attributes = True # orm_mode = True
+
+########################  RANDOM  ########################
+
+class TokenData(BaseModel):
+    token: str

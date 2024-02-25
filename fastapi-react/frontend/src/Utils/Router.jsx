@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from "../Pages/Home/Home";
 import Base from "../Layouts/Base";
 import Subscription from "../Pages/Subscription/Subscription";
@@ -13,25 +13,24 @@ import Settings from '../Pages/Settings/Settings';
 
 export default function Router() {
     const router = createBrowserRouter([
-      {
-          path: '/', element: <Base/>, children: [
-              
-              { path: '/', element: <Home/> },
-              { path: '/subscriptions', element: <Subscription/>,},
-              { path: '/pt', element: <NewPtTable/>},
-              { path: '/progress', element: <Progress/> },
-              { path: '/temp', element: <SubscriptionDetails/>},
-              { path: '/video', element: <VideoPlayer /> },
-              { path: '/settings', element: <Settings /> }
-          ]
-      },
-      { path: '/',element: <Sign/>, children: [
+        {
+            path: '/', element: <Base />, children: [
+                { path: '/', element: <Home /> },
+                { path: '/subscriptions', element: <Subscription />, },
+                { path: '/pt', element: <NewPtTable /> },
+                { path: '/progress', element: <Progress /> },
+                { path: '/temp', element: <SubscriptionDetails /> },
+                { path: '/video', element: <VideoPlayer /> },
+                { path: '/settings', element: <Settings /> }
+            ]
+        },
+        {
+            path: '/', element: <Sign />, children: [
+                { path: '/login', element: <LoginForm /> },
+                { path: '/register', element: <RegisterForm /> }
+            ]
+        }
+    ]);
 
-        { path: '/login', element: <LoginForm/> },
-        {path: '/register', element: <RegisterForm/> },
-      ]  
-      },
-  ])
-  return <RouterProvider router={router} />
-  
+    return <RouterProvider router={router} />;
 }
