@@ -1,5 +1,7 @@
 from repository.subs import SubscriptionsRepository
 from repository.videos import VideosRepository
+from auth.oauth2_jwt import *
+from typing import List
 from database import db
 import models, schemas
 import random, string
@@ -16,15 +18,19 @@ class UsersRepository():
         return db_user
 
     @staticmethod
-    def get_user(user_id: int) -> models.User:
+    def get_user(user_id: int) -> Optional[models.User]:
         return db.query(models.User).filter(models.User.id == user_id).first()
 
     @staticmethod
-    def get_user_by_username(username: str) -> models.User:
+    def get_user_by_token(token: str) -> Optional[models.User]:
+        return db.query(models.User).filter(models.User.token == token).first()
+
+    @staticmethod
+    def get_user_by_username(username: str) -> Optional[models.User]:
         return db.query(models.User).filter(models.User.username == username).first()
 
     @staticmethod
-    def get_user_by_username_password(username: str, password: str) -> models.User:
+    def get_user_by_username_password(username: str, password: str) -> Optional[models.User]:
         return db.query(models.User).filter(models.User.username == username and models.User.password == password).first()
 
     @staticmethod
@@ -85,27 +91,28 @@ class UsersRepository():
     #     return PTs_id
 
     @staticmethod
-    def get_my_videos(user_id:int):
+    def getAccessibleVideos(user_id: int) -> Optional[List[models.Video]]:
         videos = VideosRepository.getUnrestrictedVideos()
-        print("UnrestrictedVideos: ")
-        for vid in videos:
-            video = {key: value for key, value in vid.__dict__.items() if key != '_sa_instance_state'}
-            print(video)
+        # print("UnrestrictedVideos: ")
+        # for vid in videos:
+        #     video = {key: value for key, value in vid.__dict__.items() if key != '_sa_instance_state'}
+        #     print(video)
 
         PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
         if PTs_id != []:
             for id in PTs_id:
                 video = VideosRepository.get_pt_priv_videos(id)
-                if video!=None:
-                    videos+=video
-        
+                if video != None:
+                    videos += video
+
         return videos
 
     @staticmethod
     def logIn(user: models.User) -> str:
         # check if user already has a token
         if UsersRepository.get_user_by_username_password(user.username, user.password).token != None:
-            return user.token
+            jwt_token: str = create_jwt_access_token({ "token": user.token, "isNormalUser": True })
+            return jwt_token
 
         # generate the new token for the user
         token = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(12))
@@ -115,7 +122,9 @@ class UsersRepository():
         # assign the new token and update the db
         user.token = token
         db.commit()
-        return token
+
+        jwt_token: str = create_jwt_access_token({ "token": token, "isNormalUser": True })
+        return jwt_token
 
     @staticmethod
     def logOut():

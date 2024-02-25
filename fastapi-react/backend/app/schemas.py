@@ -2,6 +2,11 @@
 # In this file are all the definitions for the Pydantic models
 
 from pydantic import BaseModel
+# from typing import Any, Dict
+
+######################## REQUEST RESPONSE RELATED  ########################
+# class ResponseModel(BaseModel):
+#     Dict[str, Any]
 
 
 ########################  USER RELATED  ########################
@@ -24,7 +29,7 @@ class User(UserBase):
 class PersonalTrainerBase(BaseModel):
     username:str
 
-class PersonalTrainerCreate(PersonalTrainerBase):
+class BasicPersonalTrainer(PersonalTrainerBase):
     password: str
 
 class PersonalTrainer(PersonalTrainerBase):

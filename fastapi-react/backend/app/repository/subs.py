@@ -1,18 +1,17 @@
-# from sqlalchemy.orm import joinedload
 from database import db
 import models, schemas
 
 class SubscriptionsRepository():
     @staticmethod
     def create(sub: schemas.SubscriptionCreate):
-        db_sub = models.Subscription(user_id=sub.user_id,personal_trainer_id=sub.personal_trainer_id)
+        db_sub = models.Subscription(user_id=sub.user_id, personal_trainer_id=sub.personal_trainer_id)
         db.add(db_sub)
         db.commit()
         db.refresh(db_sub)
         return db_sub
 
     @staticmethod
-    def get_pts_for_user(user_id: int):     # retrieve all personal_trainers to which the user is subscribed to
+    def get_pts_for_user(user_id: int): # retrieve all personal_trainers to which the user is subscribed to
         subscriptions = (
             db.query(models.Subscription)
             .filter(models.Subscription.user_id == user_id)

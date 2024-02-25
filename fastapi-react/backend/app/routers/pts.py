@@ -5,8 +5,8 @@ from repository.pts import PersonalTrainersRepository
 
 router = APIRouter(prefix="/pts")
 
-@router.post("/addPTCustom",response_model=schemas.PersonalTrainerCreate)
-async def add_pt_custom(pt: schemas.PersonalTrainerCreate):
+@router.post("/addPTCustom",response_model=schemas.BasicPersonalTrainer)
+async def add_pt(pt: schemas.BasicPersonalTrainer):
     new_pt = PersonalTrainer(**pt.model_dump())
     PersonalTrainersRepository.create(new_pt)
     return new_pt   

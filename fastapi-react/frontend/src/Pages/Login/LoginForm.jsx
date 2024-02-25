@@ -1,9 +1,9 @@
 import React from 'react';
-import './LoginForm.css';
 import { Link } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 import { FaUnlockAlt } from "react-icons/fa";
 import { useState, useRef, useEffect } from 'react';
+
 
 function LoginForm() {
     const userRef = useRef();
@@ -41,15 +41,15 @@ function LoginForm() {
     };
 
     return (
-        <div className="wrapper">
+        <div className="wrapper w-96 bg-opacity-25 border-2 border-white border-opacity-20 backdrop-blur-md shadow-md text-white rounded-lg p-8 bg-black">
             {success ? (
                 <div className='success-msg'>
                     <h3>Login Successful</h3>
                 </div>
             ) : (
                 <form onSubmit={handleSubmit}>
-                    <h1>Login</h1>
-                    <div className='input-box'>
+                    <h1 className='text-3xl text-center'>Login</h1>
+                    <div className='input-box relative w-full h-12 my-8'>
                         <input
                             type='text'
                             placeholder='Username'
@@ -59,10 +59,11 @@ function LoginForm() {
                             onChange={(e) => setUser(e.target.value)}
                             value={user}
                             required
+                            className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
                         />
-                        <FaUser className='icon' />
+                        <FaUser className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
                     </div>
-                    <div className='input-box'>
+                    <div className='input-box relative w-full h-12 my-8'>
                         <input
                             type='password'
                             placeholder='Password'
@@ -70,18 +71,20 @@ function LoginForm() {
                             onChange={(e) => setPwd(e.target.value)}
                             value={pwd}
                             required
+                            className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
                         />
-                        <FaUnlockAlt className='icon' />
+                        <FaUnlockAlt className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
                     </div>
 
-                    <div className='remember-forgot'>
-                        <label><input type="checkbox" />Remember me</label>
+                    {/*
+                    <div className='remember-forgot flex justify-between text-sm mt-[-15px] mb-[15px]'>
+                        <label><input type="checkbox" className='form-checkbox text-white mr-1' />Remember me</label>
                         Forgot password?
                     </div>
+                    */}
+                    <button type='submit' className='w-full h-12 bg-white border-none outline-none rounded-full shadow-md cursor-pointer text-base font-bold text-gray-700'>Login</button>
 
-                    <button type='submit'>Login</button>
-
-                    <div className='register-link'>
+                    <div className='register-link text-sm text-center mt-5 mb-4'>
                         <p>Don't have an account? <Link to="/register"> Register</Link> </p>
                     </div>
                 </form>
