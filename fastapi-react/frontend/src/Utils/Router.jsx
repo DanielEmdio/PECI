@@ -9,6 +9,7 @@ import LoginForm from '../Pages/Login/LoginForm';
 import RegisterForm from '../Pages/Register/RegisterForm';
 import Sign from '../Layouts/Sign';
 import VideoPlayer from '../Pages/VideoPlayer/VideoPlayer';
+import Settings from '../Pages/Settings/Settings';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -20,7 +21,8 @@ export default function Router() {
               { path: '/pt', element: <NewPtTable/>},
               { path: '/progress', element: <Progress/> },
               { path: '/temp', element: <SubscriptionDetails/>},
-              { path: '/video', element: <VideoPlayer /> }
+              { path: '/video', element: <VideoPlayer /> },
+              { path: '/settings', element: <Settings /> }
           ]
       },
       { path: '/',element: <Sign/>, children: [
