@@ -88,7 +88,6 @@ def check_authentication(token: schemas.TokenData):
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):
 #     # add a user with name 'user2' and password 'password'
-#     new_user = User(**user.model_dump())
 #     UsersRepository.create(new_user)
 #     return new_user
 
