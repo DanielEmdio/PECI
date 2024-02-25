@@ -56,7 +56,10 @@ export function checkAuthentication() {
 
         // check for errors
         if (data["result"] !== "ok") {
-            window.location.pathname = "/login";
+            if (window.location.pathname !== "/login" && window.location.pathname !== "/register") {
+                window.location.pathname = "/login";
+            }
+
             return;
         }
 

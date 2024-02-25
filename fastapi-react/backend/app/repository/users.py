@@ -106,7 +106,7 @@ class UsersRepository():
                     videos += video
 
         return videos
-    
+
     @staticmethod
     def checkAccessToVideo(videoname: str):
         user_id = 3

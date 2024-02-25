@@ -4,6 +4,7 @@ from repository.users import UsersRepository
 from fastapi.responses import FileResponse
 from auth.oauth2_jwt import *
 from pathlib import Path
+import schemas
 
 VIDEO_DIR = Path("videos")
 router = APIRouter(prefix="/videos")
@@ -49,25 +50,26 @@ async def upload_video(token: str, video: UploadFile = File(...)):
     return { "result": "ok" }
 
 @router.post("/getAccessibleVideos")        
-def get_accessible_videos(jwt_token: str):
-    jwt_data: Optional[str] = get_jwt_token_data(jwt_token=jwt_token)
+def get_accessible_videos(token: schemas.TokenData):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
     if jwt_data == None:
         return { "result": "no", "error": "Unauthorized." }
 
     if jwt_data["isNormalUser"] == True:
-        user_id: str = UsersRepository.get_user_by_token(token=jwt_data["token"])
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
         if user_id == None:
             return { "result": "no", "error": "Unauthorized." }
 
         # retrieve the videos that the user has access to
         videos = UsersRepository.getAccessibleVideos(user_id)
     else:
-        pt_id: str = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"])
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
         if pt_id == None:
             return { "result": "no", "error": "Unauthorized." }
 
         videos = PersonalTrainersRepository.getAccessibleVideos(pt_id)
 
+    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets} for video in videos]
     return { "result": "ok", "videos": videos if videos != None else [] }
 
 # @router.post("/getPTvideos")
