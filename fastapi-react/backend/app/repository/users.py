@@ -101,11 +101,28 @@ class UsersRepository():
         PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
         if PTs_id != []:
             for id in PTs_id:
-                video = VideosRepository.get_pt_priv_videos(id)
+                video = VideosRepository.getPtPrivVideos(id)
                 if video != None:
                     videos += video
 
         return videos
+    
+    @staticmethod
+    def checkAccessToVideo(videoname: str):
+        user_id = 3
+        #user_id = db.query(models.User.user_id).filter(models.User.token==token).first()   
+        print("user_id",user_id)
+        videos = UsersRepository.getAccessibleVideos(user_id)
+        print(videos)
+        if videos:
+            for video in videos:
+
+                #video = video[0]    # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
+                print("current video: ",video.videopath)
+                if videoname in video.videopath:
+                    print("found")
+                    return True
+        return False
 
     @staticmethod
     def logIn(user: models.User) -> str:
