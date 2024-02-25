@@ -2,7 +2,7 @@ version: '3'
 
 services:
   db:
-    container_name: peci-db
+    container_name: peci-db-dev
     image: postgres:16.2-bookworm
     environment:
       - POSTGRES_USER=postgres
@@ -12,7 +12,7 @@ services:
       - 5432
 
   backend:
-    container_name: peci-backend
+    container_name: peci-backend-dev
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
@@ -26,7 +26,7 @@ services:
       - 8000
 
   frontend:
-    container_name: peci-frontend
+    container_name: peci-frontend-dev
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
@@ -38,7 +38,7 @@ services:
       - 3000
 
   nginx:
-    container_name: peci-nginx
+    container_name: peci-nginx-dev
     build: ./nginx
     depends_on:
       - backend
