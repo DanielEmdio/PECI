@@ -9,48 +9,55 @@ export default function NewPtTable() {
             decription: "I believe, that through fitness you can change not only your body but your whole life!",
             tags: ["Full Body", "Cardio", "Strength"],
             price: "20€ - monthly",
+            id: 1
         },
         {
             name: "Dantes",
             photo: "https://picsum.photos/500/200",
             decription: "Welcome to the Rodeo.",
             tags: ["Budget", "Core", "Strength"],
-            price: "20€ - monthly"
+            price: "20€ - monthly",
+            id: 2
         },
         {
             name: "Rui Aguiar",
             photo: "https://picsum.photos/350/200",
             decription: "Play hard, work harder.",
             tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
+            price: "20€ - monthly",
+            id: 3
         },
         {
             name: "Mario Antunes",
             photo: "https://picsum.photos/300/250",
             decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quibusdam odit voluptatum recusandae est aspernatur velit commodi saepe, dicta repellendus nam at sapiente officia dolor ipsam dolore non quisquam nemo?",
             tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
+            price: "20€ - monthly",
+            id: 4
         },
         {
             name: "Igor Voitenko",
             photo: "https://picsum.photos/250/200",
             decription: "I believe, that through fitness you can change not only your body but your whole life!",
             tags: ["Full Body", "Cardio", "Strength"],
-            price: "20€ - monthly"
+            price: "20€ - monthly",
+            id: 5
         },
         {
             name: "Dantes",
             photo: "https://picsum.photos/330/200",
             decription: "Welcome to the Rodeo.",
             tags: ["Budget", "Core", "Strength"],
-            price: "20€ - monthly"
+            price: "20€ - monthly",
+            id: 6
         },
         {
             name: "Rui Aguiar",
             photo: "https://picsum.photos/300/205",
             decription: "Play hard, work harder.",
             tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
+            price: "20€ - monthly",
+            id: 7
         },
         {
             name: "Rui Aguiar",
@@ -108,7 +115,7 @@ export default function NewPtTable() {
                     </thead>
                     <tbody>
                         {mockedData.map((Pt, index) => (
-                            <tr>
+                            <tr key={index}>
                                 <th>
                                     <label>
                                         <input type="checkbox" className="checkbox" />
@@ -134,7 +141,7 @@ export default function NewPtTable() {
                                 </td>
                                 <td>{Pt.decription}</td>
                                 <th>
-                                    <Link to={"/temp"}><button className="btn btn-ghost btn-xs">details</button></Link>
+                                    <Link to={`/PT/${Pt.id}/main`}><button className="btn btn-ghost btn-xs">details</button></Link>
                                 </th>
                             </tr>
 

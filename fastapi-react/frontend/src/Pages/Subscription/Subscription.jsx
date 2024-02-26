@@ -59,7 +59,7 @@ export default function Subscription() {
         <div className='w-11/12 mx-auto'>
             <div className="grid flex-grow h-32 bg-base-300 place-items-center bg-transparent mb-20">
                 <h1 className='my-3 text-2xl font-bold'>Find a new Personal Trainer</h1>
-                <Link to={"/pt"}><button className="btn btn-circle btn-outline size-32"><FaUserPlus size={55} /></button></Link>
+                <Link to={"/AvaliblePT"}><button className="btn btn-circle btn-outline size-32"><FaUserPlus size={55} /></button></Link>
             </div>
             <div className="divider"></div>
             <h1 className='my-3 text-2xl font-bold'>My personal trainers:</h1>

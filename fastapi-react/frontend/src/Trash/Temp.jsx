@@ -1,6 +1,6 @@
 import { FaRegHeart } from "react-icons/fa";
 
-export default function PtTable() {
+export default function Temp() {
     return (
         <div className="grid grid-col-1">
             <div className="stats stats-vertical lg:stats-horizontal shadow">

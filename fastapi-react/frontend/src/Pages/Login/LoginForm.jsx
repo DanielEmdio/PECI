@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 import { FaUnlockAlt } from "react-icons/fa";
 import { useState, useRef, useEffect } from 'react';
+import api from "../../api";
 
 
 function LoginForm() {
@@ -24,20 +25,9 @@ function LoginForm() {
 
     const handleSubmit = async (e) => {
         e.preventDefault(); // Prevents the default action of the form ????
-
-        if (user === 'admin' && pwd === 'admin') {
-            setSuccess(true);
-            setErrMsg('');
-            setPwd('');
-            setUser('');
-            userRef.current.focus();
-        } else {
-            setErrMsg('Invalid username or password');
-            setSuccess(false);
-            setPwd('');
-            setUser('');
-            userRef.current.focus();
-        }
+        const loginform = { username: user, password: pwd };
+        const response = await api.post("/users/login", loginform);
+        console.log('abc');
     };
 
     return (
