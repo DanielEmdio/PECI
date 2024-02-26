@@ -122,4 +122,7 @@ def get_subs(token: schemas.TokenData):
 
         # retrieve the videos that the user has access to
         PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
-    return { "result": "ok", "pts": PTs_info if PTs_info != None else [] }
+        return { "result": "ok", "pts": PTs_info if PTs_info != None else [] }
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+        
