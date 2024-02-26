@@ -19,8 +19,7 @@ async def add_PT():
     return newPT    
 
 @router.post("/getPTbyUsername")
-async def read_root3():
-    username = "PT3"
+async def get_PT_by_username(username):
     pt = PersonalTrainersRepository.get_pt_by_username(username)
     print(pt)
     return pt

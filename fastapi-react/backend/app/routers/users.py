@@ -25,7 +25,7 @@ def check_password_requirements(password: str) -> Tuple[bool, str]:
         return (True, "")
 
 @router.post("/register")
-def register_user(user: schemas.BasicUser, isNormalUser: bool):
+def register_user(user: schemas.UserRegister):
     # check for user with same name
     if UsersRepository.get_user_by_username(username=user.username):
         return {"result": "no", "error": "Username already in use."}
@@ -39,14 +39,14 @@ def register_user(user: schemas.BasicUser, isNormalUser: bool):
     if passwd_req[0] == False:
         return {"result": "no", "error": passwd_req[1]}
 
-    if isNormalUser:
+    if user.isNormalUser:
         # register the user in the database
-        new_user = UsersRepository.create(user=user)
+        new_user = UsersRepository.create(user=schemas.BasicUser(**user.model_dump()))
         
         # login the new user
         jwt_token: str = UsersRepository.logIn(new_user)
     else:
-        new_pt = PersonalTrainersRepository.create(pt=user)
+        new_pt = PersonalTrainersRepository.create(pt=schemas.BasicUser(**user.model_dump()))
 
         # login the new user
         jwt_token: str = PersonalTrainersRepository.logIn(new_pt)
@@ -63,8 +63,8 @@ def login_user(user: schemas.BasicUser):
         # jwt_token: str = UsersRepository.getJwtToken(user_login)
         return {"result": "ok", "token": jwt_token}
 
-    pt_login = UsersRepository.get_user_by_username_password(**user.model_dump())
-    if PersonalTrainersRepository.get_user_by_username_password(**user.model_dump()):
+    pt_login = PersonalTrainersRepository.get_pt_by_username_password(**user.model_dump())
+    if PersonalTrainersRepository.get_pt_by_username_password(**user.model_dump()):
         # login as a pt
         jwt_token = PersonalTrainersRepository.logIn(pt_login)
         return {"result": "ok", "token": jwt_token}
@@ -72,8 +72,8 @@ def login_user(user: schemas.BasicUser):
     return {"result": "no", "error": "User does not exist."}
 
 @router.post("/checkAuthentication")
-def check_authentication(token: str):
-    jwt_token_data = get_jwt_token_data(token=token)
+def check_authentication(token: schemas.TokenData):
+    jwt_token_data = get_jwt_token_data(token=token.token)
     if jwt_token_data == None:
         return { "result": "no", "error": "Invalid token." }
 
@@ -88,7 +88,6 @@ def check_authentication(token: str):
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):
 #     # add a user with name 'user2' and password 'password'
-#     new_user = User(**user.model_dump())
 #     UsersRepository.create(new_user)
 #     return new_user
 

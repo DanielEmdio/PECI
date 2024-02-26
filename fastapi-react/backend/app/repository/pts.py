@@ -28,7 +28,7 @@ class PersonalTrainersRepository():
         return db.query(models.PersonalTrainer).filter(models.PersonalTrainer.token == token).first()
 
     @staticmethod
-    def get_py_by_username_password(username: str, password: str) -> Optional[models.PersonalTrainer]:
+    def get_pt_by_username_password(username: str, password: str) -> Optional[models.PersonalTrainer]:
         return db.query(models.PersonalTrainer).filter(models.PersonalTrainer.username == username and models.PersonalTrainer.password == password).first()
 
     @staticmethod

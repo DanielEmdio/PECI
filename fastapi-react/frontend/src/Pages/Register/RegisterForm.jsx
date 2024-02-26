@@ -1,102 +1,89 @@
-import React from 'react';
+import { useState, useRef, useEffect } from 'react';
+import { FaUnlockAlt } from "react-icons/fa";
+import * as utils from "../../Utils/utils";
 import { Link } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
-import { FaUnlockAlt } from "react-icons/fa";
-import { useState, useRef, useEffect } from 'react';
 import api from "../../api";
-
+import React from 'react';
 
 function RegisterForm() {
     const userRef = useRef();
-    //const errRef = useRef();
 
     const [user, setUser] = useState('');
-    //const [errMsg, setErrMsg] = useState('');
+    const [isPt, setIsPt] = useState(false);
     const [pwd, setPwd] = useState('');
-    const [success, setSuccess] = useState(false);
+    const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
         userRef.current.focus();
     }, []);
 
-    /*
-      useEffect(() => {
+    useEffect(() => {
         setErrMsg('');
-      }, [user, pwd]);
-    */
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        /*
-            if (user === 'admin' && pwd === 'admin') {
-              setSuccess(true);
-              setErrMsg('');
-              setPwd('');
-              setUser('');
-              userRef.current.focus();
-            } else {
-              setErrMsg('Invalid username or password');
-              setSuccess(false);
-              setPwd('');
-              setUser('');
-              userRef.current.focus();
+    }, [user, pwd]);
+
+    const handleSubmit = (form) => {
+        // prevent form submission
+        form.preventDefault();
+
+        const register_form = { username: user, password: pwd, isNormalUser: !isPt };
+        api.post("/users/register", register_form).then((r) => {
+            const data = r.data;
+
+            // check for errors
+            if (data["result"] !== "ok") {
+                setErrMsg(data["error"]);
+                return;
             }
-        */
-        const loginform = { username: user, password: pwd };
-        const response = await api.post("/addUserCustom", loginform);
-        setPwd('');
-        setUser('');
-        setSuccess(true);
+
+            // set the cookie and go to the home page
+            utils.setCookie("token", data["token"]);
+            utils.goToHome();
+        }).catch((_) => { });
     };
 
     return (
         <div className="wrapper w-96 bg-opacity-25 border-2 border-white border-opacity-20 backdrop-blur-md shadow-md text-white rounded-lg p-8 bg-black">
-            {success ? (
-                <div className='success-msg'>
-                    <h3>Login Successful</h3>
+            <form onSubmit={handleSubmit}>
+                <h1 className='text-3xl text-center'>Sign in</h1>
+                <div className='input-box relative w-full h-12 my-8'>
+                    <input
+                        type='text'
+                        placeholder='Username'
+                        ref={userRef}
+                        autoComplete='off'
+                        id='username'
+                        onChange={(e) => setUser(e.target.value)}
+                        value={user}
+                        required
+                        className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
+                    />
+                    <FaUser className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
                 </div>
-            ) : (
-                <form onSubmit={handleSubmit}>
-                    <h1 className='text-3xl text-center'>Sign in</h1>
-                    <div className='input-box relative w-full h-12 my-8'>
-                        <input
-                            type='text'
-                            placeholder='Username'
-                            ref={userRef}
-                            autoComplete='off'
-                            id='username'
-                            onChange={(e) => setUser(e.target.value)}
-                            value={user}
-                            required
-                            className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
-                        />
-                        <FaUser className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
-                    </div>
-                    <div className='input-box relative w-full h-12 my-8'>
-                        <input
-                            type='password'
-                            placeholder='Password'
-                            id='password'
-                            onChange={(e) => setPwd(e.target.value)}
-                            value={pwd}
-                            required
-                            className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
-                        />
-                        <FaUnlockAlt className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
-                    </div>
+                <div className='input-box relative w-full h-12 my-8'>
+                    <input
+                        type='password'
+                        placeholder='Password'
+                        id='password'
+                        onChange={(e) => setPwd(e.target.value)}
+                        value={pwd}
+                        required
+                        className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
+                    />
+                    <FaUnlockAlt className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
+                </div>
 
-                    <div className='remember-forgot flex justify-center text-sm mt-[-15px] mb-[15px]'>
-                        <label><input type="checkbox" className='form-checkbox text-white mr-1' />I'm a Personal Trainer</label>
-                    </div>
+                <div className='remember-forgot flex justify-center text-sm mt-[-15px] mb-[15px]'>
+                    <label><input type="checkbox" className='form-checkbox text-white mr-1' onChange={() => { setIsPt(true) }} />I'm a Personal Trainer</label>
+                </div>
 
+                <div className='text-red-500 text-center mb-2'> {errMsg} </div>
+                <button type='submit' className='w-full h-12 bg-white border-none outline-none rounded-full shadow-md cursor-pointer text-base font-bold text-gray-700'>Sign in</button>
 
-                    <button type='submit' className='w-full h-12 bg-white border-none outline-none rounded-full shadow-md cursor-pointer text-base font-bold text-gray-700'>Sign in</button>
-
-
-                    <div className='register-link text-sm text-center mt-5 mb-4'>
-                        <p>I have a account. <Link to="/login"> Login</Link> </p>
-                    </div>
-                </form>
-            )}
+                <div className='register-link text-sm text-center mt-5 mb-4'>
+                    <p>I have a account. <Link to="/login"> Login</Link> </p>
+                </div>
+            </form>
         </div>
     );
 }

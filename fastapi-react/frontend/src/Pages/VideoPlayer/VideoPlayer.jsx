@@ -22,15 +22,17 @@ function VideoPlayer() {
                 controls
             />
             <p><br></br></p>
-            <h2><b><u>Descrição do Vídeo</u></b></h2>
-            {/* Renderiza a descrição com base no estado isExpanded */}
-            <p>
-                {isExpanded ? description : `${description.substring(0, 100)}...`}
-            </p>
-            {/* Botão para expandir/retrair a descrição */}
-            <button onClick={toggleDescription}>
-                {isExpanded ? 'Mostrar Menos' : 'Mostrar Mais'}
-            </button>
+            <div className=" w-11/12 mx-auto">
+                <h2><b><u>Descrição do Vídeo</u></b></h2>
+                {/* Renderiza a descrição com base no estado isExpanded */}
+                <p>
+                    {isExpanded ? description : `${description.substring(0, 100)}...`}
+                </p>
+                {/* Botão para expandir/retrair a descrição */}
+                <button onClick={toggleDescription}>
+                    {isExpanded ? 'Mostrar Menos' : 'Mostrar Mais'}
+                </button>
+            </div>
         </div>
     );
 }

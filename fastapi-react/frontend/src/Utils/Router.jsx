@@ -1,4 +1,4 @@
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from "../Pages/Home/Home";
 import Base from "../Layouts/Base";
 import Subscription from "../Pages/Subscription/Subscription";
@@ -13,6 +13,7 @@ import MainPtInfo from '../Components/PersonalTrainer/MainPtInfo';
 import BGPtInfo from '../Components/PersonalTrainer/BGPtInfo';
 import OtherPtInfo from '../Components/PersonalTrainer/OtherPtInfo';
 import RatingPtInfo from '../Components/PersonalTrainer/RatingPtInfo';
+import Settings from '../Pages/Settings/Settings';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -23,6 +24,7 @@ export default function Router() {
               { path: '/subscriptions', element: <Subscription/>,},
               { path: '/AvaliblePT', element: <NewPtTable/>},
               { path: '/progress', element: <Progress/> },
+              { path:'/settings', element: <Settings/>},
 
               { path: '/PT/:id/', element: <PtPage/>, children: [
                 { path: 'main', element: <MainPtInfo/> },
