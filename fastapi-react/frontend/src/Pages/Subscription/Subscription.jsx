@@ -67,7 +67,7 @@ export default function Subscription() {
             data.pts.forEach(element => {
                 newMockedData.push({
                     name: element.name,
-                    photo: "https://picsum.photos/306/200",
+                    photo: element.photo,
                     decription: element.description,
                     tags: element.tags.split(","),
                 })

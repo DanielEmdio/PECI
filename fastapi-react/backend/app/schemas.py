@@ -37,6 +37,7 @@ class PersonalTrainer(PersonalTrainerBase):
     description: str
     tags: str
     photo: str
+    price: str
     subscriptions: list['Subscription'] = []
     workout: list['Video'] = []
 
@@ -59,6 +60,7 @@ class VideoCreate(VideoBase):
 class Video(VideoBase):
     id: int
     personal_trainer_id:int
+    thumbnail: str
 
     class Config:
         from_attributes = True #orm_mode = True

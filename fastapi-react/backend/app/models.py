@@ -26,6 +26,7 @@ class PersonalTrainer(Base):
     description = Column(String, index=True)
     tags = Column(String, index=True)
     photo = Column(String, index=True)
+    price = Column(String, index=True)
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
     workouts = relationship("Video", back_populates="personal_trainer")
 
@@ -39,6 +40,7 @@ class Video(Base):
     muscletargets = Column(String, index=True)
     releasedate = Column(String, index=True)
     restricted = Column(Integer, index=True)
+    thumbnail = Column(String, index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
     personal_trainer = relationship("PersonalTrainer", back_populates="workouts")

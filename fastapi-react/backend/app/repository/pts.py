@@ -4,6 +4,7 @@ from database import db
 from typing import List
 import models, schemas
 import random, string
+from repository.subs import SubscriptionsRepository
 
 class PersonalTrainersRepository():
     @staticmethod
@@ -35,6 +36,15 @@ class PersonalTrainersRepository():
     def get_pt_username_token(pt_id: str) -> Optional[models.PersonalTrainer]: # retorna o username e o token 
         return db.query(models.PersonalTrainer.username,models.PersonalTrainer.token).filter(models.PersonalTrainer.id == pt_id).first()
 
+    @staticmethod
+    def get_pts(skip: int = 0, limit: int = 100) -> list[models.PersonalTrainer]: # retrieve all users
+        return db.query(models.PersonalTrainer).offset(skip).limit(limit).all()
+
+    @staticmethod
+    def get_new_pts(user_id) -> list[models.PersonalTrainer]: 
+        pt_ids_to_exclude = SubscriptionsRepository.get_pt_ids_for_user(user_id)     # get the pts ids to which the user is subbed
+
+        return db.query(models.PersonalTrainer).filter(~models.PersonalTrainer.id.in_(pt_ids_to_exclude)).all()
     # @staticmethod
     # def get_pt_username(pt_id: str): # retorna o username do PersonalTrainer, com base no seu id
     #     return db.query(models.PersonalTrainer.username).filter(models.PersonalTrainer.id == pt_id).scalar()
