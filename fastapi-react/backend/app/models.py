@@ -22,6 +22,10 @@ class PersonalTrainer(Base):
     token = Column(String, index=True)
     username = Column(String, index=True)
     password = Column(String, index=True)
+    name = Column(String, index=True)
+    description = Column(String, index=True)
+    tags = Column(String, index=True)
+    photo = Column(String, index=True)
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
     workouts = relationship("Video", back_populates="personal_trainer")
 

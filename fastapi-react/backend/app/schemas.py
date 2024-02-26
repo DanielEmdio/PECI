@@ -33,6 +33,10 @@ class BasicPersonalTrainer(PersonalTrainerBase):
 class PersonalTrainer(PersonalTrainerBase):
     id: int
     token: str
+    name: str
+    description: str
+    tags: str
+    photo: str
     subscriptions: list['Subscription'] = []
     workout: list['Video'] = []
 

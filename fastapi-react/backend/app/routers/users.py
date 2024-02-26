@@ -106,6 +106,20 @@ def check_authentication(token: schemas.TokenData):
 
 # @router.post("/getSubs")
 # async def read_root3():
-#     user_id=2
+#     user_id=5
 #     PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
-#     return PTs_info
+#     return { "result": "ok", "pts": PTs_info if PTs_info != None else [] }
+
+@router.post("/getSubs")
+def get_subs(token: schemas.TokenData):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+    if jwt_data["isNormalUser"] == True:
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+        if user_id == None:
+            return { "result": "no", "error": "Unauthorized." }
+
+        # retrieve the videos that the user has access to
+        PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
+    return { "result": "ok", "pts": PTs_info if PTs_info != None else [] }
