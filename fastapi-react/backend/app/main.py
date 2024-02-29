@@ -41,7 +41,7 @@ root_path = "/api" if "URL_DATABASE" in environ else ""
 app = FastAPI(lifespan=lifespan, root_path=root_path)
 app.include_router(videos.router)
 app.include_router(users.router)
-# app.include_router(pts.router)
+app.include_router(pts.router)
 
 app.add_middleware(
     CORSMiddleware,
