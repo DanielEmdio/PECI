@@ -74,6 +74,24 @@ class PersonalTrainersRepository():
 
         # put all videos in a single list
         return unrestricted_videos.extend(private_videos)
+    
+    @staticmethod
+    def getPTVideos(pt_id: int) -> Optional[List[models.Video]]:
+        private_videos = VideosRepository.getPtPrivVideos(pt_id)
+        if private_videos == None:
+            return []
+        
+        # add the username of the pt to the videos
+        pt_username = PersonalTrainersRepository.getPtUsername(pt_id)
+        for video in private_videos:
+            video.pt_username = pt_username
+
+        return private_videos
+    
+    @staticmethod
+    def getPtUsername(pt_id: str) -> Optional[str]:
+        return db.query(models.PersonalTrainer.username).filter(models.PersonalTrainer.id == pt_id).scalar() # scalar() returns the first column of the first row
+
 
     @staticmethod
     def logIn(pt: models.PersonalTrainer) -> str:

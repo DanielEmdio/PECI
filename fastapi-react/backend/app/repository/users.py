@@ -1,5 +1,6 @@
 from repository.subs import SubscriptionsRepository
 from repository.videos import VideosRepository
+from repository.pts import PersonalTrainersRepository
 from auth.oauth2_jwt import *
 from typing import List
 from database import db
@@ -106,6 +107,28 @@ class UsersRepository():
                     videos += video
 
         return videos
+    
+    @staticmethod
+    def getPTVideos(user_id: int) -> Optional[List[models.Video]]:
+        PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
+        #print("I AM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+        if PTs_id != []:
+            videos_list = []
+            for id in PTs_id:
+                videos = VideosRepository.getPtPrivVideos(id)
+                video_PT_username = PersonalTrainersRepository.getPtUsername(id)
+                #print("videos",videos)
+                if videos != None:
+                    for vide in videos:
+                        #print("vide",vide)
+                        vide.pt_username = video_PT_username
+                        #print("vide",vide)
+                        videos_list.append(vide)
+                        #print("I AM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
+                        #print(videos_list)
+            return videos_list
+
+        return []
 
     @staticmethod
     def checkAccessToVideo(videoname: str):
