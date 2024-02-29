@@ -31,7 +31,7 @@ class UsersRepository():
 
     @staticmethod
     def get_user_by_username_password(username: str, password: str) -> Optional[models.User]:
-        return db.query(models.User).filter(models.User.username == username and models.User.password == password).first()
+        return db.query(models.User).filter(models.User.username == username, models.User.password == password).first()
 
     @staticmethod
     def get_users(skip: int = 0, limit: int = 100) -> list[models.User]: # retrieve all users
