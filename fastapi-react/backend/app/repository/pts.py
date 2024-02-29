@@ -86,6 +86,21 @@ class PersonalTrainersRepository():
         return unrestricted_videos.extend(private_videos)
 
     @staticmethod
+    def hasAccessToVideo(pt_id: int, videoname: str) -> bool:
+        videos = PersonalTrainersRepository.getAccessibleVideos(pt_id)
+        if videos:
+            for video in videos:
+                # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
+                if videoname in video.videopath:
+                    return True
+
+        return False
+
+    @staticmethod
+    def hasAccessToImage(pt_id: int, imagename: str) -> bool:
+        return True
+
+    @staticmethod
     def logIn(pt: models.PersonalTrainer) -> str:
         # check if user already has a token
         if PersonalTrainersRepository.get_user_by_username_password(pt.username, pt.password).token != None:
