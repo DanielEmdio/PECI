@@ -69,7 +69,7 @@ def get_accessible_videos(token: schemas.TokenData):
 
         videos = PersonalTrainersRepository.getAccessibleVideos(pt_id)
 
-    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "releasedate": video.releasedate} for video in videos]
+    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
     return { "result": "ok", "videos": videos if videos != None else [] }
 
 @router.post("/getPTPreVideos")

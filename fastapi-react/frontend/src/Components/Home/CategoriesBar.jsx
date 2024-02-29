@@ -16,7 +16,7 @@ export default function CategoriesBar() {
             data.videos.forEach(element => {
                 newMockedData.push({
                     title: element.title,
-                    thumbnail: "https://picsum.photos/200/200",     // deverá ser ajustado
+                    thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
@@ -43,7 +43,7 @@ export default function CategoriesBar() {
             data.videos.forEach(element => {
                 newMockedData.push({
                     title: element.title,
-                    thumbnail: "https://picsum.photos/200/200",     // deverá ser ajustado
+                    thumbnail: element.thumbnail,    
                     duration: "30 min",                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
@@ -112,7 +112,7 @@ export default function CategoriesBar() {
             data.videos.forEach(element => {
                 newMockedData.push({
                     title: element.title,
-                    thumbnail: "https://picsum.photos/200/200",     // deverá ser ajustado
+                    thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
@@ -196,7 +196,7 @@ export default function CategoriesBar() {
             data.videos.forEach(element => {
                 newMockedData.push({
                     title: element.title,
-                    thumbnail: "https://picsum.photos/200/200",     // deverá ser ajustado
+                    thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
@@ -259,7 +259,7 @@ export default function CategoriesBar() {
             data.videos.forEach(element => {
                 newMockedData.push({
                     title: element.title,
-                    thumbnail: "https://picsum.photos/200/200",     // deverá ser ajustado
+                    thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,

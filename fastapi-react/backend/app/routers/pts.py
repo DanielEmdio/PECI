@@ -2,6 +2,9 @@ from fastapi import APIRouter
 import schemas
 from models import PersonalTrainer
 from repository.pts import PersonalTrainersRepository
+from repository.users import UsersRepository
+from auth.oauth2_jwt import *
+
 
 router = APIRouter(prefix="/pts")
 
@@ -23,3 +26,25 @@ async def get_PT_by_username(username):
     pt = PersonalTrainersRepository.get_pt_by_username(username)
     print(pt)
     return pt
+
+# @router.post("/getAll")
+# async def get_all():
+#     pts = PersonalTrainersRepository.get_pts()
+#     return {"result":"ok","pts":pts}
+
+@router.post("/getNewPts")
+async def get_new_pts(token: schemas.TokenData):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == True:
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+        if user_id == None:
+            return { "result": "no", "error": "Unauthorized." }
+        pts = PersonalTrainersRepository.get_new_pts(user_id)
+        pts = [{"name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price} for pt in pts]
+        return {"result":"ok","pts":pts}
+    else:
+            return { "result": "no", "error": "Unauthorized." }
+    
