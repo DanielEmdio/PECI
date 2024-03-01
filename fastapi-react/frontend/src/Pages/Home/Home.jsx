@@ -42,37 +42,10 @@ export default function Home() {
             mainMuscles: ["Deltoids"],
         },
     ];*/
-    const [mockedData, setMockedData] = useState([]);
-
-    useEffect(() => {
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
-            const data = r.data;
-            console.log(data.videos);
     
-            let newMockedData = [];
-            data.videos.forEach(element => {
-                newMockedData.push({
-                    title: element.title,
-                    thumbnail: "https://picsum.photos/200/200",
-                    duration: "30 min",
-                    difficulty: 4,
-                    mainMuscles: element.mainMuscles.split(","),
-                })
-            });
-    
-            setMockedData(newMockedData);
-        }).catch((_) => { });
-    }, []);
 
     return <div className="w-3/4 mx-auto">
         <CategoriesBar></CategoriesBar>
-        <div className="flex flex-col gap-4">
-            {(mockedData.length === 0) ? (
-                <div className='text-center'>No videos available.</div>
-            ) : (
-                mockedData.map((workout, index) => (
-                    <Workoutcard key={index} workout={workout} />
-                )))}
-        </div>
+        
     </div>
 }

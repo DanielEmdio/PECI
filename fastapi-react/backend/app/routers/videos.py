@@ -69,8 +69,44 @@ def get_accessible_videos(token: schemas.TokenData):
 
         videos = PersonalTrainersRepository.getAccessibleVideos(pt_id)
 
-    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail} for video in videos]
+    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
     return { "result": "ok", "videos": videos if videos != None else [] }
+
+@router.post("/getPTPreVideos")
+async def get_pt_premium_videos(token: schemas.TokenData):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == True:
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+        #print("user_id",user_id)
+        if user_id == None:
+            return { "result": "no", "error": "Unauthorized." }
+
+        # retrieve the premium videos that the user has access to
+        videos = UsersRepository.getPTVideos(user_id)
+    else:
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        if pt_id == None:
+            return { "result": "no", "error": "Unauthorized." }
+
+        videos = PersonalTrainersRepository.getPTVideos(pt_id)
+    
+    # sort the videos by personal trainer id
+    videos = sorted(videos, key=lambda video: video.personal_trainer_id)
+    #print("videos",videos)
+    #print("video.pt_username",videos[0].pt_username)
+    
+    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
+    
+    # depois de dar update á db deverá ficar este:
+    #videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate} for video in videos if video.restricted == 1]
+
+
+    return { "result": "ok", "videos": videos if videos != None else [] }
+    
+
 
 # @router.post("/getPTvideos")
 # async def read_root3():
