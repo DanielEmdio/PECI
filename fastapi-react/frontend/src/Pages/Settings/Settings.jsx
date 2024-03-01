@@ -10,13 +10,13 @@ function Settings(){
             <h1 className='my-3 text-2xl font-bold'>Notifications</h1>
             <MaterialDesignSwitch/>
             <div className="divider"></div>
-            <a href="https://www.exemplo.com" target="_blank" style="background-color: blue; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; text-decoration: none;">About us</a>
+            <a href="../../../../Log/index.html" target="_blank" style={{ backgroundColor: '#2693e6', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', textDecoration: 'none' }}>About Us</a>
             <div className="divider"></div>
             <button
-                style={{ backgroundColor: 'blue', color: 'white', padding: '10px', cursor: 'pointer' }}
+                style={{ backgroundColor: '#2693e6', color: 'white', padding: '10px', cursor: 'pointer', borderRadius: '5px' }}
                 onClick={() => setShowPopup(true)}
             >
-                Apagar Conta
+                Delete Account
             </button>
             {showPopup && <PopupComponent onClose={() => setShowPopup(false)} />}
             <div className="divider"></div>
