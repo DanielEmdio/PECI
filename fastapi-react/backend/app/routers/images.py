@@ -14,24 +14,25 @@ def is_safe_path(image_name: str) -> bool:
     return not (".." in image_name or "\\" in image_name or "/" in image_name)
 
 @router.get("/{image_name}")
-async def get_image(token: schemas.TokenData, image_name: str):
-    jwt_data = get_jwt_token_data(token=token.token)
-    if jwt_data == None:
-        return { "result": "no", "error": "Unauthorized." }
+async def get_image(image_name: str):
+    # jwt_data = get_jwt_token_data(token=token.token)
+    # if jwt_data == None:
+    #     return { "result": "no", "error": "Unauthorized." }
 
-    if jwt_data["isNormalUser"] == True:
-        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
-        if not UsersRepository.hasAccessToImage(user_id, image_name):
-            return { "result": "no", "error": "Unauthorized." }
-    else:
-        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
-        if not PersonalTrainersRepository.hasAccessToImage(pt_id, image_name):
-            return { "result": "no", "error": "Unauthorized." }
+    # if jwt_data["isNormalUser"] == True:
+    #     user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+    #     if not UsersRepository.hasAccessToImage(user_id, image_name):
+    #         return { "result": "no", "error": "Unauthorized." }
+    # else:
+    #     pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+    #     if not PersonalTrainersRepository.hasAccessToImage(pt_id, image_name):
+    #         return { "result": "no", "error": "Unauthorized." }
 
     if not is_safe_path(image_name):
         return { "result": "no", "error": "Image not found." }
 
     image_name = IMAGES_DIR / image_name 
+    print("image_name: ",image_name)
     if not image_name.exists():
         return { "result": "no", "error": "Image not found." }
 

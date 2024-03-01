@@ -29,8 +29,8 @@ export default function PtPage() {
             
             const element = data.pt
             setPt({
-                name: "Igor Voitenko",
-                photo: "/photos/igor.jpg",
+                name: element.name,
+                photo: element.photo,
                 description: element.description,
                 tags: element.tags.split(","),
                 slots: element.slots,
@@ -39,7 +39,7 @@ export default function PtPage() {
     
         }).catch((_) => { });
     }, []);
-    console.log("Pt: ",Pt);
+
     return (
 
         <div className="grid justify-items-center font-sans antialiased text-gray-900 leading-normal tracking-wider h-full bg-cover bg-[url('Assets/Gym.jpg')] bg-no-repeat">
@@ -83,7 +83,8 @@ export default function PtPage() {
                 {/*Img Col*/}
                 <div className="w-full lg:w-2/5">
                     {/* Big profile image for side bar (desktop)         "./chris_heria.png" */}
-                        <img src={Pt.photo} className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block" alt=""/>
+                        <img src={"http://localhost:8000/images/"+Pt.photo} className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block" alt=""/>
+                    {/*"http://0.0.0.0:8000/images/chris_heria.png"*/}
                     {/* Image from: http://unsplash.com/photos/MP0IUfwrn0A */}
                 </div>
             </div>
