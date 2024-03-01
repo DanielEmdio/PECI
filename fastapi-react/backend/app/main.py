@@ -16,11 +16,9 @@ def read_item(item_id: int, q: Union[str, None] = None):
 def update_item(item_id: int, item: Item):
     return {"item_name": item.name, "item_id": item_id}"""
 
-from repository.pts import PersonalTrainersRepository
 from fastapi.middleware.cors import CORSMiddleware
+from routers import users, pts, videos, images
 from contextlib import asynccontextmanager
-from models import User, PersonalTrainer
-from routers import users, pts, videos
 from sqlalchemy.orm import joinedload
 from fastapi import FastAPI
 from database import db
@@ -40,6 +38,7 @@ async def lifespan(app):
 root_path = "/api" if "URL_DATABASE" in environ else ""
 app = FastAPI(lifespan=lifespan, root_path=root_path)
 app.include_router(videos.router)
+app.include_router(images.router)
 app.include_router(users.router)
 app.include_router(pts.router)
 
@@ -53,7 +52,7 @@ app.add_middleware(
 
 @app.get("/")
 def read_root():
-    return {"hi": "hello"}
+    return {"result": "ok"}
 
 ########################  TESTING  ########################
 # @app.post("/getPTUsernameToken")
