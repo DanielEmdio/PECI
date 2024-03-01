@@ -111,6 +111,7 @@ export default function NewPtTable() {
             let newMockedData = [];
             data.pts.forEach(element => {
                 newMockedData.push({
+                    id: element.id,
                     name: element.name,
                     photo: element.photo,
                     description: element.description,

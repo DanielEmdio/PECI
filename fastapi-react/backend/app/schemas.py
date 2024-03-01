@@ -38,6 +38,7 @@ class PersonalTrainer(PersonalTrainerBase):
     tags: str
     photo: str
     price: str
+    slots: int
     subscriptions: list['Subscription'] = []
     workout: list['Video'] = []
 
