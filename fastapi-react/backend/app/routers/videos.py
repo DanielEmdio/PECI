@@ -73,14 +73,14 @@ def get_accessible_videos(token: schemas.TokenData):
     return { "result": "ok", "videos": videos if videos != None else [] }
 
 @router.post("/getPTPreVideos")
-async def get_pt_premium_videos(token: str):
+async def get_pt_premium_videos(token: schemas.TokenData):
     jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
     if jwt_data == None:
         return { "result": "no", "error": "Unauthorized." }
 
     if jwt_data["isNormalUser"] == True:
         user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
-        print("user_id",user_id)
+        #print("user_id",user_id)
         if user_id == None:
             return { "result": "no", "error": "Unauthorized." }
 
