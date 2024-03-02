@@ -23,7 +23,7 @@ export default function BGPtInfo() {
         </div>
         <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><IoMdSchool  className="h-4 fill-current text-green-700 mr-4" />Education:</p>
             <p className="text-left">{Pt.education}</p>
-        <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><CgGym className="h-4 fill-current text-green-700 mr-4" />Profecional Experience:</p>
+        <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><CgGym className="h-4 fill-current text-green-700 mr-4" />Professional Experience:</p>
             <p className="text-left">{Pt.bg}</p>
     </>
     )

@@ -27,6 +27,16 @@ async def get_PT_by_username(username):
     print(pt)
     return pt
 
+@router.get("/getPTbyId/{pt_id}")
+def get_PT_by_id(pt_id: int):
+    pt = PersonalTrainersRepository.get_pt(pt_id)
+    print(pt)
+    if pt:
+        pt = {"name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price, "slots":pt.slots} 
+        return {"result":"ok","pt":pt}
+    else:
+        return {"result": "no", "error": "Something went wrong"} 
+
 # @router.post("/getAll")
 # async def get_all():
 #     pts = PersonalTrainersRepository.get_pts()
@@ -43,7 +53,7 @@ async def get_new_pts(token: schemas.TokenData):
         if user_id == None:
             return { "result": "no", "error": "Unauthorized." }
         pts = PersonalTrainersRepository.get_new_pts(user_id)
-        pts = [{"name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price} for pt in pts]
+        pts = [{"id":pt.id,"name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price} for pt in pts]
         return {"result":"ok","pts":pts}
     else:
             return { "result": "no", "error": "Unauthorized." }

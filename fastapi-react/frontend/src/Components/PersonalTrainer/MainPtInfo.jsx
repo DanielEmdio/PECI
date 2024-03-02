@@ -4,11 +4,15 @@ import { FaUserGraduate } from "react-icons/fa";
 import { FaInfo } from "react-icons/fa";
 import { FaStar } from "react-icons/fa";
 import { FaIdBadge } from "react-icons/fa";
-import { Link,useParams } from "react-router-dom";
+import { Link,useOutlet,useOutletContext,useParams } from "react-router-dom";
 import { FaEuroSign } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import api from '../../api';
+
 
 
 export default function MainPtInfo() {
+    /*
     const Pt = {
         name: "Igor Voitenko",
         photo: "https://picsum.photos/550/800",
@@ -16,8 +20,37 @@ export default function MainPtInfo() {
         tags: ["Full Body", "Cardio", "Strength"],
         slots: 5,
         price: "20€ - monthly"
-    }
+    }*/
+    
     const { id } = useParams();
+    const Pt = useOutletContext();
+    // const [Pt, setPt] = useState({
+    //     name: "",
+    //     photo: "",
+    //     description: "",
+    //     tags: [],
+    //     slots: 0,
+    //     price: ""
+    // });
+    // useEffect(() => {
+
+    //     api.get(`/pts/getPTbyId/${id}`).then((response) => {
+    //         const data = response.data;
+    //         console.log("data: ",data);
+            
+    //         const element = data.pt
+    //         setPt({
+    //             name: element.name,
+    //             photo: "https://picsum.photos/200/200",
+    //             description: element.description,
+    //             tags: element.tags.split(","),
+    //             slots: element.slots,
+    //             price: element.price
+    //         })
+    
+    //     }).catch((_) => { });
+    // }, []);
+
     return (
         <>
             <div role="tablist" className="tabs-bordered mt-6 pb-16 lg:pb-0 w-4/5 lg:w-2/3 mx-auto flex flex-wrap items-center justify-between">
@@ -32,7 +65,7 @@ export default function MainPtInfo() {
                 ))}   
             <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><FaIdBadge className="h-4 fill-current text-green-700 mr-4"/>Slots left: <kbd class="kbd kbd-sm ml-1 text-black">{Pt.slots}</kbd> </p>
             <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><FaEuroSign  className="h-4 fill-current text-green-700 mr-4"/>Price: <kbd class="kbd kbd-sm ml-1 text-black">{Pt.price}</kbd> </p>
-            <p className="pt-8 text-sm">{Pt.decription}</p>
+            <p className="pt-8 text-sm">{Pt.description}</p>
         </>
         )
 }

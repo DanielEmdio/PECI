@@ -131,21 +131,19 @@ class UsersRepository():
         return []
 
     @staticmethod
-    def checkAccessToVideo(videoname: str):
-        user_id = 3
-        #user_id = db.query(models.User.user_id).filter(models.User.token==token).first()   
-        print("user_id",user_id)
+    def hasAccessToVideo(user_id: int, videoname: str) -> bool:
         videos = UsersRepository.getAccessibleVideos(user_id)
-        print(videos)
         if videos:
             for video in videos:
-
-                #video = video[0]    # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
-                print("current video: ",video.videopath)
+                # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
                 if videoname in video.videopath:
-                    print("found")
                     return True
+
         return False
+
+    @staticmethod
+    def hasAccessToImage(user_id: int, imagename: str) -> bool:
+        return True
 
     @staticmethod
     def logIn(user: models.User) -> str:
