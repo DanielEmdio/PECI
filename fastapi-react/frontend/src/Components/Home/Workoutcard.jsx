@@ -39,7 +39,7 @@ export default function Workoutcard({ workout }) {
             <p>{workout.PTUsername}</p>
             
             <div className="card lg:card-side bg-base-100 shadow-xl">
-                <figure><img src={workout.thumbnail} alt="workout-image" /></figure>
+                <figure><img src={"http://localhost:8000/images/"+workout.thumbnail} style={{width:"400px", height:"260px"}}alt="workout-image" /></figure>
                 <div className="card-body">
                     <h2 className="card-title">{workout.title}</h2>
                     <p>{workout.duration}</p>
