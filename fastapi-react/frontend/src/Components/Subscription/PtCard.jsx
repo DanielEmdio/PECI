@@ -1,7 +1,7 @@
 export default function PtCard({ Pt }) {
     return( 
     <div className="card w-90 bg-base-100 shadow-xl">
-        <figure><img className="my-2" src={Pt.photo} alt=""/></figure>
+        <figure><img className="my-2" src={"http://localhost:8000/images/"+Pt.photo} alt=""/></figure>
         <div className="card-body">
             <h2 className="card-title">
                 {Pt.name}

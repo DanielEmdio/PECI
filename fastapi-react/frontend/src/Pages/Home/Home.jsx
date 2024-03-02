@@ -53,7 +53,7 @@ export default function Home() {
             data.videos.forEach(element => {
                 newMockedData.push({
                     title: element.title,
-                    thumbnail: "https://picsum.photos/200/200",
+                    thumbnail: element.thumbnail,
                     duration: "30 min",
                     difficulty: 4,
                     mainMuscles: element.mainMuscles.split(","),

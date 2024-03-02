@@ -153,7 +153,7 @@ export default function NewPtTable() {
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
                                             <div className="mask mask-squircle w-12 h-12">
-                                                <img src={Pt.photo} alt="Avatar Tailwind CSS Component" />
+                                                <img src={"http://localhost:8000/images/"+Pt.photo} alt="Avatar Tailwind CSS Component" />
                                             </div>
                                         </div>
                                         <div>

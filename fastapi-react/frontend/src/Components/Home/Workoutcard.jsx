@@ -2,7 +2,7 @@ import { FaPlay } from "react-icons/fa";
 
 export default function Workoutcard({ workout }) {
     return <div className="card lg:card-side bg-base-100 shadow-xl">
-        <figure><img src={workout.thumbnail} alt="workout-image" /></figure>
+        <figure><img src={"http://localhost:8000/images/"+workout.thumbnail} style={{ width: "320px", height:"200px" }} alt="workout-image" /></figure>
         <div className="card-body">
             <h2 className="card-title">{workout.title}</h2>
             <p>{workout.duration}</p>
