@@ -59,6 +59,7 @@ def get_accessible_videos(token: schemas.TokenData):
         return { "result": "no", "error": "Unauthorized." }
 
     if jwt_data["isNormalUser"] == True:
+        print("jwt_data[token]: ",jwt_data["token"])
         user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
         if user_id == None:
             return { "result": "no", "error": "Unauthorized." }

@@ -22,7 +22,7 @@ class SubscriptionsRepository():
             personal_trainers = [sub.personal_trainer for sub in subscriptions]
             return personal_trainers
         else:
-            return "User not found"
+            return None
 
     @staticmethod
     def get_pt_ids_for_user(user_id: int):
