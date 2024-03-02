@@ -2,6 +2,7 @@ import { Outlet, useParams } from "react-router-dom";
 import { GiBiceps } from "react-icons/gi";
 import { useEffect, useState } from "react";
 import api from "../../api";
+import * as utils from "../../Utils/utils";
 
 export default function PtPage() {
     
@@ -12,20 +13,13 @@ export default function PtPage() {
     //         tags: ["Full Body", "Cardio", "Strength"],
     //     }
     const {id} = useParams();
-    console.log("id:",id)
-    const [Pt, setPt] = useState({
-        name: "",
-        photo: "",
-        description: "",
-        tags: [],
-        slots: 0,
-        price: ""
-    });
-    useEffect(() => {
+    //console.log("id:",id)
+    const [Pt, setPt] = useState([]);
 
-        api.get(`/pts/getPTbyId/${id}`).then((response) => {
-            const data = response.data;
-            console.log("data: ",data);
+    useEffect(() => {
+        api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {
+            const data = r.data;
+            //console.log("data: ",data);
             
             const element = data.pt
             setPt({

@@ -8,6 +8,7 @@ import { Link,useOutlet,useOutletContext,useParams } from "react-router-dom";
 import { FaEuroSign } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import api from '../../api';
+import * as utils from "../../Utils/utils";
 
 
 
@@ -16,40 +17,32 @@ export default function MainPtInfo() {
     const Pt = {
         name: "Igor Voitenko",
         photo: "https://picsum.photos/550/800",
-        decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
+        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
         tags: ["Full Body", "Cardio", "Strength"],
         slots: 5,
         price: "20€ - monthly"
     }*/
     
     const { id } = useParams();
-    const Pt = useOutletContext();
-    // const [Pt, setPt] = useState({
-    //     name: "",
-    //     photo: "",
-    //     description: "",
-    //     tags: [],
-    //     slots: 0,
-    //     price: ""
-    // });
-    // useEffect(() => {
-
-    //     api.get(`/pts/getPTbyId/${id}`).then((response) => {
-    //         const data = response.data;
-    //         console.log("data: ",data);
-            
-    //         const element = data.pt
-    //         setPt({
-    //             name: element.name,
-    //             photo: "https://picsum.photos/200/200",
-    //             description: element.description,
-    //             tags: element.tags.split(","),
-    //             slots: element.slots,
-    //             price: element.price
-    //         })
+    const [Pt, setPt] = useState([]);
     
-    //     }).catch((_) => { });
-    // }, []);
+    useEffect(() => {
+        api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {
+            const data = r.data;
+            //console.log("data: ",data);
+            
+            const element = data.pt
+            setPt({
+                name: element.name,
+                photo: element.photo,
+                description: element.description,
+                tags: element.tags.split(","),
+                slots: element.slots,
+                price: element.price
+            })
+    
+        }).catch((_) => { });
+    }, []);
 
     return (
         <>

@@ -85,6 +85,25 @@ def check_authentication(token: schemas.TokenData):
 
     return { "result": "ok" }
 
+@router.post("/getPtById/{pt_id}")
+def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
+    jwt_token_data = get_jwt_token_data(token=token.token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+    
+    if jwt_token_data["isNormalUser"]:
+        if UsersRepository.get_user_by_token(token=jwt_token_data["token"]) == None:
+            return { "result": "no", "error": "Invalid token." }
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+
+    pt = PersonalTrainersRepository.get_pt(pt_id)
+    if pt:
+        pt = {"name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price, "slots":pt.slots, "lang" : pt.lang, "hours" : pt.hours, "rating" : pt.rating, "n_comments" : pt.n_comments, "education" : pt.education, "bg" : pt.bg} 
+        return {"result":"ok","pt":pt}
+    else:
+        return {"result": "no", "error": "Personal Trainer not found."} 
+
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):
 #     # add a user with name 'user2' and password 'password'
