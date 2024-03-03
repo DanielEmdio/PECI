@@ -73,7 +73,6 @@ class Messages(Base):
 
 # class Users(Base):
 #     __tablename__ = 'users'
-
 #     id = Column(Integer, primary_key=True)
 #     username = Column(String, index=True)
 #     password = Column(String, index=True)
@@ -81,37 +80,28 @@ class Messages(Base):
 #     #role = Column(String, index=True) # free, premium, pt, admin
 #     PTid = Column(Integer, ForeignKey("pts.id")) # refers to a pt id
 #     #videos = Column(String, index=True)
-
 # class PTs(Base):
 #     __tablename__ = 'pts'
-
 #     id = Column(Integer, primary_key=True)
 #     token = Column(String, index=True)
 #     PT = Column(String, index=True)
 #     password = Column(String, index=True)
-
 # class Pt_video_connection(Base):
 #     __tablename__ = "pt_video_connection"
-
 #     pt_id = Column(Integer, ForeignKey("pts.id"),primary_key=True)
 #     video_id = Column(Integer, ForeignKey("videos.id"),primary_key=True)
-
 #     video = relationship("Videos",back_populates="owner")
 #     pt = relationship("Pts",back_populates="workouts")
-
 # class Users(Base):
 #     __tablename__ = 'users'
-# 
 #     id = Column(Integer, primary_key=True, index=True)
 #     username = Column(String, index=True)
 #     password = Column(String, index=True)
 #     token = Column(String, index=True)
 #     role = Column(String, index=True) # free, premium, admin
 #     pt_ids = Column(String, index=True)
-
 # class Pts(Base):
 #     __tablename__ = 'pts'
-# 
 #     id = Column(Integer, primary_key=True, index=True)
 #     username = Column(String, index=True)
 #     password = Column(String, index=True)

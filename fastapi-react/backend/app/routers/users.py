@@ -4,7 +4,6 @@ from repository.users import UsersRepository
 from fastapi import APIRouter
 from auth.oauth2_jwt import *
 from typing import Tuple
-from models import User
 import schemas
 
 router = APIRouter(prefix="/users")
@@ -57,19 +56,19 @@ def register_user(user: schemas.UserRegister):
 def login_user(user: schemas.BasicUser):
     # get the user instance with the provided username and password
     user_login = UsersRepository.get_user_by_username_password(**user.model_dump())
-    if UsersRepository.get_user_by_username_password(**user.model_dump()):
+    if user_login:
         # login as a normal user
         jwt_token: str = UsersRepository.logIn(user_login)
         # jwt_token: str = UsersRepository.getJwtToken(user_login)
         return {"result": "ok", "token": jwt_token}
 
     pt_login = PersonalTrainersRepository.get_pt_by_username_password(**user.model_dump())
-    if PersonalTrainersRepository.get_pt_by_username_password(**user.model_dump()):
+    if pt_login:
         # login as a pt
         jwt_token = PersonalTrainersRepository.logIn(pt_login)
         return {"result": "ok", "token": jwt_token}
 
-    return {"result": "no", "error": "User does not exist."}
+    return {"result": "no", "error": "Wrong username or password."}
 
 @router.post("/checkAuthentication")
 def check_authentication(token: schemas.TokenData):

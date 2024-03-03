@@ -1,6 +1,6 @@
+from repository.pts import PersonalTrainersRepository
 from repository.subs import SubscriptionsRepository
 from repository.videos import VideosRepository
-from repository.pts import PersonalTrainersRepository
 from auth.oauth2_jwt import *
 from typing import List
 from database import db
@@ -46,10 +46,8 @@ class UsersRepository():
             .options(joinedload(models.Subscription.personal_trainer))
             .all()
         )
-
         if user:
             # Access the related PTs objects using user.pts
-            
             personalTrainers = [usr.personal_trainer for usr in user]
             # subs_list = user.subscriptions
             # pt_ids = [subscription.personal_trainer_id for subscription in subs_list]
@@ -57,12 +55,11 @@ class UsersRepository():
             # for id in pt_ids:
             #     pts+=db.query(models.PersonalTrainer).filter(models.PersonalTrainer.id==id)
             # print(pts)
-            
             #return {"relation list": subs_list, "pts":pts}
             return personalTrainers   
         else:
             return {"hi": "User not found"}"""
-    
+
     # @staticmethod
     # def get_user_pts(user_id: int):     # retrieve all personal_trainers to which the user is subscribed to
     #     subscriptions = (
@@ -70,13 +67,11 @@ class UsersRepository():
     #         .filter(models.Subscription.user_id == user_id)
     #         .all()
     #     )
-
     #     if subscriptions:
     #         personal_trainers = [sub.personal_trainer for sub in subscriptions]
     #         return personal_trainers
     #     else:
     #         return "User not found"
-        
     # @staticmethod
     # def get_subs_id(user_id: int):
     #     result = (
@@ -94,12 +89,8 @@ class UsersRepository():
     @staticmethod
     def getAccessibleVideos(user_id: int) -> Optional[List[models.Video]]:
         videos = VideosRepository.getUnrestrictedVideos()
-        # print("UnrestrictedVideos: ")
-        # for vid in videos:
-        #     video = {key: value for key, value in vid.__dict__.items() if key != '_sa_instance_state'}
-        #     print(video)
-
         PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
+
         if PTs_id != []:
             for id in PTs_id:
                 video = VideosRepository.getPtPrivVideos(id)
@@ -111,21 +102,16 @@ class UsersRepository():
     @staticmethod
     def getPTVideos(user_id: int) -> Optional[List[models.Video]]:
         PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
-        #print("I AM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
         if PTs_id != []:
             videos_list = []
             for id in PTs_id:
                 videos = VideosRepository.getPtPrivVideos(id)
                 video_PT_username = PersonalTrainersRepository.getPtUsername(id)
-                #print("videos",videos)
                 if videos != None:
                     for vide in videos:
-                        #print("vide",vide)
                         vide.pt_username = video_PT_username
-                        #print("vide",vide)
                         videos_list.append(vide)
-                        #print("I AM HEREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE")
-                        #print(videos_list)
+
             return videos_list
 
         return []
@@ -165,6 +151,10 @@ class UsersRepository():
 
         jwt_token: str = create_jwt_access_token({ "token": token, "isNormalUser": True })
         return jwt_token
+
+    @staticmethod
+    def getChatId(user_id: int, pt_id: int):
+        pass
 
     @staticmethod
     def logOut():

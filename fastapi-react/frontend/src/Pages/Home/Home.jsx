@@ -1,8 +1,5 @@
 import CategoriesBar from "../../Components/Home/CategoriesBar";
-import Workoutcard from "../../Components/Home/Workoutcard";
-import * as utils from "../../Utils/utils";
-import React, { useState, useEffect } from "react";
-import api from '../../api';
+import React from "react";
 
 export default function Home() {
     /*const mockedData = [
@@ -42,10 +39,8 @@ export default function Home() {
             mainMuscles: ["Deltoids"],
         },
     ];*/
-    
 
     return <div className="w-3/4 mx-auto">
         <CategoriesBar></CategoriesBar>
-        
     </div>
 }

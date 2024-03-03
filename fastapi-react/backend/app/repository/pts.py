@@ -1,10 +1,10 @@
+from repository.subs import SubscriptionsRepository
 from repository.videos import VideosRepository
 from auth.oauth2_jwt import *
 from database import db
 from typing import List
 import models, schemas
 import random, string
-from repository.subs import SubscriptionsRepository
 
 class PersonalTrainersRepository():
     @staticmethod
@@ -97,17 +97,17 @@ class PersonalTrainersRepository():
             video.pt_username = pt_username
 
         return private_videos
-    
+
     @staticmethod
     def getPtUsername(pt_id: str) -> Optional[str]:
         return db.query(models.PersonalTrainer.username).filter(models.PersonalTrainer.id == pt_id).scalar() # scalar() returns the first column of the first row
 
-
     @staticmethod
     def logIn(pt: models.PersonalTrainer) -> str:
         # check if user already has a token
-        if PersonalTrainersRepository.get_user_by_username_password(pt.username, pt.password).token != None:
-            return pt.token
+        if PersonalTrainersRepository.get_pt_by_username_password(pt.username, pt.password).token != None:
+            jwt_token: str = create_jwt_access_token({ "token": pt.token, "isNormalUser": False })
+            return jwt_token
 
         # generate the new token for the user
         token = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(12))

@@ -18,11 +18,11 @@ def update_item(item_id: int, item: Item):
 
 from repository.pts import PersonalTrainersRepository
 from fastapi.middleware.cors import CORSMiddleware
+from routers import users, pts, videos, chat
 from contextlib import asynccontextmanager
 from models import User, PersonalTrainer
-from routers import users, pts, videos
+from fastapi import FastAPI, WebSocket
 from sqlalchemy.orm import joinedload
-from fastapi import FastAPI
 from database import db
 from os import environ
 
@@ -41,7 +41,17 @@ root_path = "/api" if "URL_DATABASE" in environ else ""
 app = FastAPI(lifespan=lifespan, root_path=root_path)
 app.include_router(videos.router)
 app.include_router(users.router)
-app.include_router(pts.router)
+app.include_router(chat.router)
+# app.include_router(pts.router)
+
+# app.add_websocket_route(path="/chat", route=chat.chat_endpoint)
+# @app.websocket("/chat")
+# async def websocket_endpoint(websocket: WebSocket):
+#     print("aslçdkjsaldksl")
+#     await websocket.accept()
+#     while True:
+#         data = await websocket.receive_text()
+#         await websocket.send_text(f"Message text was: {data}")
 
 app.add_middleware(
     CORSMiddleware,

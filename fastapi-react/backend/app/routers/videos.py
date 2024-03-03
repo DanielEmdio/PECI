@@ -49,28 +49,31 @@ async def upload_video(token: str, video: UploadFile = File(...)):
     
     return { "result": "ok" }
 
-@router.post("/getAccessibleVideos")        
+@router.post("/getAccessibleVideos")
 def get_accessible_videos(token: schemas.TokenData):
     jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
     if jwt_data == None:
         return { "result": "no", "error": "Unauthorized." }
 
     if jwt_data["isNormalUser"] == True:
-        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
-        if user_id == None:
+        user: int = UsersRepository.get_user_by_token(token=jwt_data["token"])
+        if user == None:
             return { "result": "no", "error": "Unauthorized." }
 
         # retrieve the videos that the user has access to
-        videos = UsersRepository.getAccessibleVideos(user_id)
+        videos = UsersRepository.getAccessibleVideos(user.id)
     else:
-        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
-        if pt_id == None:
+        pt: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"])
+        if pt == None:
             return { "result": "no", "error": "Unauthorized." }
 
-        videos = PersonalTrainersRepository.getAccessibleVideos(pt_id)
+        videos = PersonalTrainersRepository.getAccessibleVideos(pt.id)
+
+    if videos == None:
+        return { "result": "ok", "videos": [] }
 
     videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
-    return { "result": "ok", "videos": videos if videos != None else [] }
+    return { "result": "ok", "videos": videos }
 
 @router.post("/getPTPreVideos")
 async def get_pt_premium_videos(token: schemas.TokenData):

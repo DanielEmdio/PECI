@@ -1,9 +1,9 @@
+import PtCard from "../../Components/Subscription/PtCard";
 import React, { useEffect, useState } from 'react';
 import { FaUserPlus } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import PtCard from "../../Components/Subscription/PtCard";
-import api from '../../api';
 import * as utils from "../../Utils/utils";
+import { Link } from "react-router-dom";
+import { api } from '../../api';
 
 export default function Subscription() {
     /*const mockedData = [
@@ -61,8 +61,8 @@ export default function Subscription() {
     useEffect(() => {
         api.post("/users/getSubs", { token: utils.getCookie("token") }).then((response) => {
             const data = response.data;
-            console.log("data: ",data);
-    
+            console.log("data: ", data);
+
             let newMockedData = [];
             data.pts.forEach(element => {
                 newMockedData.push({
@@ -72,7 +72,7 @@ export default function Subscription() {
                     tags: element.tags.split(","),
                 })
             });
-    
+
             setMockedData(newMockedData);
         }).catch((_) => { });
     }, []);

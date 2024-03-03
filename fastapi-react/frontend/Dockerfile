@@ -1,4 +1,4 @@
-# bun docker image
+# node docker image
 FROM node:21.6.2
 
 # set frontend directory as working dir

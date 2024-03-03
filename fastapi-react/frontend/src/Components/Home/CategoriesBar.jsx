@@ -1,13 +1,12 @@
 import Workoutcard from "../../Components/Home/Workoutcard";
-import * as utils from "../../Utils/utils";
 import React, { useState, useEffect } from "react";
-import api from '../../api';
+import * as utils from "../../Utils/utils";
+import { api } from '../../api';
 
 export default function CategoriesBar() {
-    const [mockedData, setMockedData] = useState([]);
     const [activeButton, setActiveButton] = useState("all");
+    const [mockedData, setMockedData] = useState([]);
 
-    
     useEffect(() => {
         api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
@@ -24,18 +23,16 @@ export default function CategoriesBar() {
                     mainMuscles: element.mainMuscles.split(","),
                 })
             });
-    
+
             setMockedData(newMockedData);
         }).catch((_) => { });
     }, []);
 
-    
-    
     const popularClick = (e) => {
         e.preventDefault();
         setActiveButton("popular");
         console.log('The link was clicked.');
-        
+
         api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
             console.log(data.videos);
@@ -43,7 +40,7 @@ export default function CategoriesBar() {
             data.videos.forEach(element => {
                 newMockedData.push({
                     title: element.title,
-                    thumbnail: element.thumbnail,    
+                    thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
@@ -51,13 +48,13 @@ export default function CategoriesBar() {
                     mainMuscles: element.mainMuscles.split(","),
                 })
             });
-            
+
             // Ordenar por rating
             newMockedData.sort((a, b) => b.rating - a.rating);
 
             setMockedData(newMockedData);
         }).catch((_) => { });
-        
+
         /*
         // Dados fictícios de exemplo
         const mockVideos = [
@@ -104,7 +101,7 @@ export default function CategoriesBar() {
         e.preventDefault();
         setActiveButton("recent");
         console.log('The link was clicked.');
-        
+
         api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
             console.log(data.videos);
@@ -128,10 +125,10 @@ export default function CategoriesBar() {
                 return dateB - dateA;
             });
 
-    
+
             setMockedData(newMockedData);
         }).catch((_) => { });
-        
+
         /*
         // Dados fictícios de exemplo
         const mockVideos = [
@@ -188,7 +185,7 @@ export default function CategoriesBar() {
         e.preventDefault();
         setActiveButton("exclusive");
         console.log('The link was clicked.');
-        
+
         api.post("/videos/getPTPreVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
             console.log(data.videos);
@@ -205,7 +202,7 @@ export default function CategoriesBar() {
                     mainMuscles: element.mainMuscles.split(","),
                 })
             });
-    
+
             setMockedData(newMockedData);
         }).catch((_) => { });
         /*
@@ -246,7 +243,6 @@ export default function CategoriesBar() {
         */
     }
 
-
     const AllClick = (e) => {
         e.preventDefault();
         setActiveButton("all");
@@ -267,27 +263,27 @@ export default function CategoriesBar() {
                     mainMuscles: element.mainMuscles.split(","),
                 })
             });
-    
+
             setMockedData(newMockedData);
         }).catch((_) => { });
     }
 
     return (
         <>
-        <div className="navbar bg-base-100 rounded-xl my-10">
-            <a onClick={AllClick} className={`btn btn-ghost text-xl ${activeButton === "all" ? "active" : ""}`}>All</a>
-            <a onClick={popularClick} className={`btn btn-ghost text-xl ${activeButton === "popular" ? "active" : ""}`}>Popular</a>
-            <a onClick={recentClick} className={`btn btn-ghost text-xl ${activeButton === "recent" ? "active" : ""}`}>Recent</a>
-            <a onClick={exclusiveClick} className={`btn btn-ghost text-xl ${activeButton === "exclusive" ? "active" : ""}`}>Exclusive</a>
-        </div>
-        <div className="flex flex-col gap-4">
-            {(mockedData.length === 0) ? (
-                <div className='text-center'>No videos available.</div>
-            ) : (
-                mockedData.map((workout, index) => (
-                    <Workoutcard key={index} workout={workout} />
-                )))}
-        </div>
+            <div className="navbar bg-base-100 rounded-xl my-10">
+                <a onClick={AllClick} className={`btn btn-ghost text-xl ${activeButton === "all" ? "active" : ""}`}>All</a>
+                <a onClick={popularClick} className={`btn btn-ghost text-xl ${activeButton === "popular" ? "active" : ""}`}>Popular</a>
+                <a onClick={recentClick} className={`btn btn-ghost text-xl ${activeButton === "recent" ? "active" : ""}`}>Recent</a>
+                <a onClick={exclusiveClick} className={`btn btn-ghost text-xl ${activeButton === "exclusive" ? "active" : ""}`}>Exclusive</a>
+            </div>
+            <div className="flex flex-col gap-4">
+                {(mockedData.length === 0) ? (
+                    <div className='text-center'>No videos available.</div>
+                ) : (
+                    mockedData.map((workout, index) => (
+                        <Workoutcard key={index} workout={workout} />
+                    )))}
+            </div>
 
 
         </>

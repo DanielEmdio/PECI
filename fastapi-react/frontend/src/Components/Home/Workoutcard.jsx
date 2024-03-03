@@ -1,7 +1,7 @@
-import { FaPlay } from "react-icons/fa";
-import * as React from 'react';
-import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
+import { FaPlay } from "react-icons/fa";
+import Box from '@mui/material/Box';
+import * as React from 'react';
 
 export default function Workoutcard({ workout }) {
     /* // Provavelmente deverá ser feito no CategoriesBar.jsx, não é boa ideia fazer aqui....
@@ -37,7 +37,7 @@ export default function Workoutcard({ workout }) {
     return (
         <>
             <p>{workout.PTUsername}</p>
-            
+
             <div className="card lg:card-side bg-base-100 shadow-xl">
                 <figure><img src={workout.thumbnail} alt="workout-image" /></figure>
                 <div className="card-body">

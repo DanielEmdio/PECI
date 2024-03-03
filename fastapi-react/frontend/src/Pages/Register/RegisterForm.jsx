@@ -1,18 +1,16 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaUnlockAlt } from "react-icons/fa";
 import * as utils from "../../Utils/utils";
-import { Link } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
-import api from "../../api";
-import React from 'react';
+import { Link } from 'react-router-dom';
+import { api } from "../../api";
 
 function RegisterForm() {
-    const userRef = useRef();
-
-    const [user, setUser] = useState('');
     const [isPt, setIsPt] = useState(false);
-    const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [user, setUser] = useState('');
+    const [pwd, setPwd] = useState('');
+    const userRef = useRef();
 
     useEffect(() => {
         userRef.current.focus();

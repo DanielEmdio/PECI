@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
 import PTfilter from "../../Components/Subscription/PTfilter";
-import { Link } from "react-router-dom";
-import api from "../../api";
+import { useEffect, useState } from "react";
 import * as utils from "../../Utils/utils";
-
+import { Link } from "react-router-dom";
+import { api } from "../../api";
 
 export default function NewPtTable() {
     /*
@@ -106,8 +105,8 @@ export default function NewPtTable() {
     useEffect(() => {
         api.post("/pts/getNewPts", { token: utils.getCookie("token") }).then((response) => {
             const data = response.data;
-            console.log("data: ",data);
-    
+            console.log("data: ", data);
+
             let newMockedData = [];
             data.pts.forEach(element => {
                 newMockedData.push({
@@ -118,7 +117,7 @@ export default function NewPtTable() {
                     price: element.price
                 })
             });
-    
+
             setMockedData(newMockedData);
         }).catch((_) => { });
     }, []);

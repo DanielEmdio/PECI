@@ -1,17 +1,15 @@
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { FaUnlockAlt } from "react-icons/fa";
 import * as utils from "../../Utils/utils";
 import { FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
-import api from "../../api";
-import React from 'react';
+import { api } from "../../api";
 
 function LoginForm() {
-    const userRef = useRef();
-
-    const [user, setUser] = useState('');
     const [errMsg, setErrMsg] = useState('');
+    const [user, setUser] = useState('');
     const [pwd, setPwd] = useState('');
+    const userRef = useRef();
 
     useEffect(() => {
         userRef.current.focus();
@@ -28,6 +26,7 @@ function LoginForm() {
         const loginform = { username: user, password: pwd };
         await api.post("/users/login", loginform).then((r) => {
             const data = r.data;
+            console.log(data);
 
             // check for errors
             if (data["result"] !== "ok") {
