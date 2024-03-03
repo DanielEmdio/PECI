@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactPlayer from 'react-player';
+import { useParams } from 'react-router-dom';
+import api from '../../api';
+import * as utils from "../../Utils/utils";
 
 function VideoPlayer() {
     // Estado para controlar se a descrição está expandida ou não
@@ -12,14 +15,17 @@ function VideoPlayer() {
     const toggleDescription = () => {
         setIsExpanded(!isExpanded);
     };
-
+    const {VideoPath} = useParams();
+    console.log("VideoPath: ",VideoPath);
     return (
         <div>
             <ReactPlayer
-                url="demo.mp4"
+                url={`http://localhost:8000/videos/`+VideoPath}
                 width="100%"
                 height="100%"
                 controls
+                
+                
             />
             <p><br></br></p>
             <div className=" w-11/12 mx-auto">

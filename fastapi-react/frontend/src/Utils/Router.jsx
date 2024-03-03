@@ -33,7 +33,7 @@ export default function Router() {
                 { path: 'rating', element: <RatingPtInfo/> },
               ]},
 
-              { path: '/video', element: <VideoPlayer /> }
+              { path: '/video/:VideoPath', element: <VideoPlayer /> }
           ]
       },
       { path: '/',element: <Sign/>, children: [

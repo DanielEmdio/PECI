@@ -1,10 +1,11 @@
 from repository.pts import PersonalTrainersRepository
-from fastapi import APIRouter, UploadFile, File
+from fastapi import APIRouter, UploadFile, File, Cookie
 from repository.users import UsersRepository
 from fastapi.responses import FileResponse
 from auth.oauth2_jwt import *
 from pathlib import Path
 import schemas
+from typing import Annotated
 
 VIDEOS_DIR = Path("videos")
 router = APIRouter(prefix="/videos")
@@ -14,8 +15,8 @@ def is_safe_path(video_name: str) -> bool:
     return not (".." in video_name or "\\" in video_name or "/" in video_name)
 
 @router.get("/{video_name}")
-async def get_video(token: schemas.TokenData, video_name: str):
-    jwt_data = get_jwt_token_data(token=token.token)
+async def get_video( video_name: str,token: Annotated[str, Cookie()] = None):
+    jwt_data = get_jwt_token_data(token=token)
     if jwt_data == None:
         return { "result": "no", "error": "Unauthorized." }
 
@@ -59,7 +60,6 @@ def get_accessible_videos(token: schemas.TokenData):
         return { "result": "no", "error": "Unauthorized." }
 
     if jwt_data["isNormalUser"] == True:
-        print("jwt_data[token]: ",jwt_data["token"])
         user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
         if user_id == None:
             return { "result": "no", "error": "Unauthorized." }
@@ -73,7 +73,7 @@ def get_accessible_videos(token: schemas.TokenData):
 
         videos = PersonalTrainersRepository.getAccessibleVideos(pt_id)
 
-    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
+    videos = [ {"path":video.videopath,"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
     return { "result": "ok", "videos": videos if videos != None else [] }
 
 @router.post("/getPTPreVideos")
@@ -102,7 +102,7 @@ async def get_pt_premium_videos(token: schemas.TokenData):
     #print("videos",videos)
     #print("video.pt_username",videos[0].pt_username)
     
-    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
+    videos = [ {"path":video.videopath,"title": video.videoname, "mainMuscles": video.muscletargets, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
     
     # depois de dar update á db deverá ficar este:
     #videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate} for video in videos if video.restricted == 1]

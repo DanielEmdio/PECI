@@ -15,6 +15,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    path: element.path,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
@@ -42,6 +43,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    path: element.path,
                     title: element.title,
                     thumbnail: element.thumbnail,    
                     duration: "30 min",                             // deverá ser ajustado
@@ -111,6 +113,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    path: element.path,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
@@ -195,6 +198,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    path: element.path,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
@@ -258,6 +262,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    path: element.path,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado

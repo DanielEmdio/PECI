@@ -2,6 +2,7 @@ import { FaPlay } from "react-icons/fa";
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
+import { Link } from "react-router-dom";
 
 export default function Workoutcard({ workout }) {
     /* // Provavelmente deverá ser feito no CategoriesBar.jsx, não é boa ideia fazer aqui....
@@ -34,6 +35,7 @@ export default function Workoutcard({ workout }) {
     */
 
     // Renderiza o componente
+    console.log(workout.path)
     return (
         <>
             <p>{workout.PTUsername}</p>
@@ -57,7 +59,7 @@ export default function Workoutcard({ workout }) {
                                 <div key={index} className="badge badge-lg">{muscle}</div>
                             ))}
                         </div>
-                        <button className="btn btn-primary"><FaPlay />Check it out!</button>
+                        <Link to={`/video/${workout.path}`} ><button className="btn btn-primary"><FaPlay />Check it out!</button></Link>
                     </div>
                 </div>
             </div>
