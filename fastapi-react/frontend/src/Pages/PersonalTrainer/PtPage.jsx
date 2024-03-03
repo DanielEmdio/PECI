@@ -13,7 +13,14 @@ export default function PtPage() {
     //     }
     const { id } = useParams();
     //console.log("id:",id)
-    const [Pt, setPt] = useState([]);
+    const [Pt, setPt] = useState({
+        name: "",
+        photo: "",
+        description: "",
+        tags: [],
+        slots: "",
+        price: ""
+    });
 
     useEffect(() => {
         api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {

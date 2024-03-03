@@ -1,5 +1,5 @@
 import Workoutcard from "../../Components/Home/Workoutcard";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as utils from "../../Utils/utils";
 import { api } from '../../api';
 
@@ -14,6 +14,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
@@ -39,6 +40,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
@@ -108,6 +110,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
@@ -192,6 +195,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado
@@ -254,6 +258,7 @@ export default function CategoriesBar() {
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
+                    id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
                     duration: "30 min",                             // deverá ser ajustado

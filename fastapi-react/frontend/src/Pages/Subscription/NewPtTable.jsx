@@ -101,7 +101,7 @@ export default function NewPtTable() {
     ]*/
 
     const [mockedData, setMockedData] = useState([]);
-
+    
     useEffect(() => {
         api.post("/pts/getNewPts", { token: utils.getCookie("token") }).then((response) => {
             const data = response.data;
@@ -168,6 +168,7 @@ export default function NewPtTable() {
                                 </td>
                                 <td>{Pt.description}</td>
                                 <th>
+                                    {console.log(Pt.id)}
                                     <Link to={`/PT/${Pt.id}/main`}><button className="btn btn-ghost btn-xs">details</button></Link>
                                 </th>
                             </tr>

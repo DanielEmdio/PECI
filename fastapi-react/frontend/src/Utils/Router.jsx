@@ -36,11 +36,10 @@ export default function Router() {
                     ]
                 },
 
-                { path: '/video', element: <VideoPlayer /> }
-            ]
-        },
-        {
-            path: '/', element: <Sign />, children: [
+              { path: '/video/:VideoID', element: <VideoPlayer /> }
+          ]
+      },
+      { path: '/',element: <Sign/>, children: [
 
                 { path: '/login', element: <LoginForm /> },
                 { path: '/register', element: <RegisterForm /> },

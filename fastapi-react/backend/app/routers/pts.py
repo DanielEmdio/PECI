@@ -36,13 +36,13 @@ router = APIRouter(prefix="/pts")
 #     jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
 #     if jwt_data == None:
 #         return { "result": "no", "error": "Unauthorized." }
-# 
+
 #     if jwt_data["isNormalUser"] == True:
 #         user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
 #         if user_id == None:
 #             return { "result": "no", "error": "Unauthorized." }
 #         pts = PersonalTrainersRepository.get_new_pts(user_id)
-#         pts = [{"name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price} for pt in pts]
+#         pts = [{"id":pt.id, "name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price} for pt in pts]
 #         return {"result":"ok","pts":pts}
 #     else:
 #             return { "result": "no", "error": "Unauthorized." }

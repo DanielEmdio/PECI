@@ -17,7 +17,14 @@ export default function MainPtInfo() {
     }*/
 
     const { id } = useParams();
-    const [Pt, setPt] = useState([]);
+    const [Pt, setPt] = useState({
+        name: "",
+        photo: "",
+        description: "",
+        tags: [],
+        slots: "",
+        price: ""
+    });
 
     useEffect(() => {
         api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {
@@ -35,7 +42,7 @@ export default function MainPtInfo() {
             })
 
         }).catch((_) => { });
-    }, []);
+    }, [id]);
 
     return (
         <>
