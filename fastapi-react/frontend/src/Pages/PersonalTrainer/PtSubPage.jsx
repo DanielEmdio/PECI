@@ -1,13 +1,15 @@
 import { Outlet } from "react-router-dom";
 import { GiBiceps } from "react-icons/gi";
 
-export default function PtPage() {
+export default function PtSubPage() {
     const Pt = {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/550/800",
-            decription: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-        }
+        name: "Igor Voitenko",
+        photo: "https://picsum.photos/550/800",
+        decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
+        tags: ["Full Body", "Cardio", "Strength"],
+        slots: 5,
+        price: "20€ - monthly",
+    }
     return (
 
         <div className="grid justify-items-center font-sans antialiased text-gray-900 leading-normal tracking-wider h-full bg-cover bg-[url('Assets/Gym.jpg')] bg-no-repeat">
@@ -22,7 +24,7 @@ export default function PtPage() {
                         <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
                         {/* conteúdo carrosel */}
                         
-                        <Outlet Pt={Pt}></Outlet>
+                        <Outlet></Outlet>
                         {/* conteúdo carrosel */}
                         
                         <div className="pt-12 pb-8">

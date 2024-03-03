@@ -9,15 +9,15 @@ import { FaEuroSign } from "react-icons/fa";
 
 
 export default function MainPtInfo() {
+    const { id } = useParams();
     const Pt = {
         name: "Igor Voitenko",
         photo: "https://picsum.photos/550/800",
         decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
         tags: ["Full Body", "Cardio", "Strength"],
         slots: 5,
-        price: "20€ - monthly"
+        price: "20€ - monthly",
     }
-    const { id } = useParams();
     return (
         <>
             <div role="tablist" className="tabs-bordered mt-6 pb-16 lg:pb-0 w-4/5 lg:w-2/3 mx-auto flex flex-wrap items-center justify-between">

@@ -8,12 +8,16 @@ import LoginForm from '../Pages/Login/LoginForm';
 import RegisterForm from '../Pages/Register/RegisterForm';
 import Sign from '../Layouts/Sign';
 import VideoPlayer from '../Pages/VideoPlayer/VideoPlayer';
-import PtPage from '../Pages/PersonalTrainer/PtPage';
+import PtSubPage from '../Pages/PersonalTrainer/PtSubPage';
 import MainPtInfo from '../Components/PersonalTrainer/MainPtInfo';
+import PtMainPage from '../Pages/PersonalTrainer/PtMainPage';
 import BGPtInfo from '../Components/PersonalTrainer/BGPtInfo';
 import OtherPtInfo from '../Components/PersonalTrainer/OtherPtInfo';
 import RatingPtInfo from '../Components/PersonalTrainer/RatingPtInfo';
 import Settings from '../Pages/Settings/Settings';
+import RegisterBasic from '../Components/Register/RegisterBasic';
+import RegisterPt from '../Components/Register/RegisterPt';
+
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -25,21 +29,24 @@ export default function Router() {
               { path: '/AvaliblePT', element: <NewPtTable/>},
               { path: '/progress', element: <Progress/> },
               { path:'/settings', element: <Settings/>},
+              { path: '/temp', element: <PtMainPage/>},
 
-              { path: '/PT/:id/', element: <PtPage/>, children: [
-                { path: 'main', element: <MainPtInfo/> },
-                { path: 'bg', element: <BGPtInfo/> },
-                { path: 'other', element: <OtherPtInfo/> },
-                { path: 'rating', element: <RatingPtInfo/> },
+              { path: '/PT/:id/', element: <PtSubPage/>, children: [
+                  { path: 'main', element: <MainPtInfo/> },
+                  { path: 'bg', element: <BGPtInfo/> },
+                  { path: 'other', element: <OtherPtInfo/> },
+                  { path: 'rating', element: <RatingPtInfo/> },
               ]},
 
               { path: '/video', element: <VideoPlayer /> }
           ]
       },
-      { path: '/',element: <Sign/>, children: [
-
+      { path: '/', element: <Sign/>, children: [
         { path: '/login', element: <LoginForm/> },
-        {path: '/register', element: <RegisterForm/> },
+        { path: '/register', element: <RegisterForm/>, children: [
+          { path: '/register/athlete', element: <RegisterBasic/> },
+          { path: '/register/trainer', element: <RegisterPt/> },
+        ]},
       ]  
       },
   ])

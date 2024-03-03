@@ -1,17 +1,18 @@
 import { useState, useRef, useEffect } from 'react';
 import { FaUnlockAlt } from "react-icons/fa";
 import * as utils from "../../Utils/utils";
-import { FaUser } from "react-icons/fa";
 import { Link } from 'react-router-dom';
+import { FaUser } from "react-icons/fa";
 import api from "../../api";
 import React from 'react';
 
-function LoginForm() {
+function RegisterPt() {
     const userRef = useRef();
 
     const [user, setUser] = useState('');
-    const [errMsg, setErrMsg] = useState('');
+    const [isPt, setIsPt] = useState(false);
     const [pwd, setPwd] = useState('');
+    const [errMsg, setErrMsg] = useState('');
 
     useEffect(() => {
         userRef.current.focus();
@@ -21,12 +22,12 @@ function LoginForm() {
         setErrMsg('');
     }, [user, pwd]);
 
-    const handleSubmit = async (form) => {
+    const handleSubmit = (form) => {
         // prevent form submission
         form.preventDefault();
 
-        const loginform = { username: user, password: pwd };
-        await api.post("/users/login", loginform).then((r) => {
+        const register_form = { username: user, password: pwd, isNormalUser: !isPt };
+        api.post("/users/register", register_form).then((r) => {
             const data = r.data;
 
             // check for errors
@@ -44,7 +45,11 @@ function LoginForm() {
     return (
         <div className="wrapper w-96 bg-opacity-25 border-2 border-white border-opacity-20 backdrop-blur-md shadow-md text-white rounded-lg p-8 bg-black">
             <form onSubmit={handleSubmit}>
-                <h1 className='text-3xl text-center'>Login</h1>
+                <h1 className='text-3xl text-center'>Welcome!</h1>
+                <div role="tablist" className="tabs tabs-lifted my-3">
+                    <Link to={"/register/athlete"} role="tab" className="tab tab-active">Athlete</Link>
+                    <Link to={"/register/trainer"} role="tab" className="tab text-white">Trainer</Link>
+                </div>
                 <div className='input-box relative w-full h-12 my-8'>
                     <input
                         type='text'
@@ -73,14 +78,14 @@ function LoginForm() {
                 </div>
 
                 <div className='text-red-500 text-center mb-2'> {errMsg} </div>
-                <button type='submit' className='w-full h-12 bg-white border-none outline-none rounded-full shadow-md cursor-pointer text-base font-bold text-gray-700'>Login</button>
+                <button type='submit' className='w-full h-12 bg-white border-none outline-none rounded-full shadow-md cursor-pointer text-base font-bold text-gray-700'>Register</button>
 
                 <div className='register-link text-sm text-center mt-5 mb-4'>
-                    <p>Don't have an account? <Link to="/register/athlete" className='link link-success'> Register</Link> </p>
+                    <p >I have a account. <Link to="/login" className="link link-success"> Login</Link> </p>
                 </div>
             </form>
         </div>
     );
 }
 
-export default LoginForm;
+export default RegisterPt;
