@@ -1,10 +1,12 @@
-import React from 'react';
-import { FaUserPlus } from "react-icons/fa6";
-import { Link } from "react-router-dom";
 import PtCard from "../../Components/Subscription/PtCard";
+import React, { useEffect, useState } from 'react';
+import { FaUserPlus } from "react-icons/fa6";
+import * as utils from "../../Utils/utils";
+import { Link } from "react-router-dom";
+import { api } from '../../api';
 
 export default function Subscription() {
-    const mockedData = [
+    /*const mockedData = [
         {
             name: "Igor Voitenko",
             photo: "https://picsum.photos/250/200",
@@ -53,7 +55,27 @@ export default function Subscription() {
             decription: "Play hard, work harder.",
             tags: ["Professional", "Flexibility"],
         },
-    ]
+    ]*/
+    const [mockedData, setMockedData] = useState([]);
+
+    useEffect(() => {
+        api.post("/users/getSubs", { token: utils.getCookie("token") }).then((response) => {
+            const data = response.data;
+            console.log("data: ", data);
+
+            let newMockedData = [];
+            data.pts.forEach(element => {
+                newMockedData.push({
+                    name: element.name,
+                    photo: element.photo,
+                    decription: element.description,
+                    tags: element.tags.split(","),
+                })
+            });
+
+            setMockedData(newMockedData);
+        }).catch((_) => { });
+    }, []);
 
     return (
         <div className='w-11/12 mx-auto'>

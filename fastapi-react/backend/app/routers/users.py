@@ -4,7 +4,6 @@ from repository.users import UsersRepository
 from fastapi import APIRouter
 from auth.oauth2_jwt import *
 from typing import Tuple
-from models import User
 import schemas
 
 router = APIRouter(prefix="/users")
@@ -57,19 +56,19 @@ def register_user(user: schemas.UserRegister):
 def login_user(user: schemas.BasicUser):
     # get the user instance with the provided username and password
     user_login = UsersRepository.get_user_by_username_password(**user.model_dump())
-    if UsersRepository.get_user_by_username_password(**user.model_dump()):
+    if user_login:
         # login as a normal user
         jwt_token: str = UsersRepository.logIn(user_login)
         # jwt_token: str = UsersRepository.getJwtToken(user_login)
         return {"result": "ok", "token": jwt_token}
 
     pt_login = PersonalTrainersRepository.get_pt_by_username_password(**user.model_dump())
-    if PersonalTrainersRepository.get_pt_by_username_password(**user.model_dump()):
+    if pt_login:
         # login as a pt
         jwt_token = PersonalTrainersRepository.logIn(pt_login)
         return {"result": "ok", "token": jwt_token}
 
-    return {"result": "no", "error": "User does not exist."}
+    return {"result": "no", "error": "Wrong username or password."}
 
 @router.post("/checkAuthentication")
 def check_authentication(token: schemas.TokenData):
@@ -84,6 +83,25 @@ def check_authentication(token: schemas.TokenData):
             return { "result": "no", "error": "Invalid token." }
 
     return { "result": "ok" }
+
+@router.post("/getPtById/{pt_id}")
+def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
+    jwt_token_data = get_jwt_token_data(token=token.token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+    
+    if jwt_token_data["isNormalUser"]:
+        if UsersRepository.get_user_by_token(token=jwt_token_data["token"]) == None:
+            return { "result": "no", "error": "Invalid token." }
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+
+    pt = PersonalTrainersRepository.get_pt(pt_id)
+    if pt:
+        pt = {"name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price, "slots":pt.slots, "lang" : pt.lang, "hours" : pt.hours, "rating" : pt.rating, "n_comments" : pt.n_comments, "education" : pt.education, "bg" : pt.bg} 
+        return {"result":"ok","pt":pt}
+    else:
+        return {"result": "no", "error": "Personal Trainer not found."} 
 
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):
@@ -106,6 +124,27 @@ def check_authentication(token: schemas.TokenData):
 
 # @router.post("/getSubs")
 # async def read_root3():
-#     user_id=2
+#     user_id=5
 #     PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
-#     return PTs_info
+#     return { "result": "ok", "pts": PTs_info if PTs_info != None else [] }
+
+@router.post("/getSubs")
+def get_subs(token: schemas.TokenData):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+    if jwt_data["isNormalUser"] == True:
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+        if user_id == None:
+            return { "result": "no", "error": "Unauthorized." }
+
+        # retrieve the videos that the user has access to
+        PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
+        if PTs_info != None:
+            PTs_info = [{"name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price, "slots":pt.slots} for pt in PTs_info]
+        else:
+            PTs_info = []
+        return { "result": "ok", "pts": PTs_info if PTs_info != None else [] }
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+        

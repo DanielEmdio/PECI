@@ -1,3 +1,4 @@
+from repository.pts import PersonalTrainersRepository
 from repository.subs import SubscriptionsRepository
 from repository.videos import VideosRepository
 from auth.oauth2_jwt import *
@@ -31,7 +32,7 @@ class UsersRepository():
 
     @staticmethod
     def get_user_by_username_password(username: str, password: str) -> Optional[models.User]:
-        return db.query(models.User).filter(models.User.username == username and models.User.password == password).first()
+        return db.query(models.User).filter(models.User.username == username, models.User.password == password).first()
 
     @staticmethod
     def get_users(skip: int = 0, limit: int = 100) -> list[models.User]: # retrieve all users
@@ -45,10 +46,8 @@ class UsersRepository():
             .options(joinedload(models.Subscription.personal_trainer))
             .all()
         )
-
         if user:
             # Access the related PTs objects using user.pts
-            
             personalTrainers = [usr.personal_trainer for usr in user]
             # subs_list = user.subscriptions
             # pt_ids = [subscription.personal_trainer_id for subscription in subs_list]
@@ -56,12 +55,11 @@ class UsersRepository():
             # for id in pt_ids:
             #     pts+=db.query(models.PersonalTrainer).filter(models.PersonalTrainer.id==id)
             # print(pts)
-            
             #return {"relation list": subs_list, "pts":pts}
             return personalTrainers   
         else:
             return {"hi": "User not found"}"""
-    
+
     # @staticmethod
     # def get_user_pts(user_id: int):     # retrieve all personal_trainers to which the user is subscribed to
     #     subscriptions = (
@@ -69,13 +67,11 @@ class UsersRepository():
     #         .filter(models.Subscription.user_id == user_id)
     #         .all()
     #     )
-
     #     if subscriptions:
     #         personal_trainers = [sub.personal_trainer for sub in subscriptions]
     #         return personal_trainers
     #     else:
     #         return "User not found"
-        
     # @staticmethod
     # def get_subs_id(user_id: int):
     #     result = (
@@ -93,12 +89,8 @@ class UsersRepository():
     @staticmethod
     def getAccessibleVideos(user_id: int) -> Optional[List[models.Video]]:
         videos = VideosRepository.getUnrestrictedVideos()
-        # print("UnrestrictedVideos: ")
-        # for vid in videos:
-        #     video = {key: value for key, value in vid.__dict__.items() if key != '_sa_instance_state'}
-        #     print(video)
-
         PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
+
         if PTs_id != []:
             for id in PTs_id:
                 video = VideosRepository.getPtPrivVideos(id)
@@ -106,23 +98,38 @@ class UsersRepository():
                     videos += video
 
         return videos
+    
+    @staticmethod
+    def getPTVideos(user_id: int) -> Optional[List[models.Video]]:
+        PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
+        if PTs_id != []:
+            videos_list = []
+            for id in PTs_id:
+                videos = VideosRepository.getPtPrivVideos(id)
+                video_PT_username = PersonalTrainersRepository.getPtUsername(id)
+                if videos != None:
+                    for vide in videos:
+                        vide.pt_username = video_PT_username
+                        videos_list.append(vide)
+
+            return videos_list
+
+        return []
 
     @staticmethod
-    def checkAccessToVideo(videoname: str):
-        user_id = 3
-        #user_id = db.query(models.User.user_id).filter(models.User.token==token).first()   
-        print("user_id",user_id)
+    def hasAccessToVideo(user_id: int, videoname: str) -> bool:
         videos = UsersRepository.getAccessibleVideos(user_id)
-        print(videos)
         if videos:
             for video in videos:
-
-                #video = video[0]    # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
-                print("current video: ",video.videopath)
+                # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
                 if videoname in video.videopath:
-                    print("found")
                     return True
+
         return False
+
+    @staticmethod
+    def hasAccessToImage(user_id: int, imagename: str) -> bool:
+        return True
 
     @staticmethod
     def logIn(user: models.User) -> str:
@@ -142,6 +149,10 @@ class UsersRepository():
 
         jwt_token: str = create_jwt_access_token({ "token": token, "isNormalUser": True })
         return jwt_token
+
+    @staticmethod
+    def getChatId(user_id: int, pt_id: int):
+        pass
 
     @staticmethod
     def logOut():

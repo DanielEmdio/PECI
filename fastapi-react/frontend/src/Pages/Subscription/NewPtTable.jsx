@@ -1,12 +1,16 @@
 import PTfilter from "../../Components/Subscription/PTfilter";
+import { useEffect, useState } from "react";
+import * as utils from "../../Utils/utils";
 import { Link } from "react-router-dom";
+import { api } from "../../api";
 
 export default function NewPtTable() {
+    /*
     const mockedData = [
         {
             name: "Igor Voitenko",
             photo: "https://picsum.photos/300/200",
-            decription: "I believe, that through fitness you can change not only your body but your whole life!",
+            description: "I believe, that through fitness you can change not only your body but your whole life!",
             tags: ["Full Body", "Cardio", "Strength"],
             price: "20€ - monthly",
             id: 1
@@ -14,7 +18,7 @@ export default function NewPtTable() {
         {
             name: "Dantes",
             photo: "https://picsum.photos/500/200",
-            decription: "Welcome to the Rodeo.",
+            description: "Welcome to the Rodeo.",
             tags: ["Budget", "Core", "Strength"],
             price: "20€ - monthly",
             id: 2
@@ -22,7 +26,7 @@ export default function NewPtTable() {
         {
             name: "Rui Aguiar",
             photo: "https://picsum.photos/350/200",
-            decription: "Play hard, work harder.",
+            description: "Play hard, work harder.",
             tags: ["Professional", "Flexibility"],
             price: "20€ - monthly",
             id: 3
@@ -30,7 +34,7 @@ export default function NewPtTable() {
         {
             name: "Mario Antunes",
             photo: "https://picsum.photos/300/250",
-            decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quibusdam odit voluptatum recusandae est aspernatur velit commodi saepe, dicta repellendus nam at sapiente officia dolor ipsam dolore non quisquam nemo?",
+            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quibusdam odit voluptatum recusandae est aspernatur velit commodi saepe, dicta repellendus nam at sapiente officia dolor ipsam dolore non quisquam nemo?",
             tags: ["Professional", "Flexibility"],
             price: "20€ - monthly",
             id: 4
@@ -38,7 +42,7 @@ export default function NewPtTable() {
         {
             name: "Igor Voitenko",
             photo: "https://picsum.photos/250/200",
-            decription: "I believe, that through fitness you can change not only your body but your whole life!",
+            description: "I believe, that through fitness you can change not only your body but your whole life!",
             tags: ["Full Body", "Cardio", "Strength"],
             price: "20€ - monthly",
             id: 5
@@ -46,7 +50,7 @@ export default function NewPtTable() {
         {
             name: "Dantes",
             photo: "https://picsum.photos/330/200",
-            decription: "Welcome to the Rodeo.",
+            description: "Welcome to the Rodeo.",
             tags: ["Budget", "Core", "Strength"],
             price: "20€ - monthly",
             id: 6
@@ -54,7 +58,7 @@ export default function NewPtTable() {
         {
             name: "Rui Aguiar",
             photo: "https://picsum.photos/300/205",
-            decription: "Play hard, work harder.",
+            description: "Play hard, work harder.",
             tags: ["Professional", "Flexibility"],
             price: "20€ - monthly",
             id: 7
@@ -62,39 +66,62 @@ export default function NewPtTable() {
         {
             name: "Rui Aguiar",
             photo: "https://picsum.photos/306/200",
-            decription: "Play hard, work harder.",
+            description: "Play hard, work harder.",
             tags: ["Professional", "Flexibility"],
             price: "20€ - monthly"
         },
         {
             name: "Igor Voitenko",
             photo: "https://picsum.photos/250/200",
-            decription: "I believe, that through fitness you can change not only your body but your whole life!",
+            description: "I believe, that through fitness you can change not only your body but your whole life!",
             tags: ["Full Body", "Cardio", "Strength"],
             price: "20€ - monthly"
         },
         {
             name: "Dantes",
             photo: "https://picsum.photos/330/200",
-            decription: "Welcome to the Rodeo.",
+            description: "Welcome to the Rodeo.",
             tags: ["Budget", "Core", "Strength"],
             price: "20€ - monthly"
         },
         {
             name: "Rui Aguiar",
             photo: "https://picsum.photos/300/205",
-            decription: "Play hard, work harder.",
+            description: "Play hard, work harder.",
             tags: ["Professional", "Flexibility"],
             price: "20€ - monthly"
         },
         {
             name: "Rui Aguiar",
             photo: "https://picsum.photos/306/200",
-            decription: "Play hard, work harder.",
+            description: "Play hard, work harder.",
             tags: ["Professional", "Flexibility"],
             price: "20€ - monthly"
         },
-    ]
+    ]*/
+
+    const [mockedData, setMockedData] = useState([]);
+
+    useEffect(() => {
+        api.post("/pts/getNewPts", { token: utils.getCookie("token") }).then((response) => {
+            const data = response.data;
+            console.log("data: ", data);
+
+            let newMockedData = [];
+            data.pts.forEach(element => {
+                newMockedData.push({
+                    id: element.id,
+                    name: element.name,
+                    photo: element.photo,
+                    description: element.description,
+                    tags: element.tags.split(","),
+                    price: element.price
+                })
+            });
+
+            setMockedData(newMockedData);
+        }).catch((_) => { });
+    }, []);
 
     return (
         <div className=" w-11/12 mx-auto">
@@ -125,7 +152,7 @@ export default function NewPtTable() {
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
                                             <div className="mask mask-squircle w-12 h-12">
-                                                <img src={Pt.photo} alt="Avatar Tailwind CSS Component" />
+                                                <img src={"http://localhost:8000/images/"+Pt.photo} alt="Avatar Tailwind CSS Component" />
                                             </div>
                                         </div>
                                         <div>
@@ -139,7 +166,7 @@ export default function NewPtTable() {
                                         <span key={index} className="badge badge-ghost badge-sm mx-1">{tag}</span>
                                     ))}
                                 </td>
-                                <td>{Pt.decription}</td>
+                                <td>{Pt.description}</td>
                                 <th>
                                     <Link to={`/PT/${Pt.id}/main`}><button className="btn btn-ghost btn-xs">details</button></Link>
                                 </th>

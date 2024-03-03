@@ -1,5 +1,5 @@
-import { Outlet } from "react-router-dom";
 import Sidebar from "../Components/Sidebar/Sidebar";
+import { Outlet } from "react-router-dom";
 
 export default function Base() {
     return <div className="drawer lg:drawer-open">
