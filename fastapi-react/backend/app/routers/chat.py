@@ -67,7 +67,8 @@ async def chat_endpoint(websocket: WebSocket):
             MessagesRepository.create(chat_id=chat_id, sent_by_user=jwt_token_data["isNormalUser"], text=data["message"])
             await chat_manager.send(websocket, chat_id, data)
     except WebSocketDisconnect:
-        chat_manager.disconnect(websocket, chat_id)
+        if "chat_id" in locals():
+            chat_manager.disconnect(websocket, chat_id)
 
 @router.post("/getChatMessages")
 def get_chat_messages(token: schemas.TokenData, id: int):
