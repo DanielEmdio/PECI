@@ -59,7 +59,7 @@ export default function Workoutcard({ workout }) {
                                 <div key={index} className="badge badge-lg">{muscle}</div>
                             ))}
                         </div>
-                        <Link to={`/video/${workout.path}`} ><button className="btn btn-primary"><FaPlay />Check it out!</button></Link>
+                        <Link to={`/video/${workout.id}`} ><button className="btn btn-primary"><FaPlay />Check it out!</button></Link>
                     </div>
                 </div>
             </div>

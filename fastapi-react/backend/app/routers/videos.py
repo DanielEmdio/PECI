@@ -1,6 +1,7 @@
 from repository.pts import PersonalTrainersRepository
 from fastapi import APIRouter, UploadFile, File, Cookie
 from repository.users import UsersRepository
+from repository.videos import VideosRepository
 from fastapi.responses import FileResponse
 from auth.oauth2_jwt import *
 from pathlib import Path
@@ -73,7 +74,7 @@ def get_accessible_videos(token: schemas.TokenData):
 
         videos = PersonalTrainersRepository.getAccessibleVideos(pt_id)
 
-    videos = [ {"path":video.videopath,"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
+    videos = [ {"id":video.id,"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
     return { "result": "ok", "videos": videos if videos != None else [] }
 
 @router.post("/getPTPreVideos")
@@ -102,7 +103,7 @@ async def get_pt_premium_videos(token: schemas.TokenData):
     #print("videos",videos)
     #print("video.pt_username",videos[0].pt_username)
     
-    videos = [ {"path":video.videopath,"title": video.videoname, "mainMuscles": video.muscletargets, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
+    videos = [ {"id":video.id,"title": video.videoname, "mainMuscles": video.muscletargets, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
     
     # depois de dar update á db deverá ficar este:
     #videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate} for video in videos if video.restricted == 1]
@@ -132,3 +133,23 @@ async def get_pt_premium_videos(token: schemas.TokenData):
 #     videos = VideosRepository.getAllVideos()
 #     print(videos)
 #     return videos
+
+@router.post("/getVideoInfo")        # ESTA FUNÇÃO NÃO FILTRA A INFORMAÇÃO DO VÍDEO.
+async def get_video_info( token: schemas.TokenData,video_id:int):
+    jwt_data = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == True:
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+        video = VideosRepository.getVideo(video_id)
+        if not UsersRepository.hasAccessToVideo(user_id, video.videopath):
+            return { "result": "no", "error": "Unauthorized." }
+    else:
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        video = VideosRepository.getVideo(video_id)
+        if not PersonalTrainersRepository.hasAccessToVideo(pt_id, video.videopath):
+            return { "result": "no", "error": "Unauthorized." }
+        
+    return {"result":"ok","video":video}
+

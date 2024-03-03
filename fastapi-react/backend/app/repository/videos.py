@@ -14,6 +14,10 @@ class VideosRepository():
     @staticmethod
     def getUnrestrictedVideos() -> List[models.Video]:
         return db.query(models.Video).filter(models.Video.restricted == 0).all()
+    
+    @staticmethod
+    def getVideo(video_id) -> List[models.Video]:
+        return db.query(models.Video).filter(models.Video.id == video_id).first()
 
     @staticmethod
     def getAllVideos(skip: int = 0, limit: int = 100) -> List[models.Video]:
