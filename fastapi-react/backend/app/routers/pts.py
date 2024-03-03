@@ -46,4 +46,3 @@ router = APIRouter(prefix="/pts")
 #         return {"result":"ok","pts":pts}
 #     else:
 #             return { "result": "no", "error": "Unauthorized." }
-    

@@ -1,9 +1,9 @@
-import { Link } from "react-router-dom";
-import { GiGymBag } from "react-icons/gi";
-import { IoPersonAdd } from "react-icons/io5";
-import { GiProgression } from "react-icons/gi";
+import { GiGymBag, GiProgression } from "react-icons/gi";
 import { FaUserCircle } from "react-icons/fa";
+import { IoPersonAdd } from "react-icons/io5";
+import { IoMdExit } from "react-icons/io";
 import { FaGear } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 export default function Sidebar() {
     return <div className="drawer-side">
@@ -15,6 +15,7 @@ export default function Sidebar() {
             <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />Progress</Link></li>
             <li className="text-xl font-bold"><Link to={"/profile"}><FaUserCircle size={32} />Profile</Link></li>
             <li className="text-xl font-bold"><Link to={"/settings"}><FaGear size={32} />Settings</Link></li>
+            <li className="text-xl font-bold"><Link to={"/login"}><IoMdExit size={32} /> Log Out</Link></li>
         </ul>
     </div>
 }

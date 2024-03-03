@@ -1,22 +1,30 @@
 import MaterialDesignSwitch from "../../Components/Settings/MaterialDesignSwitch";
 import PopupComponent from "../../Components/Settings/PopupComponent";
-import React, { useState } from "react";
+import * as utils from "../../Utils/utils";
+import React, { useState } from 'react';
 
 function Settings() {
     const [showPopup, setShowPopup] = useState(false);
+
+    const handleSubmit = async (anchor) => {
+        // prevent anchor page reload
+        anchor.preventDefault();
+
+        // redirect the user to the login page
+        utils.goToHome();
+    };
 
     return (
         <div className=" w-11/12 mx-auto">
             <h1 className='my-3 text-2xl font-bold'>Notifications</h1>
             <MaterialDesignSwitch />
             <div className="divider"></div>
-            <a href="https://www.exemplo.com" rel="noreferrer" target="_blank" style={{"background-color": "blue", "color": "white", "padding": "10px 20px", "border": "none", "border-radius": "5px", "cursor": "pointer", "text-decoration": "none"}}>About us</a>
+            <a onClick={handleSubmit} style={{ backgroundColor: '#2693e6', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', textDecoration: 'none' }}>About Us</a>
             <div className="divider"></div>
             <button
-                style={{ backgroundColor: 'blue', color: 'white', padding: '10px', cursor: 'pointer' }}
-                onClick={() => setShowPopup(true)}
-            >
-                Apagar Conta
+                style={{ backgroundColor: '#2693e6', color: 'white', padding: '10px', cursor: 'pointer', borderRadius: '5px' }}
+                onClick={() => setShowPopup(true)}>
+                Delete Account
             </button>
             {showPopup && <PopupComponent onClose={() => setShowPopup(false)} />}
             <div className="divider"></div>

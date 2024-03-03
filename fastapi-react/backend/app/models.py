@@ -27,6 +27,7 @@ class PersonalTrainer(Base):
     tags = Column(String, index=True)
     photo = Column(String, index=True)
     price = Column(String, index=True)
+    slots = Column(Integer, index=True)
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
     workouts = relationship("Video", back_populates="personal_trainer")
 

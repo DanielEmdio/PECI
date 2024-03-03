@@ -1,7 +1,9 @@
+import { API_URL } from '../../api';
+
 export default function PtCard({ Pt }) {
     return (
         <div className="card w-90 bg-base-100 shadow-xl">
-            <figure><img className="my-2" src={Pt.photo} alt="" /></figure>
+            <figure><img className="my-2" src={`${API_URL}/images/${Pt.photo}`} alt="" /></figure>
             <div className="card-body">
                 <h2 className="card-title">
                     {Pt.name}
