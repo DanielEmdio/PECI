@@ -103,7 +103,7 @@ export default function NewPtTable() {
     const [mockedData, setMockedData] = useState([]);
     
     useEffect(() => {
-        api.post("/pts/getNewPts", { token: utils.getCookie("token") }).then((response) => {
+        api.post("/users/getNewPts", { token: utils.getCookie("token") }).then((response) => {
             const data = response.data;
             console.log("data: ", data);
 

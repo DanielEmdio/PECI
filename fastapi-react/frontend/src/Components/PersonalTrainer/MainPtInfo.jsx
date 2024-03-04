@@ -17,32 +17,42 @@ export default function MainPtInfo() {
     }*/
 
     const { id } = useParams();
-    const [Pt, setPt] = useState({
-        name: "",
-        photo: "",
-        description: "",
-        tags: [],
-        slots: "",
-        price: ""
-    });
+    const Pt = useOutletContext();
+    console.log("MainptINfo -> Pt: ",Pt)
+    // const [Pt, setPt] = useState({
+    //     name: "",
+    //     photo: "",
+    //     description: "",
+    //     tags: [],
+    //     slots: "",
+    //     price: ""
+    // });
+    // const [Pt, setPt] = useState({
+    //     name: "",
+    //     photo: "",
+    //     description: "",
+    //     tags: [],
+    //     slots: 0,
+    //     price: ""
+    // });
+    // useEffect(() => {
 
-    useEffect(() => {
-        api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {
-            const data = r.data;
-            //console.log("data: ",data);
+    //     api.get(`/pts/getPTbyId/${id}`).then((response) => {
+    //         const data = response.data;
+    //         console.log("data: ",data);
 
-            const element = data.pt
-            setPt({
-                name: element.name,
-                photo: element.photo,
-                description: element.description,
-                tags: element.tags.split(","),
-                slots: element.slots,
-                price: element.price
-            })
+    //         const element = data.pt
+    //         setPt({
+    //             name: element.name,
+    //             photo: "https://picsum.photos/200/200",
+    //             description: element.description,
+    //             tags: element.tags.split(","),
+    //             slots: element.slots,
+    //             price: element.price
+    //         })
 
-        }).catch((_) => { });
-    }, [id]);
+    //     }).catch((_) => { });
+    // }, []);
 
     return (
         <>
