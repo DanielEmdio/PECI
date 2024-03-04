@@ -27,7 +27,7 @@ function RegisterPt() {
         // prevent form submission
         form.preventDefault();
 
-        const register_form = { username: user, password: pwd, isNormalUser: !isPt };
+        const register_form = { username: user, password: pwd, isNormalUser: isPt };
         api.post("/users/register", register_form).then((r) => {
             const data = r.data;
 

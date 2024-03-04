@@ -5,43 +5,43 @@ import { api,API_URL } from "../../api";
 import * as utils from "../../Utils/utils"
 
 export default function PtSubPage() {
-    const Pt = {
-        name: "Igor Voitenko",
-        photo: "https://picsum.photos/550/800",
-        decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
-        tags: ["Full Body", "Cardio", "Strength"],
-        slots: 5,
-        price: "20€ - monthly",
-    }
+    // const Pt = {
+    //     name: "Igor Voitenko",
+    //     photo: "https://picsum.photos/550/800",
+    //     decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
+    //     tags: ["Full Body", "Cardio", "Strength"],
+    //     slots: 5,
+    //     price: "20€ - monthly",
+    // }
 
     const {id} = useParams();
-    // const [Pt, setPt] = useState({
-    //     name: "",
-    //     photo: "",
-    //     description: "",
-    //     tags: [],
-    //     slots: 0,
-    //     price: ""
-    // });
-    // useEffect(() => {
+    const [Pt, setPt] = useState({
+        name: "",
+        photo: "",
+        description: "",
+        tags: [],
+        slots: 0,
+        price: ""
+    });
+    useEffect(() => {
 
-    //     api.post(`/users/getPtById/${id}`,{token: utils.getCookie("token")}).then((response) => {
-    //         const data = response.data;
-    //         console.log("data: ",data);
+        api.post(`/users/getPtById/${id}`,{token: utils.getCookie("token")}).then((response) => {
+            const data = response.data;
+            console.log("data: ",data);
 
-    //         const element = data.pt
-    //         setPt({
-    //             name: element.name,
-    //             photo: element.photo,
-    //             description: element.description,
-    //             tags: element.tags.split(","),
-    //             slots: element.slots,
-    //             price: element.price
-    //         })
+            const element = data.pt
+            setPt({
+                name: element.name,
+                photo: element.photo,
+                description: element.description,
+                tags: element.tags.split(","),
+                slots: element.slots,
+                price: element.price
+            })
 
-    //     }).catch((_) => { });
-    // }, []);
-    // console.log("Pt: ",Pt);
+        }).catch((_) => { });
+    }, []);
+    console.log("Pt: ",Pt);
 
     return (
 
@@ -86,7 +86,7 @@ export default function PtSubPage() {
                 {/*Img Col*/}
                 <div className="w-full lg:w-2/5">
                     {/* Big profile image for side bar (desktop) */}
-                        <img src={"http://localhost:8000/images/"+Pt.photo} className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block" alt=""/>
+                        <img src={`${API_URL}/images/${Pt.photo}`} className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block" alt=""/>
                     {/* Image from: http://unsplash.com/photos/MP0IUfwrn0A */}
                 </div>
             </div>
