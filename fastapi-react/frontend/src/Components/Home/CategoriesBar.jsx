@@ -36,7 +36,7 @@ export default function CategoriesBar() {
 
         api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.videos);
+            console.log("popular videos: ",data.videos);
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
@@ -103,7 +103,7 @@ export default function CategoriesBar() {
 
         api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.videos);
+            console.log("recent videos: ",data.videos);
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
@@ -185,7 +185,7 @@ export default function CategoriesBar() {
 
         api.post("/videos/getPTPreVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.videos);
+            console.log("exclusive videos: ",data.videos);
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({

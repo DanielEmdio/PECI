@@ -16,7 +16,7 @@ export default function PtCard({ Pt }) {
                     ))}
                 </div>
                 <div className="card-actions justify-end">
-                    <Link to={`/PT/${Pt.id}/main`}><button className="btn btn-primary">View</button></Link>
+                    <Link to={`/temp`}><button className="btn btn-primary">View</button></Link>
                 </div>
             </div>
         </div>
