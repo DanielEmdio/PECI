@@ -29,27 +29,32 @@ export default function Router() {
                 { path: '/progress', element: <Progress /> },
                 { path: '/settings', element: <Settings /> },
                 { path: '/chat/:id', element: <Chat /> },
-                { path: '/temp', element: <PtMainPage/>},
+                { path: '/temp', element: <PtMainPage /> },
 
-              { path: '/PT/:id/', element: <PtSubPage/>, children: [
-                  { path: 'main', element: <MainPtInfo/> },
-                  { path: 'bg', element: <BGPtInfo/> },
-                  { path: 'other', element: <OtherPtInfo/> },
-                  { path: 'rating', element: <RatingPtInfo/> },
-              ]},
+                {
+                    path: '/PT/:id/', element: <PtSubPage />, children: [
+                        { path: 'main', element: <MainPtInfo /> },
+                        { path: 'bg', element: <BGPtInfo /> },
+                        { path: 'other', element: <OtherPtInfo /> },
+                        { path: 'rating', element: <RatingPtInfo /> },
+                    ]
+                },
 
-              { path: '/video/:VideoID', element: <VideoPlayer /> }
-          ]
-      },
-      { path: '/', element: <Sign/>, children: [
-        { path: '/login', element: <LoginForm/> },
-        { path: '/register', element: <RegisterForm/>, children: [
-          { path: '/register/athlete', element: <RegisterBasic/> },
-          { path: '/register/trainer', element: <RegisterPt/> },
-        ]},
-      ]  
-      },
-  ])
-  return <RouterProvider router={router} />
-  
+                { path: '/video/:VideoID', element: <VideoPlayer /> }
+            ]
+        },
+        {
+            path: '/', element: <Sign />, children: [
+                { path: '/login', element: <LoginForm /> },
+                {
+                    path: '/register', element: <RegisterForm />, children: [
+                        { path: '/register/athlete', element: <RegisterBasic /> },
+                        { path: '/register/trainer', element: <RegisterPt /> },
+                    ]
+                },
+            ]
+        },
+    ]);
+
+    return <RouterProvider router={router} />;
 }

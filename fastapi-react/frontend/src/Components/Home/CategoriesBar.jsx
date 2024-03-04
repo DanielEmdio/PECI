@@ -88,13 +88,10 @@ export default function CategoriesBar() {
                 mainMuscles: ["Muscle E", "Muscle F"]
             }
         ];
-
         // Copia os dados fictícios para newMockedData
         let newMockedData = [...mockVideos];
-
         // Ordena newMockedData por rating
         newMockedData.sort((a, b) => b.rating - a.rating);
-
         setMockedData(newMockedData);
         */
     }
@@ -163,17 +160,14 @@ export default function CategoriesBar() {
                 mainMuscles: ["Muscle E", "Muscle F"]
             }
         ];
-
         // Copia os dados fictícios para newMockedData
         let newMockedData = [...mockVideos];
-
         // Ordena newMockedData por releasedate
         newMockedData.sort((a, b) => {
             const dateA = convertToDate(a.releasedate);
             const dateB = convertToDate(b.releasedate);
             return dateB - dateA;
         });
-
         setMockedData(newMockedData);
         */
     }
@@ -242,7 +236,6 @@ export default function CategoriesBar() {
                 mainMuscles: ["Muscle E", "Muscle F"]
             }
         ];
-        
         setMockedData(videos);
         */
     }
@@ -289,8 +282,6 @@ export default function CategoriesBar() {
                         <Workoutcard key={index} workout={workout} />
                     )))}
             </div>
-
-
         </>
     )
 }
