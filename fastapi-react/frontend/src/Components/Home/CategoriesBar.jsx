@@ -36,7 +36,7 @@ export default function CategoriesBar() {
 
         api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("popular videos: ",data.videos);
+            console.log("popular videos: ", data.videos);
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
@@ -56,44 +56,6 @@ export default function CategoriesBar() {
 
             setMockedData(newMockedData);
         }).catch((_) => { });
-
-        /*
-        // Dados fictícios de exemplo
-        const mockVideos = [
-            { 
-                title: "Video 1", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "30 min",
-                rating: element.rating,
-                releasedate: "12-01-2003",
-                difficulty: 4,
-                mainMuscles: ["Muscle A", "Muscle B"]
-            },
-            { 
-                title: "Video 2", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "25 min",
-                rating: element.rating,
-                releasedate: "25-03-2005",
-                difficulty: 3,
-                mainMuscles: ["Muscle C", "Muscle D"]
-            },
-            { 
-                title: "Video 3", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "40 min",
-                rating: element.rating,
-                releasedate: "05-08-2001",
-                difficulty: 5,
-                mainMuscles: ["Muscle E", "Muscle F"]
-            }
-        ];
-        // Copia os dados fictícios para newMockedData
-        let newMockedData = [...mockVideos];
-        // Ordena newMockedData por rating
-        newMockedData.sort((a, b) => b.rating - a.rating);
-        setMockedData(newMockedData);
-        */
     }
 
     const recentClick = (e) => {
@@ -103,7 +65,7 @@ export default function CategoriesBar() {
 
         api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("recent videos: ",data.videos);
+            console.log("recent videos: ", data.videos);
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
@@ -128,48 +90,6 @@ export default function CategoriesBar() {
 
             setMockedData(newMockedData);
         }).catch((_) => { });
-
-        /*
-        // Dados fictícios de exemplo
-        const mockVideos = [
-            { 
-                title: "Video 1", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "30 min",
-                rating: element.rating,
-                releasedate: "12-01-2003",
-                difficulty: 4,
-                mainMuscles: ["Muscle A", "Muscle B"]
-            },
-            { 
-                title: "Video 2", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "25 min",
-                rating: element.rating,
-                releasedate: "25-03-2005",
-                difficulty: 3,
-                mainMuscles: ["Muscle C", "Muscle D"]
-            },
-            { 
-                title: "Video 3", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "40 min",
-                rating: element.rating,
-                releasedate: "05-08-2001",
-                difficulty: 5,
-                mainMuscles: ["Muscle E", "Muscle F"]
-            }
-        ];
-        // Copia os dados fictícios para newMockedData
-        let newMockedData = [...mockVideos];
-        // Ordena newMockedData por releasedate
-        newMockedData.sort((a, b) => {
-            const dateA = convertToDate(a.releasedate);
-            const dateB = convertToDate(b.releasedate);
-            return dateB - dateA;
-        });
-        setMockedData(newMockedData);
-        */
     }
 
     // Função para converter string de data no formato "DD-MM-YYYY" para um objeto Date
@@ -185,7 +105,7 @@ export default function CategoriesBar() {
 
         api.post("/videos/getPTPreVideos", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("exclusive videos: ",data.videos);
+            console.log("exclusive videos: ", data.videos);
             let newMockedData = [];
             data.videos.forEach(element => {
                 newMockedData.push({
@@ -203,41 +123,6 @@ export default function CategoriesBar() {
 
             setMockedData(newMockedData);
         }).catch((_) => { });
-        /*
-        const videos = [
-            { 
-                title: "Video 1", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "30 min",
-                rating: 4,
-                releasedate: "2023-01-15",
-                PTUsername: "PT001",
-                difficulty: 4,
-                mainMuscles: ["Muscle A", "Muscle B"]
-            },
-            { 
-                title: "Video 2", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "25 min",
-                rating: 3,
-                releasedate: "2023-03-25",
-                PTUsername: "PT002",
-                difficulty: 3,
-                mainMuscles: ["Muscle C", "Muscle D"]
-            },
-            { 
-                title: "Video 3", 
-                thumbnail: "https://picsum.photos/200/200",
-                duration: "40 min",
-                rating: 5,
-                releasedate: "2023-08-05",
-                PTUsername: "PT001",
-                difficulty: 5,
-                mainMuscles: ["Muscle E", "Muscle F"]
-            }
-        ];
-        setMockedData(videos);
-        */
     }
 
     const AllClick = (e) => {
