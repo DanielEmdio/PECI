@@ -11,6 +11,7 @@ function RegisterPt() {
     const userRef = useRef();
 
     const [user, setUser] = useState('');
+    const [email, setEmail] = useState('');
     const [isPt, setIsPt] = useState(false);
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -78,18 +79,18 @@ function RegisterPt() {
                     <FaUnlockAlt className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
                 </div>
                 <div className='input-box relative w-full h-12 my-3'>
-                <input
+                    <input
                         type='text'
                         placeholder='Email'
                         ref={userRef}
                         autoComplete='off'
                         id='email'
-                        onChange={(e) => setUser(e.target.value)}
-                        value={user}
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
                         required
                         className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
                     />
-                    <MdOutlineMail  className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
+                    <MdOutlineMail className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
                 </div>
 
                 <div className="-mx-3 flex flex-wrap">
@@ -131,7 +132,6 @@ function RegisterPt() {
 }
 
 export default RegisterPt;
-
 
 <div className="flex items-center justify-center p-12">
 
