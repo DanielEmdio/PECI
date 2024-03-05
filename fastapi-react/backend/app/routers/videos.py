@@ -73,7 +73,7 @@ def get_accessible_videos(token: schemas.TokenData):
             return { "result": "no", "error": "Unauthorized." }
 
         videos = PersonalTrainersRepository.getAccessibleVideos(pt.id)
-
+    print(videos)
     if videos == None:
         return { "result": "ok", "videos": [] }
 

@@ -78,12 +78,14 @@ class PersonalTrainersRepository():
     def getAccessibleVideos(pt_id: int) -> Optional[List[models.Video]]:
         unrestricted_videos = VideosRepository.getUnrestrictedVideos()
         private_videos =  VideosRepository.getPtPrivVideos(pt_id)
-
-        if private_videos == None:
+        print("unrestricted_videos: ",unrestricted_videos)
+        print("private_videos: ",private_videos)
+        if private_videos == None or private_videos == []:
             return unrestricted_videos
 
         # put all videos in a single list
-        return unrestricted_videos.extend(private_videos)
+        videos = unrestricted_videos+private_videos
+        return videos
     
     @staticmethod
     def getPTVideos(pt_id: int) -> Optional[List[models.Video]]:

@@ -34,7 +34,7 @@ export default function Workoutcard({ workout }) {
 
     return (
         <>
-            <p>{workout.PTUsername}</p>
+            {/*<p>{workout.PTUsername}</p>*/}
 
             <div className="card lg:card-side bg-base-100 shadow-xl">
                 <figure><img src={`${API_URL}/images/${workout.thumbnail}`} style={{ width: "400px", height: "260px" }} alt="workout-image" /></figure>
