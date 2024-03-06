@@ -1,7 +1,6 @@
 import { IoChatboxEllipses } from "react-icons/io5";
-import { Link } from "react-router-dom";
 import * as utils from "../../Utils/utils";
-
+import { Link } from "react-router-dom";
 
 export default function PtCard({ Pt }) {
     return (
@@ -12,9 +11,9 @@ export default function PtCard({ Pt }) {
                     {Pt.name}
                 </h2>
                 <div className="card-actions justify-end">
-                    {(utils.isNormalUser()) ? 
-                    <Link to={"/chat/1"}><button className="btn btn-primary"><IoChatboxEllipses size={30}></IoChatboxEllipses>Chat</button></Link>: 
-                    <Link to={"/chat/2"}><button className="btn btn-primary"><IoChatboxEllipses size={30}></IoChatboxEllipses>Chat</button></Link>
+                    {(utils.isNormalUser()) ?
+                        <Link to={"/chat/1"}><button className="btn btn-primary"><IoChatboxEllipses size={30}></IoChatboxEllipses>Chat</button></Link> :
+                        <Link to={"/chat/2"}><button className="btn btn-primary"><IoChatboxEllipses size={30}></IoChatboxEllipses>Chat</button></Link>
                     }
                 </div>
             </div>
