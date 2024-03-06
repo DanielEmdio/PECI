@@ -125,9 +125,9 @@ export default function NewPtTable() {
 
     return (
         <div className=" w-11/12 mx-auto">
-            <PTfilter></PTfilter>
-            <div className="divider"></div>
-            <h1 className='my-3 text-2xl font-bold'>Recomended personal trainers:</h1>
+            {/*<PTfilter></PTfilter>
+            <div className="divider"></div>*/}
+            <h1 className='my-3 mt-5 text-2xl font-bold'>Recomended personal trainers:</h1>
             <div className="overflow-x-auto">
                 <table className="table">
                     {/* head */}

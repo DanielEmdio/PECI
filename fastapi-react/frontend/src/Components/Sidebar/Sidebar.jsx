@@ -20,9 +20,8 @@ export default function Sidebar() {
             <li className="text-xl font-bold"><Link to={"/"}><GiGymBag size={32} />Workouts</Link></li>
             {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/subscriptions"}><IoPersonAdd size={32} />Subscriptions</Link></li> : <></>}
             <li className="text-xl font-bold"><Link to={"/chat"}><IoChatbubble size={32} />Chat</Link></li>
-            <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />Progress</Link></li>
             {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />Progress</Link></li> : <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />My Athletes Progress</Link></li>}
-            <li className="text-xl font-bold"><Link to={"/profile"}><FaUserCircle size={32} />Profile</Link></li>
+            <li className="text-xl font-bold"><Link to={""}><FaUserCircle size={32} />Profile</Link></li>
             <li className="text-xl font-bold"><Link to={"/settings"}><FaGear size={32} />Settings</Link></li>
             <li className="text-xl font-bold"><button onClick={handleLogout}><IoMdExit size={32} />Log Out</button></li>
         </ul>
