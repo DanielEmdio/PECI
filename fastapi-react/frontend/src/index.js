@@ -4,7 +4,7 @@ import Router from './Utils/Router'
 import React from 'react';
 import './index.css';
 
-//utils.checkAuthentication();
+utils.checkAuthentication();
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
