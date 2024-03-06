@@ -66,6 +66,7 @@ export default function Subscription() {
             let newMockedData = [];
             data.pts.forEach(element => {
                 newMockedData.push({
+                    id: element.id,
                     name: element.name,
                     photo: element.photo,
                     decription: element.description,

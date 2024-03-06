@@ -38,7 +38,7 @@ const mockedData = [ // lista de treinos do pt
 
 export default function PtMainPage() {
     const Pt = { // dados do pt
-        name: "Igor Voitenko",
+        name: "UA",
         photo: "https://picsum.photos/550/800",
         decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
         tags: ["Full Body", "Cardio", "Strength"],

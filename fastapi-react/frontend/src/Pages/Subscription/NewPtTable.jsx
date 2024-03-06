@@ -1,8 +1,8 @@
 import PTfilter from "../../Components/Subscription/PTfilter";
 import { useEffect, useState } from "react";
 import * as utils from "../../Utils/utils";
+import { api, API_URL } from "../../api";
 import { Link } from "react-router-dom";
-import { api } from "../../api";
 
 export default function NewPtTable() {
     /*
@@ -101,9 +101,9 @@ export default function NewPtTable() {
     ]*/
 
     const [mockedData, setMockedData] = useState([]);
-    
+
     useEffect(() => {
-        api.post("/pts/getNewPts", { token: utils.getCookie("token") }).then((response) => {
+        api.post("/users/getNewPts", { token: utils.getCookie("token") }).then((response) => {
             const data = response.data;
             console.log("data: ", data);
 
@@ -152,7 +152,7 @@ export default function NewPtTable() {
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
                                             <div className="mask mask-squircle w-12 h-12">
-                                                <img src={"http://localhost:8000/images/"+Pt.photo} alt="Avatar Tailwind CSS Component" />
+                                                <img src={`${API_URL}/images/${Pt.photo}`} alt="Avatar Tailwind CSS Component" />
                                             </div>
                                         </div>
                                         <div>

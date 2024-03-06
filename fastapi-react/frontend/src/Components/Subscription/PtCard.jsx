@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { API_URL } from '../../api';
 
 export default function PtCard({ Pt }) {
@@ -15,7 +16,7 @@ export default function PtCard({ Pt }) {
                     ))}
                 </div>
                 <div className="card-actions justify-end">
-                    <button className="btn btn-primary">View</button>
+                    <Link to={`/temp`}><button className="btn btn-primary">View</button></Link>
                 </div>
             </div>
         </div>

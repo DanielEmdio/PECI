@@ -1,15 +1,48 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { GiBiceps } from "react-icons/gi";
+import { useEffect, useState } from "react";
+import { api,API_URL } from "../../api";
+import * as utils from "../../Utils/utils"
 
 export default function PtSubPage() {
-    const Pt = {
-        name: "Igor Voitenko",
-        photo: "https://picsum.photos/550/800",
-        decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
-        tags: ["Full Body", "Cardio", "Strength"],
-        slots: 5,
-        price: "20€ - monthly",
-    }
+    // const Pt = {
+    //     name: "Igor Voitenko",
+    //     photo: "https://picsum.photos/550/800",
+    //     decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
+    //     tags: ["Full Body", "Cardio", "Strength"],
+    //     slots: 5,
+    //     price: "20€ - monthly",
+    // }
+
+    const {id} = useParams();
+    const [Pt, setPt] = useState({
+        name: "",
+        photo: "",
+        description: "",
+        tags: [],
+        slots: 0,
+        price: ""
+    });
+    useEffect(() => {
+
+        api.post(`/users/getPtById/${id}`,{token: utils.getCookie("token")}).then((response) => {
+            const data = response.data;
+            console.log("data: ",data);
+
+            const element = data.pt
+            setPt({
+                name: element.name,
+                photo: element.photo,
+                description: element.description,
+                tags: element.tags.split(","),
+                slots: element.slots,
+                price: element.price
+            })
+
+        }).catch((_) => { });
+    }, []);
+    console.log("Pt: ",Pt);
+
     return (
 
         <div className="grid justify-items-center font-sans antialiased text-gray-900 leading-normal tracking-wider h-full bg-cover bg-[url('Assets/Gym.jpg')] bg-no-repeat">
@@ -24,7 +57,7 @@ export default function PtSubPage() {
                         <div className="mx-auto lg:mx-0 w-4/5 pt-3 border-b-2 border-green-500 opacity-25"></div>
                         {/* conteúdo carrosel */}
                         
-                        <Outlet></Outlet>
+                        <Outlet context={Pt}></Outlet>
                         {/* conteúdo carrosel */}
                         
                         <div className="pt-12 pb-8">
@@ -53,7 +86,7 @@ export default function PtSubPage() {
                 {/*Img Col*/}
                 <div className="w-full lg:w-2/5">
                     {/* Big profile image for side bar (desktop) */}
-                        <img src={Pt.photo} className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block" alt=""/>
+                        <img src={`${API_URL}/images/${Pt.photo}`} className="rounded-none lg:rounded-lg shadow-2xl hidden lg:block" alt=""/>
                     {/* Image from: http://unsplash.com/photos/MP0IUfwrn0A */}
                 </div>
             </div>

@@ -73,7 +73,7 @@ def get_accessible_videos(token: schemas.TokenData):
             return { "result": "no", "error": "Unauthorized." }
 
         videos = PersonalTrainersRepository.getAccessibleVideos(pt.id)
-
+    print(videos)
     if videos == None:
         return { "result": "ok", "videos": [] }
 
@@ -106,7 +106,7 @@ async def get_pt_premium_videos(token: schemas.TokenData):
     #print("videos",videos)
     #print("video.pt_username",videos[0].pt_username)
     
-    videos = [ {"id":video.id,"title": video.videoname, "mainMuscles": video.muscletargets, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
+    videos = [ {"id":video.id,"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
     
     # depois de dar update á db deverá ficar este:
     #videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate} for video in videos if video.restricted == 1]

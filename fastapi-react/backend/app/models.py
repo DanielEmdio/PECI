@@ -28,6 +28,12 @@ class PersonalTrainer(Base):
     photo = Column(String, index=True)
     price = Column(String, index=True)
     slots = Column(Integer, index=True)
+    lang = Column(String, index=True)
+    hours = Column(String, index=True)
+    rating = Column(String, index=True)
+    n_comments = Column(String, index=True)
+    education = Column(String, index=True)
+    bg = Column(String, index=True)
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
     workouts = relationship("Video", back_populates="personal_trainer")
 
