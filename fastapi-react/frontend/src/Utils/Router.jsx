@@ -18,6 +18,7 @@ import RegisterPt from '../Components/Register/RegisterPt';
 import Home from "../Pages/Home/Home";
 import Chat from '../Pages/Chat/Chat';
 import Base from "../Layouts/Base";
+import ChatCards from '../Pages/Chat/ChatCards';
 
 export default function Router() {
     const router = createBrowserRouter([
@@ -28,11 +29,12 @@ export default function Router() {
                 { path: '/AvaliblePT', element: <NewPtTable /> },
                 { path: '/progress', element: <Progress /> },
                 { path: '/settings', element: <Settings /> },
+                { path: '/chat', element: <ChatCards /> },
                 { path: '/chat/:id', element: <Chat /> },
-                { path: '/temp', element: <PtMainPage /> },
+                { path: '/PT_sub/:id', element: <PtMainPage /> },
 
                 {
-                    path: '/PT/:id/', element: <PtSubPage />, children: [
+                    path: '/PT_nonSub/:id/', element: <PtSubPage />, children: [
                         { path: 'main', element: <MainPtInfo /> },
                         { path: 'bg', element: <BGPtInfo /> },
                         { path: 'other', element: <OtherPtInfo /> },

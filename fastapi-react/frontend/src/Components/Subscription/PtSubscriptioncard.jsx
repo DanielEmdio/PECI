@@ -15,7 +15,7 @@ export default function PtSubscriptioncard({ Pt }) {
                     ))}
                 </div>
                 <div className="card-actions justify-center">
-                    <Link to={"/temp"}><button className="btn btn-primary ">View subscription details</button></Link>
+                    <Link to={"/PT_sub/1"}><button className="btn btn-primary ">View subscription details</button></Link>
                 </div>
             </div>
         </div>

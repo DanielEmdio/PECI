@@ -169,7 +169,7 @@ export default function NewPtTable() {
                                 <td>{Pt.description}</td>
                                 <th>
                                     {console.log(Pt.id)}
-                                    <Link to={`/PT/${Pt.id}/main`}><button className="btn btn-ghost btn-xs">details</button></Link>
+                                    <Link to={`/PT_nonSub/${Pt.id}/main`}><button className="btn btn-ghost btn-xs">details</button></Link>
                                 </th>
                             </tr>
 

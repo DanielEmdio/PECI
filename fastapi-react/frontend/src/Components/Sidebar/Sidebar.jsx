@@ -5,6 +5,7 @@ import * as utils from "../../Utils/utils";
 import { IoMdExit } from "react-icons/io";
 import { FaGear } from "react-icons/fa6";
 import { Link } from "react-router-dom";
+import { IoChatbubble } from "react-icons/io5";
 
 export default function Sidebar() {
     const handleLogout = () => {
@@ -18,6 +19,7 @@ export default function Sidebar() {
             <div className="divider"></div>
             <li className="text-xl font-bold"><Link to={"/"}><GiGymBag size={32} />Workouts</Link></li>
             <li className="text-xl font-bold"><Link to={"/subscriptions"}><IoPersonAdd size={32} />Subscriptions</Link></li>
+            <li className="text-xl font-bold"><Link to={"/chat"}><IoChatbubble size={32} />Chat with PT</Link></li>
             <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />Progress</Link></li>
             <li className="text-xl font-bold"><Link to={"/profile"}><FaUserCircle size={32} />Profile</Link></li>
             <li className="text-xl font-bold"><Link to={"/settings"}><FaGear size={32} />Settings</Link></li>
