@@ -23,6 +23,10 @@ class PersonalTrainersRepository():
     @staticmethod
     def get_pt_by_username(username: str) -> Optional[models.PersonalTrainer]: # retorna o username e o token 
         return db.query(models.PersonalTrainer).filter(models.PersonalTrainer.username == username).first()
+    
+    #@staticmethod
+    #def get_pt_by_email(email: str) -> Optional[models.PersonalTrainer]:
+    #    return db.query(models.PersonalTrainer).filter(models.PersonalTrainer.email == email).first()
 
     @staticmethod
     def get_pt_by_token(token: str) -> Optional[models.PersonalTrainer]:
@@ -45,6 +49,15 @@ class PersonalTrainersRepository():
         pt_ids_to_exclude = SubscriptionsRepository.get_pt_ids_for_user(user_id)     # get the pts ids to which the user is subbed
 
         return db.query(models.PersonalTrainer).filter(~models.PersonalTrainer.id.in_(pt_ids_to_exclude)).all()
+    # details will be dictionary with the following keys: name, email, description, tags, photo, price, slots, lang, hours, education, bg
+    @staticmethod
+    def update_pt_details(pt_id: int, details):
+        pt = db.query(models.PersonalTrainer).filter(models.PersonalTrainer.id == pt_id).first()
+        for key in details:
+            setattr(pt, key, details[key])
+        db.commit()
+
+
     # @staticmethod
     # def get_pt_username(pt_id: str): # retorna o username do PersonalTrainer, com base no seu id
     #     return db.query(models.PersonalTrainer.username).filter(models.PersonalTrainer.id == pt_id).scalar()

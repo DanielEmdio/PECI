@@ -12,6 +12,7 @@ function RegisterPt() {
 
     const [user, setUser] = useState('');
     const [email, setEmail] = useState('');
+    const [file, setFile] = useState('');
     const [isPt, setIsPt] = useState(false);
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -40,7 +41,7 @@ function RegisterPt() {
 
             // set the cookie and go to the home page
             utils.setCookie("token", data["token"]);
-            utils.goToHome();
+            utils.goToRegisterDetails();
         }).catch((_) => { });
     };
 
@@ -117,7 +118,7 @@ function RegisterPt() {
                 <label for="time" className="mb-3 block text-base font-medium">
                     Probative:
                 </label>
-                <input type="file" className="file-input file-input-bordered w-full max-w-xs text-black mb-3" />
+                <input onChange={(e) => setFile(e.target.value)} value={file} required type="file" className="file-input file-input-bordered w-full max-w-xs text-black mb-3" />
 
 
                 <div className='text-red-500 text-center mb-2'> {errMsg} </div>

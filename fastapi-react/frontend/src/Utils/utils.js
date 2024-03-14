@@ -73,3 +73,7 @@ export function checkAuthentication() {
 export function goToHome() {
     window.location.pathname = "/";
 }
+
+export function goToRegisterDetails() {
+    window.location.pathname = "/register/trainer/details";
+}
