@@ -294,12 +294,12 @@ COPY public.users (id, username, password, token) FROM stdin;
 --
 
 COPY public.videos (id, videopath, videoname, description, muscletargets, releasedate, restricted, personal_trainer_id, thumbnail, rating, duration, dificulty) FROM stdin;
-4	uatreino1.mp4	Full body workout	Good workout for beginners	Upper,Lower 	January 25, 2023	0	18	thumbnails/uatreino1.png	4	\N	3
-5	uatreino3.mp4	Leg day	A legs focused workout with some abs in between	Legs,Abs	May 13, 2023	1	18	thumbnails/uatreino3.png	3	\N	4
-6	uatreino2.mp4	Upper body workout	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	February 7, 2023	1	18	thumbnails/uatreino2.png	5	\N	2
-3	uatreino6.mp4	arms workout	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	November 2, 2023	0	1	thumbnails/uatreino6.png	2	\N	4
-1	uatreino4.mp4	Wider back workout	Pull ups challenge to widen your back	Back	September 14, 2023	1	1	thumbnails/uatreino4.png	1	\N	1
-2	uatreino5.mp4	The Yuri Boyka Workout	Arms killer workout	Biceps,Triceps,Chest	June 29, 2022	1	1	thumbnails/uatreino5.png	3	\N	2
+4	uatreino1.mp4	Full body workout	Good workout for beginners	Upper,Lower 	January 25, 2023	0	18	thumbnails/uatreino1.png	4	30 min	3
+5	uatreino3.mp4	Leg day	A legs focused workout with some abs in between	Legs,Abs	May 13, 2023	1	18	thumbnails/uatreino3.png	3	15 min	4
+6	uatreino2.mp4	Upper body workout	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	February 7, 2023	1	18	thumbnails/uatreino2.png	5	15 min	2
+3	uatreino6.mp4	arms workout	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	November 2, 2023	0	1	thumbnails/uatreino6.png	2	15 min	4
+1	uatreino4.mp4	Wider back workout	Pull ups challenge to widen your back	Back	September 14, 2023	1	1	thumbnails/uatreino4.png	1	15 min	1
+2	uatreino5.mp4	The Yuri Boyka Workout	Arms killer workout	Biceps,Triceps,Chest	June 29, 2022	1	1	thumbnails/uatreino5.png	3	15 min	2
 \.
 
 
@@ -472,3 +472,4 @@ ALTER TABLE ONLY public.subscriptions
 --
 -- PostgreSQL database dump complete
 --
+
