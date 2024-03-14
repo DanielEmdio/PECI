@@ -15,14 +15,21 @@ function DropDown() {
     fontWeight: 'bold'
   };
 
+  const toggleStyles2 = {
+    backgroundColor: 'white',
+    color: '#10b981',
+    borderColor: '#10b981',
+    fontWeight: 'bold'
+  };
+
   return (
     <Dropdown>
       <Dropdown.Toggle variant="success" id="dropdown-basic" style={toggleStyles}>
         {selectedItem}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu>
-        <Dropdown.Item onClick={handleSelect}>MbWay</Dropdown.Item>
+      <Dropdown.Menu style={toggleStyles2}>
+        <Dropdown.Item style={toggleStyles2} onClick={handleSelect}>MbWay</Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
   );
