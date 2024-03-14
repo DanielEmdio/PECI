@@ -22,6 +22,7 @@ class PersonalTrainer(Base):
     token = Column(String, index=True)
     username = Column(String, index=True)
     password = Column(String, index=True)
+    email = Column(String, index=True)
     name = Column(String, index=True)
     description = Column(String, index=True)
     tags = Column(String, index=True)
@@ -48,6 +49,9 @@ class Video(Base):
     releasedate = Column(String, index=True)
     restricted = Column(Integer, index=True)
     thumbnail = Column(String, index=True)
+    rating = Column(String, index=True)
+    duration = Column(String, index=True)
+    dificulty = Column(String, index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
     personal_trainer = relationship("PersonalTrainer", back_populates="workouts")

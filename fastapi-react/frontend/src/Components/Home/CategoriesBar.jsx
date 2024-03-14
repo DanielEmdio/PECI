@@ -17,10 +17,10 @@ export default function CategoriesBar() {
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    duration: "30 min",                             // deverá ser ajustado
+                    duration: element.duration,                             
                     rating: element.rating,
                     releasedate: element.releasedate,
-                    difficulty: 4,                                  // deverá ser ajustado
+                    difficulty: element.difficulty,                         
                     mainMuscles: element.mainMuscles.split(","),
                 })
             });
@@ -43,10 +43,10 @@ export default function CategoriesBar() {
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    duration: "30 min",                             // deverá ser ajustado
+                    duration: element.duration,                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
-                    difficulty: 4,                                  // deverá ser ajustado
+                    difficulty: element.dificulty,                                  // deverá ser ajustado
                     mainMuscles: element.mainMuscles.split(","),
                 })
             });
@@ -72,10 +72,10 @@ export default function CategoriesBar() {
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    duration: "30 min",                             // deverá ser ajustado
+                    duration: element.duration,                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
-                    difficulty: 4,                                  // deverá ser ajustado
+                    difficulty: element.difficulty,                                  // deverá ser ajustado
                     mainMuscles: element.mainMuscles.split(","),
                 })
             });
@@ -112,11 +112,11 @@ export default function CategoriesBar() {
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    duration: "30 min",                             // deverá ser ajustado
+                    duration: element.duration,                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
                     PTUsername: element.username,
-                    difficulty: 4,                                  // deverá ser ajustado
+                    difficulty: element.dificulty,                                  // deverá ser ajustado
                     mainMuscles: element.mainMuscles.split(","),
                 })
             });
@@ -139,13 +139,15 @@ export default function CategoriesBar() {
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    duration: "30 min",                             // deverá ser ajustado
+                    duration: element.duration,                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
-                    difficulty: 4,                                  // deverá ser ajustado
+                    difficulty: element.dificulty,                                  // deverá ser ajustado
                     mainMuscles: element.mainMuscles.split(","),
                 })
-            });
+            }); 
+
+            //console.log(newMockedData);
 
             setMockedData(newMockedData);
         }).catch((_) => { });

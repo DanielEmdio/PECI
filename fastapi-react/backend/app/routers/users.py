@@ -52,6 +52,23 @@ def register_user(user: schemas.UserRegister):
 
     return { "result": "ok", "token": jwt_token }
 
+    # details will be dictionary with the following keys: name, email, description, tags, photo, price, slots, lang, hours, education, bg
+
+@router.post("/registerPTdetails") 
+def register_pt_details(token: schemas.TokenData, details):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+    if jwt_data["isNormalUser"] == True:
+        return { "result": "no", "error": "Unauthorized." }
+
+    pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+    if pt_id == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    PersonalTrainersRepository.update_pt_details(pt_id, details)
+    return { "result": "ok" }
+
 @router.post("/login")
 def login_user(user: schemas.BasicUser):
     # get the user instance with the provided username and password
