@@ -23,8 +23,8 @@ function DropDown() {
 
   return (
     <details className="dropdown">
-    <summary className="m-1 btn" style={toggleStyles}>Payment Method</summary>
-    <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52" style={toggleStyles2}>
+    <summary className="m-1 btn" style={toggleStyles}>{selectedItem}</summary>
+    <ul onClick={handleSelect} className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52" style={toggleStyles2}>
       <li><a>MbWay</a></li>
     </ul>
   </details>
