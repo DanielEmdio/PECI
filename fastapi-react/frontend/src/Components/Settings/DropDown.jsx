@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
 
 function DropDown() {
   const [selectedItem, setSelectedItem] = useState('Payment Method');
@@ -23,15 +22,12 @@ function DropDown() {
   };
 
   return (
-    <Dropdown>
-      <Dropdown.Toggle variant="success" id="dropdown-basic" style={toggleStyles}>
-        {selectedItem}
-      </Dropdown.Toggle>
-
-      <Dropdown.Menu style={toggleStyles2}>
-        <Dropdown.Item style={toggleStyles2} onClick={handleSelect}>MbWay</Dropdown.Item>
-      </Dropdown.Menu>
-    </Dropdown>
+    <details className="dropdown">
+    <summary className="m-1 btn" style={toggleStyles}>Payment Method</summary>
+    <ul className="p-2 shadow menu dropdown-content z-[1] bg-base-100 rounded-box w-52" style={toggleStyles2}>
+      <li><a>MbWay</a></li>
+    </ul>
+  </details>
   );
 }
 
