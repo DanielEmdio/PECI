@@ -88,7 +88,7 @@ class PersonalTrainersRepository():
         return videos
     
     @staticmethod
-    def getPTVideos(pt_id: int) -> Optional[List[models.Video]]:
+    def getPTPrivVideos(pt_id: int) -> Optional[List[models.Video]]:
         private_videos = VideosRepository.getPtPrivVideos(pt_id)
         if private_videos == None:
             return []

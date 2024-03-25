@@ -99,7 +99,7 @@ async def get_pt_premium_videos(token: schemas.TokenData):
         if pt_id == None:
             return { "result": "no", "error": "Unauthorized." }
 
-        videos = PersonalTrainersRepository.getPTVideos(pt_id)
+        videos = PersonalTrainersRepository.getPTPrivVideos(pt_id)
     
     # sort the videos by personal trainer id
     videos = sorted(videos, key=lambda video: video.personal_trainer_id)
@@ -116,13 +116,14 @@ async def get_pt_premium_videos(token: schemas.TokenData):
     
 
 
-# @router.post("/getPTvideos")
-# async def read_root3():
-#     # Retrieve the videos from pt with id '1'
-#     pt_id = 1
-#     videos = VideosRepository.get_pt_videos(pt_id)
-#     print(videos)
-#     return videos
+@router.post("/getPTvideos/{pt_id}")
+async def read_root3(pt_id: int):
+    videos = VideosRepository.getPtVideos(pt_id)
+    if videos != None:
+        videos = [ {"id":video.id,"title": video.videoname,"description":video.description, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail,"releasedate": video.releasedate} for video in videos]
+        print(videos)
+        return { "result": "ok", "videos": videos if videos != None else [] }
+    return { "result": "no", "error": "Unauthorized" }
 
 # @router.post("/addVideo")  # NÃO ASSOCIA O VIDEO AO PT 
 # async def read_root3(videopath,videoname,description,muscletargets,releasedate,restricted=0):
