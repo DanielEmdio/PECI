@@ -32,6 +32,7 @@ export default function Router() {
                 { path: '/chat', element: <ChatCards /> },
                 { path: '/chat/:id', element: <Chat /> },
                 { path: '/PT_sub/:id', element: <PtMainPage /> },
+                { path: '/profile/:id', element: <PtMainPage /> },
 
                 {
                     path: '/PT_nonSub/:id/', element: <PtSubPage />, children: [
