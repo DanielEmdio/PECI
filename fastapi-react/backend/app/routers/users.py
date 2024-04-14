@@ -94,7 +94,8 @@ def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
         if UsersRepository.get_user_by_token(token=jwt_token_data["token"]) == None:
             return { "result": "no", "error": "Invalid token." }
     else:
-        return { "result": "no", "error": "Unauthorized." }
+        if PersonalTrainersRepository.get_pt_by_token(token=jwt_token_data["token"]) == None:
+            return { "result": "no", "error": "Invalid token." }
 
     pt = PersonalTrainersRepository.get_pt(pt_id)
     if pt:
@@ -102,6 +103,25 @@ def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
         return {"result":"ok","pt":pt}
     else:
         return {"result": "no", "error": "Personal Trainer not found."} 
+    
+
+@router.post("/getPT")
+async def get_PT_by_token(token: schemas.TokenData):
+    jwt_token_data = get_jwt_token_data(token=token.token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+    
+    if jwt_token_data["isNormalUser"]:
+        return { "result": "no", "error": "Unauthorized." }
+    else:
+        pt = PersonalTrainersRepository.get_pt_by_token(token=jwt_token_data["token"])
+        if pt == None:
+            return { "result": "no", "error": "Invalid token." }
+        else:
+            pt = {"id":pt.id, "name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price, "slots":pt.slots, "lang" : pt.lang, "hours" : pt.hours, "rating" : pt.rating, "n_comments" : pt.n_comments, "education" : pt.education, "bg" : pt.bg} 
+            print(pt)
+            return {"result": "yes", "pt": pt}
+
 
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):
