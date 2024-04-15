@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 export default function Sidebar() {
     const handleLogout = () => {
         utils.eraseCookie("token");
-        utils.goToHome();
+        window.location.pathname = "/login";
     };
 
     return <div className="drawer-side">
