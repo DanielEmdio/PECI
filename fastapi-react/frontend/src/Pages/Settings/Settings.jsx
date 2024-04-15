@@ -1,3 +1,4 @@
+import { IoChatbubble } from "react-icons/io5";
 import DropDown from "../../Components/Settings/DropDown";
 import MaterialDesignSwitch from "../../Components/Settings/MaterialDesignSwitch";
 import PopupComponent from "../../Components/Settings/PopupComponent";
@@ -32,6 +33,9 @@ function Settings() {
             </button>
             {showPopup && <PopupComponent onClose={() => setShowPopup(false)} />}
             <div className="divider"></div>
+            <button id="floating-button" onClick={() => window.location.href = "/chat"}>
+                <IoChatbubble size={50} />
+            </button>
         </div>
     )
 }
