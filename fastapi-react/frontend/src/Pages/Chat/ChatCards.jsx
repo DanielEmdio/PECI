@@ -13,7 +13,7 @@ const mockedData = [
 const mockedData2 = [
     {
         name: "User1",
-        photo: "https://picsum.photos/250/200",
+        photo: "https://picsum.photos/250/201",
         decription: "I believe, that through fitness you can change not only your body but your whole life!",
         tags: ["Full Body", "Cardio", "Strength"],
     },
@@ -28,6 +28,11 @@ export default function ChatCards() {
                     <ChatCard className="basis-1/3" key={index} Pt={Pt} />
                 )) : mockedData2.map((Pt, index) => (
                     <ChatCard className="basis-1/3" key={index} Pt={Pt} />
+                ))}
+                {(utils.isNormalUser()) ? mockedData2.map((Pt, index) => (
+                    <ChatCard className="basis-1/3" key={index} Pt={Pt} />
+                )) : mockedData.map((Pt, index) => (
+                    <ChatCard className="basis-1/3" key={index} Pt={Pt} chatId={index} />
                 ))}
             </div>
         </div>
