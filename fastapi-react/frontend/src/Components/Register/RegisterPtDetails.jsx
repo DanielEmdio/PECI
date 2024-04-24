@@ -25,7 +25,20 @@ function RegisterPt() {
 
     useEffect(() => {
         setErrMsg('');
-    }, [user, pwd]);
+    }, [details.user, details.pwd]);
+
+    // funções incompletas codigo estva a dar erro 
+    const setEmail = (email) => {
+        setDetails({ ...details, email });
+    };
+
+    const setPwd = (pwd) => {
+        setDetails({ ...details, pwd });
+    };
+
+    const setFile = (file) => {
+        setDetails({ ...details, file });
+    };
 
     const handleSubmit = (form) => {
         // prevent form submission
@@ -61,7 +74,7 @@ function RegisterPt() {
                         autoComplete='off'
                         id='username'
                         onChange={(e) => setDetails({...details, name: e.target.value})}
-                        value={user}
+                        value={details.user}
                         required
                         className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
                     />
@@ -73,7 +86,7 @@ function RegisterPt() {
                         placeholder='Password'
                         id='password'
                         onChange={(e) => setPwd(e.target.value)}
-                        value={pwd}
+                        value={details.pwd}
                         required
                         className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
                     />
@@ -87,7 +100,7 @@ function RegisterPt() {
                         autoComplete='off'
                         id='email'
                         onChange={(e) => setEmail(e.target.value)}
-                        value={email}
+                        value={details.email}
                         required
                         className='w-full h-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-full text-white text-base pl-20 pr-5 py-3'
                     />
@@ -118,7 +131,7 @@ function RegisterPt() {
                 <label for="time" className="mb-3 block text-base font-medium">
                     Probative:
                 </label>
-                <input onChange={(e) => setFile(e.target.value)} value={file} required type="file" className="file-input file-input-bordered w-full max-w-xs text-black mb-3" />
+                <input onChange={(e) => setFile(e.target.value)} value={details.file} required type="file" className="file-input file-input-bordered w-full max-w-xs text-black mb-3" />
 
 
                 <div className='text-red-500 text-center mb-2'> {errMsg} </div>
