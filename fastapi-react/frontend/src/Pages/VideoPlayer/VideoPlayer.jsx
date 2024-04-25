@@ -46,16 +46,33 @@ function VideoPlayer() {
     return (
         <div>
             <br />
-            <ReactPlayer
-                url={`${API_URL}/videos/${video.path}`}
-                width="100%"
-                height="100%"
-                controls
-            />
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ReactPlayer
+                    url={`${API_URL}/videos/${video.path}`}
+                    width="70%"
+                    height="100%"
+                    controls
+                />
+            </div>
             <p><br></br></p>
             <div className=" w-11/12 mx-auto">
-                <h2><b><u>Video Description</u></b></h2>
-                {/* Renderiza a descrição com base no estado isExpanded */}
+                <h1><b><u>Video Title</u></b></h1>
+                <p style={{ fontSize: '2em' }}>{video.title}</p>
+
+                <h3><b><u>Creator</u></b></h3>
+                <p>{}</p>
+
+                <h3><b><u>Release Date</u></b></h3>
+                <p>{video.releasedate}</p>
+
+            </div>
+
+            <div className=" w-11/12 mx-auto">
+                <h2><b><u>Description</u></b></h2>
+                {
+                /* Renderiza a descrição com base no estado isExpanded */
+
+                }
                 <p>
                     {isExpanded ? video.description : `${video.description.substring(0, 100)}...`}
                 </p>

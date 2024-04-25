@@ -2,10 +2,12 @@ import Workoutcard from "../../Components/Home/Workoutcard";
 import { useState, useEffect } from "react";
 import * as utils from "../../Utils/utils";
 import { api } from '../../api';
+import AddVideo from "../../Pages/Home/AddVideo";
 
 export default function CategoriesBar() {
     const [activeButton, setActiveButton] = useState("all");
     const [mockedData, setMockedData] = useState([]);
+    const [showAddVideo, setShowAddVideo] = useState(false);
 
     useEffect(() => {
         api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
@@ -29,7 +31,15 @@ export default function CategoriesBar() {
         }).catch((_) => { });
     }, []);
 
+    const toggleAddVideo = () => {
+        setShowAddVideo(!showAddVideo);  // Alternar visibilidade de AddVideo
+        setActiveButton("addvideo");
+    };
+    
     const popularClick = (e) => {
+        if(showAddVideo){
+            setShowAddVideo(!showAddVideo);
+        }
         e.preventDefault();
         setActiveButton("popular");
         console.log('The link was clicked.');
@@ -59,6 +69,9 @@ export default function CategoriesBar() {
     }
 
     const recentClick = (e) => {
+        if(showAddVideo){
+            setShowAddVideo(!showAddVideo);
+        }
         e.preventDefault();
         setActiveButton("recent");
         console.log('The link was clicked.');
@@ -99,6 +112,9 @@ export default function CategoriesBar() {
     }
 
     const exclusiveClick = (e) => {
+        if(showAddVideo){
+            setShowAddVideo(!showAddVideo);
+        }
         e.preventDefault();
         setActiveButton("exclusive");
         console.log('The link was clicked.');
@@ -126,6 +142,9 @@ export default function CategoriesBar() {
     }
 
     const AllClick = (e) => {
+        if(showAddVideo){
+            setShowAddVideo(!showAddVideo);
+        }
         e.preventDefault();
         setActiveButton("all");
         console.log('The link was clicked.');
@@ -159,15 +178,17 @@ export default function CategoriesBar() {
                 <a onClick={AllClick} className={`btn btn-ghost text-xl ${activeButton === "all" ? "active" : ""}`}>All</a>
                 <a onClick={popularClick} className={`btn btn-ghost text-xl ${activeButton === "popular" ? "active" : ""}`}>Popular</a>
                 <a onClick={recentClick} className={`btn btn-ghost text-xl ${activeButton === "recent" ? "active" : ""}`}>Recent</a>
-                <a onClick={exclusiveClick} className={`btn btn-ghost text-xl ${activeButton === "exclusive" ? "active" : ""}`}>Exclusive</a>
+                {utils.isNormalUser() ? <a onClick={exclusiveClick} className={`btn btn-ghost text-xl ${activeButton === "exclusive" ? "active" : ""}`}>Exclusive</a> : <></>}
+                {!utils.isNormalUser() ? <a onClick={toggleAddVideo} className={`btn btn-ghost text-xl ${activeButton === "addvideo" ? "active" : ""}`}>Add Video</a> : <></>}
             </div>
             <div className="flex flex-col gap-4">
-                {(mockedData.length === 0) ? (
+                {(mockedData.length === 0 && !showAddVideo) ? (
                     <div className='text-center'>No videos available.</div>
                 ) : (
                     mockedData.map((workout, index) => (
                         <Workoutcard key={index} workout={workout} />
                     )))}
+                {showAddVideo && <AddVideo />}
             </div>
         </>
     )
