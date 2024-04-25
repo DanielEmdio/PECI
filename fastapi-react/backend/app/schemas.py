@@ -95,3 +95,16 @@ class Subscription(SubscriptionBase):
 
 class TokenData(BaseModel):
     token: str
+
+class PtDetails(BaseModel):
+    name: str 
+    email: str 
+    description: str 
+    tags: str 
+    price: str 
+    slots: int 
+    lang: str 
+    hours: str 
+    education: str 
+    bg: str 
+    
