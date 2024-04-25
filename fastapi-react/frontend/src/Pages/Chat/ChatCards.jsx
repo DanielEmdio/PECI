@@ -29,11 +29,6 @@ export default function ChatCards() {
                 )) : mockedData2.map((Pt, index) => (
                     <ChatCard className="basis-1/3" key={index} Pt={Pt} />
                 ))}
-                {(utils.isNormalUser()) ? mockedData2.map((Pt, index) => (
-                    <ChatCard className="basis-1/3" key={index} Pt={Pt} />
-                )) : mockedData.map((Pt, index) => (
-                    <ChatCard className="basis-1/3" key={index} Pt={Pt} chatId={index} />
-                ))}
             </div>
         </div>
     </>

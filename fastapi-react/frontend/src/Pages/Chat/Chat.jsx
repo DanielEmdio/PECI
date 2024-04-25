@@ -58,6 +58,10 @@ export default function Chat() {
 
             setMessages(prevMessages => [...prevMessages, newMessage]);
         };
+
+        socket.onerror = (e) => {
+            console.error(e);
+        }
     };
 
     const handleSubmit = async (form) => {
@@ -78,7 +82,13 @@ export default function Chat() {
         };
 
         setMessages(prevMessages => [...prevMessages, newMessage]);
-        ws.send(JSON.stringify({ "message": message }));
+
+        if (ws) {
+            ws.send(JSON.stringify({ "message": message }));
+        }
+        else {
+            console.error("Websocket not initialized");
+        }
     };
 
     // get name of the pt

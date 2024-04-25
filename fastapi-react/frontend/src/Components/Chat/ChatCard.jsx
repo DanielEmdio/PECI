@@ -13,7 +13,7 @@ export default function PtCard({ Pt, key }) {
                 </h2>
                 <div className="card-actions justify-end">
                     {(utils.isNormalUser()) ?
-                        <Link to={`/chat/${key}`}><button className="btn btn-primary"><IoChatboxEllipses size={30}></IoChatboxEllipses>Chat</button></Link> :
+                        <Link to={`/chat/1`}><button className="btn btn-primary"><IoChatboxEllipses size={30}></IoChatboxEllipses>Chat</button></Link> :
                         <Link to={`/chat/1`}><button className="btn btn-primary"><IoChatboxEllipses size={30}></IoChatboxEllipses>Chat</button></Link>
                     }
                 </div>
