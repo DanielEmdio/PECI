@@ -22,6 +22,7 @@ class PersonalTrainer(Base):
     token = Column(String, index=True)
     username = Column(String, index=True)
     password = Column(String, index=True)
+    email = Column(String, index=True)
     name = Column(String, index=True)
     description = Column(String, index=True)
     tags = Column(String, index=True)
@@ -37,8 +38,8 @@ class PersonalTrainer(Base):
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
     workouts = relationship("Video", back_populates="personal_trainer")
 
-class Video(Base):
-    __tablename__ = "videos"
+class Exercise(Base):
+    __tablename__ = "exercise"
 
     id = Column(Integer, primary_key=True)
     videopath = Column(String, index=True)
@@ -48,9 +49,41 @@ class Video(Base):
     releasedate = Column(String, index=True)
     restricted = Column(Integer, index=True)
     thumbnail = Column(String, index=True)
+    rating = Column(String, index=True)
+    duration = Column(String, index=True)
+    dificulty = Column(String, index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
     personal_trainer = relationship("PersonalTrainer", back_populates="workouts")
+
+class Workout_Exercise(Base):
+    __tablename__ = "workout_exercise"
+
+    workout_id = Column(Integer, ForeignKey("workout.id"), primary_key=True)
+    exercise_id = Column(Integer, ForeignKey("exercise.id"), primary_key=True)
+
+class Workout(Base):
+    __tablename__ = "workout"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String, index=True)
+    tags = Column(String, index=True)
+    
+class Exercise_Progress(Base):
+    __tablename__ = "exercise_progress"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), index=True)
+    date = Column(String, index=True)
+
+class Reps_Progress(Base):
+    __tablename__ = "reps_progress"
+
+    id = Column(Integer, ForeignKey("exercise_progress.id"), primary_key=True)
+    exercise_id = Column(Integer, ForeignKey("exercise.id"), index=True)
+    set_num = Column(Integer, index=True)
+    reps_made = Column(Integer, index=True)
+    weight_used = Column(Integer, index=True)
 
 class Subscription(Base):
     __tablename__ = "subscriptions"

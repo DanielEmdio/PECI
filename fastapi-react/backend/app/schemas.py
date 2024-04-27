@@ -34,6 +34,7 @@ class PersonalTrainer(PersonalTrainerBase):
     id: int
     token: str
     name: str
+    email: str
     description: str
     tags: str
     photo: str
@@ -46,32 +47,10 @@ class PersonalTrainer(PersonalTrainerBase):
     education: str
     bg: str
     subscriptions: list['Subscription'] = []
-    workout: list['Video'] = []
+    workout: list['Exercise'] = []
 
     class Config:
         from_attributes = True #orm_mode = True
-
-
-########################  VIDEO RELATED  ########################
-class VideoBase(BaseModel):
-    pass
-
-class VideoCreate(VideoBase):
-    videopath: str
-    videoname: str
-    description: str
-    muscletargets: str
-    releasedate: str
-    restricted: int
-
-class Video(VideoBase):
-    id: int
-    personal_trainer_id:int
-    thumbnail: str
-
-    class Config:
-        from_attributes = True #orm_mode = True
-
 
 ########################  SUBSCRIPTION RELATED  ########################
 class SubscriptionBase(BaseModel):
@@ -87,7 +66,105 @@ class Subscription(SubscriptionBase):
     class Config:
         from_attributes = True # orm_mode = True
 
+
+########################  EXERCISE RELATED  ########################
+class ExerciseBase(BaseModel):
+    pass
+
+class ExerciseCreate(ExerciseBase):
+    videopath: str
+    videoname: str
+    description: str
+    muscletargets: str
+    releasedate: str
+    restricted: int
+    rating: str
+    duration: str
+    dificulty: str
+
+class Exercise(ExerciseBase):
+    id: int
+    personal_trainer_id:int
+    thumbnail: str
+
+    class Config:
+        from_attributes = True #orm_mode = True
+
+########################  WORKOUT RELATED  ########################
+
+class Workout_ExerciseBase(BaseModel):
+    pass
+
+class Workout_ExerciseCreate(Workout_ExerciseBase):
+    pass
+
+class Workout_Exercise(Workout_ExerciseBase):
+    workout_id: int
+    exercise_id: int
+
+    class Config:
+        from_attributes = True
+
+class WorkoutBase(BaseModel):
+    pass
+
+class WorkoutCreate(WorkoutBase):
+    pass
+
+class Workout(WorkoutBase):
+    id: int
+    title: str
+    tags: str
+
+    class Config:
+        from_attributes = True
+
+########################  PROGRESS RELATED  ########################
+
+class ExerciseProgressBase(BaseModel):
+    pass
+
+class ExerciseProgressCreate(ExerciseProgressBase):
+    pass
+
+class ExerciseProgress(ExerciseProgressBase):
+    id: int
+    user_id: int
+    date: str
+
+    class Config:
+        from_attributes = True
+
+class RepsProgressBase(BaseModel):
+    pass
+
+class RepsProgressCreate(RepsProgressBase):
+    pass
+
+class RepsProgress(RepsProgressBase):
+    id: int
+    exercise_id: int
+    set_num: int
+    reps_made: int
+    weight_used: int
+
+    class Config:
+        from_attributes = True
+
 ########################  RANDOM  ########################
 
 class TokenData(BaseModel):
     token: str
+
+class PtDetails(BaseModel):
+    name: str 
+    email: str 
+    description: str 
+    tags: str 
+    price: str 
+    slots: int 
+    lang: str 
+    hours: str 
+    education: str 
+    bg: str 
+    
