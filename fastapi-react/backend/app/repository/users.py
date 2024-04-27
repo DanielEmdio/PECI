@@ -37,6 +37,10 @@ class UsersRepository():
     @staticmethod
     def get_users(skip: int = 0, limit: int = 100) -> list[models.User]: # retrieve all users
         return db.query(models.User).offset(skip).limit(limit).all()
+    
+    @staticmethod
+    def get_athlete_weight_progress(user_id):
+        return db.query(models.AthleteWeight).filter(models.AthleteWeight.id == user_id).all()
 
     """@staticmethod
     def get_user_pts(user_id: int):     # retrieve all personal_trainers to which the user is subscribed to

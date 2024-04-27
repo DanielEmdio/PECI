@@ -1,7 +1,7 @@
 # DESCRIPTION:
 # In this file are all the definitions for the tables in our database
 
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -14,6 +14,13 @@ class User(Base):
     token = Column(String, index=True)
     
     subscriptions = relationship("Subscription", back_populates="user") # se fizermos um request pedindo pela coluna "subscriptions", isso retornará todos os pts a que o "user" se subscreveu
+
+class AthleteWeight(Base):
+    __tablename__ = "athlete_weight"
+    id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    date = Column(Date, primary_key=True)
+    weight = Column(Integer, index=True)
+
 
 class PersonalTrainer(Base):
     __tablename__ = "personal_trainers"

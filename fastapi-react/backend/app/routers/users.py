@@ -84,6 +84,24 @@ def check_authentication(token: schemas.TokenData):
 
     return { "result": "ok" }
 
+
+@router.post("/getAthleteWeightData")
+def get_weight_progress(token: schemas.TokenData):
+    jwt_token_data = get_jwt_token_data(token=token.token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+
+    if jwt_token_data["isNormalUser"]:
+        user = UsersRepository.get_user_by_token(token=jwt_token_data["token"])
+        if user == None:
+            return { "result": "no", "error": "Invalid token." }
+
+        data = UsersRepository.get_athlete_weight_progress(user.id)
+        data = [{"date":d.date, "weight":d.weight} for d in data]
+        return { "result": "ok", "data": data }
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+
 @router.post("/getPtById/{pt_id}")
 def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
     jwt_token_data = get_jwt_token_data(token=token.token)

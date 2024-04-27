@@ -2,6 +2,7 @@
 # In this file are all the definitions for the Pydantic models
 
 from pydantic import BaseModel
+from datetime import date
 # from typing import Any, Dict
 
 ########################  USER RELATED  ########################
@@ -21,6 +22,23 @@ class User(UserBase):
 
 class UserRegister(BasicUser):
     isNormalUser: bool
+
+
+########################  ATHLETE WEIGHT RELATED  ########################
+class AthleteWeightBase(BaseModel):
+    date: date
+    weight: int
+
+class AthleteWeightCreate(AthleteWeightBase):
+    pass
+
+class AthleteWeight(AthleteWeightBase):
+    id: int
+
+    class Config:
+        from_attributes = True # orm_mode = True
+
+
 
 
 ########################  PERSONAL TRAINER RELATED  ########################
