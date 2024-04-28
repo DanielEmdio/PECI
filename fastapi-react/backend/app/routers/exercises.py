@@ -1,7 +1,7 @@
 from repository.pts import PersonalTrainersRepository
 from fastapi import APIRouter, UploadFile, File, Cookie
 from repository.users import UsersRepository
-from repository.videos import VideosRepository
+from repository.exercises import VideosRepository
 from fastapi.responses import FileResponse
 from auth.oauth2_jwt import *
 from pathlib import Path

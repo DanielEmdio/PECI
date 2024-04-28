@@ -43,25 +43,24 @@ class PersonalTrainer(Base):
     education = Column(String, index=True)
     bg = Column(String, index=True)
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
-    workouts = relationship("Video", back_populates="personal_trainer")
+    exercises = relationship("Exercise", back_populates="personal_trainer")
 
 class Exercise(Base):
     __tablename__ = "exercise"
 
     id = Column(Integer, primary_key=True)
-    videopath = Column(String, index=True)
-    videoname = Column(String, index=True)
+    path = Column(String, index=True)
+    name = Column(String, index=True)
     description = Column(String, index=True)
     muscletargets = Column(String, index=True)
     releasedate = Column(String, index=True)
-    restricted = Column(Integer, index=True)
     thumbnail = Column(String, index=True)
     rating = Column(String, index=True)
     duration = Column(String, index=True)
     dificulty = Column(String, index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
-    personal_trainer = relationship("PersonalTrainer", back_populates="workouts")
+    personal_trainer = relationship("PersonalTrainer", back_populates="exercises")
 
 class Workout_Exercise(Base):
     __tablename__ = "workout_exercise"
@@ -75,6 +74,7 @@ class Workout(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String, index=True)
     tags = Column(String, index=True)
+    premium = Column(Integer, index=True)
     
 class Exercise_Progress(Base):
     __tablename__ = "exercise_progress"

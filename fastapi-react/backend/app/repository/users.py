@@ -1,6 +1,6 @@
 from repository.pts import PersonalTrainersRepository
 from repository.subs import SubscriptionsRepository
-from repository.videos import VideosRepository
+from repository.exercises import VideosRepository
 from auth.oauth2_jwt import *
 from typing import List
 from database import db

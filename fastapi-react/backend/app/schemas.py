@@ -90,12 +90,11 @@ class ExerciseBase(BaseModel):
     pass
 
 class ExerciseCreate(ExerciseBase):
-    videopath: str
-    videoname: str
+    path: str
+    name: str
     description: str
     muscletargets: str
     releasedate: str
-    restricted: int
     rating: str
     duration: str
     dificulty: str
@@ -110,18 +109,20 @@ class Exercise(ExerciseBase):
 
 ########################  WORKOUT RELATED  ########################
 
-class Workout_ExerciseBase(BaseModel):
+class WorkoutExerciseBase(BaseModel):
     pass
 
-class Workout_ExerciseCreate(Workout_ExerciseBase):
+class WorkoutExerciseCreate(WorkoutExerciseBase):
     pass
 
-class Workout_Exercise(Workout_ExerciseBase):
+class WorkoutExercise(WorkoutExerciseBase):
     workout_id: int
     exercise_id: int
 
     class Config:
         from_attributes = True
+
+
 
 class WorkoutBase(BaseModel):
     pass
@@ -133,6 +134,7 @@ class Workout(WorkoutBase):
     id: int
     title: str
     tags: str
+    premium: int
 
     class Config:
         from_attributes = True

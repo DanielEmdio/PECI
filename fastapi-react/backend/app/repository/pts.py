@@ -1,5 +1,5 @@
 from repository.subs import SubscriptionsRepository
-from repository.videos import VideosRepository
+from repository.exercises import VideosRepository
 from auth.oauth2_jwt import *
 from database import db
 from typing import List
