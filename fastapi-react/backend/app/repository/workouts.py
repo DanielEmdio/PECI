@@ -14,7 +14,7 @@ class WorkoutsRepository():
     
     @staticmethod
     def getPtPrivWorkouts(pt_id: str) -> Optional[List[models.Workout]]:
-        return db.query(models.Workout).filter(models.Workout.personal_trainer_id == pt_id,models.Workout.premium == 1).all()
+        return db.query(models.Workout).filter(models.Workout.personal_trainer_id == pt_id, models.Workout.premium == 1).all()
         
         # exercises_id = db.query(models.Exercise).filter(models.Exercise.personal_trainer_id == pt_id).all()
 

@@ -120,6 +120,18 @@ class PersonalTrainersRepository():
                     if videoname in ex.path:
                         return True
         return False
+    
+    
+    @staticmethod
+    def hasAccessToWorkout(pt_id: int, workoutTitle: str) -> bool:
+        workouts = PersonalTrainersRepository.getAccessibleWorkouts(pt_id)
+        if workouts:
+            for workout in workouts:
+                # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
+                print("workout.title:",workout.title, "workoutTitle:",workoutTitle)
+                if workoutTitle==workout.title:
+                    return True
+        return False
         
         # workouts = PersonalTrainersRepository.getAccessibleWorkouts(pt_id)
         # if workouts:

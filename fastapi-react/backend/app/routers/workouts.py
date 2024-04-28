@@ -92,13 +92,13 @@ async def get_workout_info( token: schemas.TokenData,workout_id:int):
     if jwt_data["isNormalUser"] == True:
         user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
         workout = WorkoutsRepository.getWorkout(workout_id)
-        # if not UsersRepository.hasAccessToWorkout(user_id, workout.title):
-        #     return { "result": "no", "error": "Unauthorized." }
+        if not UsersRepository.hasAccessToWorkout(user_id, workout.title):
+            return { "result": "no", "error": "Unauthorized." }
     else:
-        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=token).id
         workout = WorkoutsRepository.getWorkout(workout_id)
-        # if not PersonalTrainersRepository.hasAccessToWorkout(pt_id, workout.title):
-        #     return { "result": "no", "error": "Unauthorized." }
+        if not PersonalTrainersRepository.hasAccessToWorkout(pt_id, workout.title):
+            return { "result": "no", "error": "Unauthorized." }
         
     return {"result":"ok","workout":workout}
 

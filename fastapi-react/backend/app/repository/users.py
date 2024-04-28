@@ -95,15 +95,17 @@ class UsersRepository():
 
     @staticmethod
     def getAccessibleWorkouts(user_id: int) -> Optional[List[models.Workout]]:
-        workouts = WorkoutsRepository.getUnrestrictedWorkouts()
+        free_workouts = WorkoutsRepository.getUnrestrictedWorkouts()
         PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
-
+        workouts = free_workouts
         if PTs_id != []:
             for id in PTs_id:
-                workout = WorkoutsRepository.getPtPrivWorkouts(id)
-                if workout != None:
-                    workouts += workout
-
+                priv_workouts = WorkoutsRepository.getPtPrivWorkouts(id)
+                for workout in priv_workouts:
+                    print("PTprivworkouts: ",workout.title, workout.thumbnail)
+                if priv_workouts != None:
+                    workouts += priv_workouts
+        print("workouts: ",workouts)
         return workouts
     
     @staticmethod
@@ -135,6 +137,17 @@ class UsersRepository():
                     print("ex:",ex.path, "videoname:",videoname)
                     if videoname in ex.path:
                         return True
+        return False
+    
+    @staticmethod
+    def hasAccessToWorkout(user_id: int, workoutTitle: str) -> bool:   # REVIEW THIS FUNCTION
+        workouts = UsersRepository.getAccessibleWorkouts(user_id)
+        if workouts:
+            for workout in workouts:
+                # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
+                print("workout:",workout.title, "workoutTitle:",workoutTitle)
+                if workoutTitle==workout.title:
+                    return True
         return False
 
     @staticmethod
