@@ -43,7 +43,7 @@ class PersonalTrainer(Base):
     education = Column(String, index=True)
     bg = Column(String, index=True)
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
-    exercises = relationship("Exercise", back_populates="personal_trainer")
+    #exercises = relationship("Exercise", back_populates="personal_trainer")
 
 class Exercise(Base):
     __tablename__ = "exercise"
@@ -53,16 +53,11 @@ class Exercise(Base):
     name = Column(String, index=True)
     description = Column(String, index=True)
     muscletargets = Column(String, index=True)
-    releasedate = Column(String, index=True)
-    thumbnail = Column(String, index=True)
-    rating = Column(String, index=True)
     duration = Column(String, index=True)
     dificulty = Column(String, index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
-    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
-    personal_trainer = relationship("PersonalTrainer", back_populates="exercises")
 
-class Workout_Exercise(Base):
+class WorkoutExercise(Base):
     __tablename__ = "workout_exercise"
 
     workout_id = Column(Integer, ForeignKey("workout.id"), primary_key=True)
@@ -75,15 +70,21 @@ class Workout(Base):
     title = Column(String, index=True)
     tags = Column(String, index=True)
     premium = Column(Integer, index=True)
+    thumbnail = Column(String, index=True)
+    releasedate = Column(Date, index=True)
+    rating = Column(String, index=True)
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
+
+
     
-class Exercise_Progress(Base):
+class ExerciseProgress(Base):
     __tablename__ = "exercise_progress"
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("users.id"), index=True)
     date = Column(String, index=True)
 
-class Reps_Progress(Base):
+class RepsProgress(Base):
     __tablename__ = "reps_progress"
 
     id = Column(Integer, ForeignKey("exercise_progress.id"), primary_key=True)

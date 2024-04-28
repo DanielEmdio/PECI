@@ -94,15 +94,11 @@ class ExerciseCreate(ExerciseBase):
     name: str
     description: str
     muscletargets: str
-    releasedate: str
-    rating: str
     duration: str
     dificulty: str
 
 class Exercise(ExerciseBase):
     id: int
-    personal_trainer_id:int
-    thumbnail: str
 
     class Config:
         from_attributes = True #orm_mode = True
@@ -135,6 +131,10 @@ class Workout(WorkoutBase):
     title: str
     tags: str
     premium: int
+    thumbnail: str
+    releasedate: date
+    rating: str
+    personal_trainer_id: int
 
     class Config:
         from_attributes = True

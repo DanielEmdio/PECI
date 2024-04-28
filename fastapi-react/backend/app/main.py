@@ -16,7 +16,7 @@ def read_item(item_id: int, q: Union[str, None] = None):
 def update_item(item_id: int, item: Item):
     return {"item_name": item.name, "item_id": item_id}"""
 
-from routers import users, pts, chat, images,exercises
+from routers import users, pts, chat, images,exercises, workouts
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 from models import User, PersonalTrainer
@@ -42,6 +42,7 @@ app.include_router(exercises.router)
 app.include_router(images.router)
 app.include_router(users.router)
 app.include_router(chat.router)
+app.include_router(workouts.router)
 # app.include_router(pts.router)
 
 # app.add_websocket_route(path="/chat", route=chat.chat_endpoint)

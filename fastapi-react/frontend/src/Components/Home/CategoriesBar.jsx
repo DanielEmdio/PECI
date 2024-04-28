@@ -8,11 +8,11 @@ export default function CategoriesBar() {
     const [mockedData, setMockedData] = useState([]);
 
     useEffect(() => {
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.videos);
+            console.log(data.workouts);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -21,7 +21,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: 4,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    mainMuscles: []//element.mainMuscles.split(","),
                 })
             });
 
@@ -34,11 +34,11 @@ export default function CategoriesBar() {
         setActiveButton("popular");
         console.log('The link was clicked.');
 
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("popular videos: ", data.videos);
+            console.log("popular videos: ", data.workouts);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -47,7 +47,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: 4,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    mainMuscles: []//element.mainMuscles.split(","),
                 })
             });
 
@@ -63,11 +63,11 @@ export default function CategoriesBar() {
         setActiveButton("recent");
         console.log('The link was clicked.');
 
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("recent videos: ", data.videos);
+            console.log("recent videos: ", data.workouts);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -76,7 +76,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: 4,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    mainMuscles: []//element.mainMuscles.split(","),
                 })
             });
 
@@ -103,11 +103,11 @@ export default function CategoriesBar() {
         setActiveButton("exclusive");
         console.log('The link was clicked.');
 
-        api.post("/videos/getPTPreVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getPTPreWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("exclusive videos: ", data.videos);
+            console.log("exclusive workouts: ", data.workouts);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -117,7 +117,7 @@ export default function CategoriesBar() {
                     releasedate: element.releasedate,
                     PTUsername: element.username,
                     difficulty: 4,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    mainMuscles: []//element.mainMuscles.split(","),
                 })
             });
 
@@ -130,11 +130,11 @@ export default function CategoriesBar() {
         setActiveButton("all");
         console.log('The link was clicked.');
 
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.videos);
+            console.log(data.workouts);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -143,7 +143,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: 4,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    mainMuscles: []//element.mainMuscles.split(","),
                 })
             });
 
@@ -161,7 +161,7 @@ export default function CategoriesBar() {
             </div>
             <div className="flex flex-col gap-4">
                 {(mockedData.length === 0) ? (
-                    <div className='text-center'>No videos available.</div>
+                    <div className='text-center'>No workouts available.</div>
                 ) : (
                     mockedData.map((workout, index) => (
                         <Workoutcard key={index} workout={workout} />

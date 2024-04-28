@@ -1,6 +1,9 @@
+from repository.workouts import WorkoutsRepository
+from repository.exercises import ExercisesRepository
 from repository.pts import PersonalTrainersRepository
 from repository.subs import SubscriptionsRepository
-from repository.exercises import VideosRepository
+from repository.exercises import ExercisesRepository
+from repository.workout_exercises import WorkoutExercisesRepository
 from auth.oauth2_jwt import *
 from typing import List
 from database import db
@@ -91,44 +94,47 @@ class UsersRepository():
     #     return PTs_id
 
     @staticmethod
-    def getAccessibleVideos(user_id: int) -> Optional[List[models.Video]]:
-        videos = VideosRepository.getUnrestrictedVideos()
+    def getAccessibleWorkouts(user_id: int) -> Optional[List[models.Workout]]:
+        workouts = WorkoutsRepository.getUnrestrictedWorkouts()
         PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
 
         if PTs_id != []:
             for id in PTs_id:
-                video = VideosRepository.getPtPrivVideos(id)
-                if video != None:
-                    videos += video
+                workout = WorkoutsRepository.getPtPrivWorkouts(id)
+                if workout != None:
+                    workouts += workout
 
-        return videos
+        return workouts
     
     @staticmethod
-    def getPTVideos(user_id: int) -> Optional[List[models.Video]]:
+    def getPTWorkouts(user_id: int) -> Optional[List[models.Workout]]:
         PTs_id = SubscriptionsRepository.get_pt_ids_for_user(user_id)
         if PTs_id != []:
-            videos_list = []
+            workouts_list = []
             for id in PTs_id:
-                videos = VideosRepository.getPtPrivVideos(id)
-                video_PT_username = PersonalTrainersRepository.getPtUsername(id)
-                if videos != None:
-                    for vide in videos:
-                        vide.pt_username = video_PT_username
-                        videos_list.append(vide)
+                workouts = WorkoutsRepository.getPtPrivWorkouts(id)
+                workout_PT_username = PersonalTrainersRepository.getPtUsername(id)
+                if workouts != None:
+                    for work in workouts:
+                        work.pt_username = workout_PT_username
+                        workouts_list.append(work)
 
-            return videos_list
+            return workouts_list
 
         return []
 
     @staticmethod
-    def hasAccessToVideo(user_id: int, videoname: str) -> bool:
-        videos = UsersRepository.getAccessibleVideos(user_id)
-        if videos:
-            for video in videos:
+    def hasAccessToExercise(user_id: int, videoname: str) -> bool:   # REVIEW THIS FUNCTION
+        workouts = UsersRepository.getAccessibleWorkouts(user_id)
+        if workouts:
+            for workout in workouts:
+                exercises = WorkoutExercisesRepository.getExercisesForWorkout(workout.id)
+                print("exercises:",exercises)
                 # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
-                if videoname in video.videopath:
-                    return True
-
+                for ex in exercises:
+                    print("ex:",ex.path, "videoname:",videoname)
+                    if videoname in ex.path:
+                        return True
         return False
 
     @staticmethod

@@ -26,16 +26,14 @@ function VideoPlayer() {
 
     // console.log("VideoID: ", VideoID);
     useEffect(() => {
-        api.post(`/videos/getVideoInfo?video_id=${VideoID}`, { token: utils.getCookie("token") }).then((r) => {
+        api.post(`/exercises/getVideoInfo?exercise_id=${VideoID}`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
             console.log("data: ", data);
             const element = data.video;
             setVideo({
-                path: element.videopath,
-                title: element.videoname,
+                path: element.path,
+                title: element.name,
                 description: element.description,
-                thumbnail: element.thumbnail,
-                releasedate: element.releasedate,
             })
 
         }).catch((_) => { });
@@ -47,7 +45,7 @@ function VideoPlayer() {
         <div>
             <br />
             <ReactPlayer
-                url={`${API_URL}/videos/${video.path}`}
+                url={`${API_URL}/exercises/${video.path}`}
                 width="100%"
                 height="100%"
                 controls

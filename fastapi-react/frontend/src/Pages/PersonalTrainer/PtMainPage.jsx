@@ -53,20 +53,20 @@ export default function PtMainPage() {
   });
 
     useEffect(() => {
-        api.post(`/videos/getPTvideos/${id}`).then((r) => {
+        api.post(`/workouts/getPTworkouts/${id}`).then((r) => {
             const data = r.data;
             console.log("videosdata: "+data);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    description: element.description,
+                    description: "", //element.description,
                     duration: "30 min",                             // deverá ser ajustado
                     //rating: element.rating,
                     releasedate: element.releasedate,
-                    mainMuscles: element.mainMuscles.split(","),
+                    mainMuscles: []//element.mainMuscles.split(","),
                 })
             });
 
