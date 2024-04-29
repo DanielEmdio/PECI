@@ -1,9 +1,9 @@
 import * as utils from "../../Utils/utils";
 import React, { useState } from 'react';
-import axios from 'axios';
+import { api } from "../../api";
 
 function AddVideo() {
-    const [video, setVideo] = useState(null);
+    const [videofile, setVideo] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [targetMuscles, setTargetMuscles] = useState('');
@@ -13,29 +13,36 @@ function AddVideo() {
         setVideo(event.target.files[0]);
     };
   
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new FormData();
-        formData.append('video', video);
-        formData.append('title', title);
-        formData.append('description', description);
-        formData.append('targetMuscles', targetMuscles);
-        formData.append('personalTrainerId', personalTrainerId);
-        /*
+    const handleSubmit = async (form) => {
+        form.preventDefault();
         try {
-            const response = await axios.post('../../../../backend/app/videos', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+            const response1 = await api.post(`/users/registerPTdetails`, {token: {"token" : utils.getCookie("token")}});
+            const data1 = response1.data;
+            if (data1["result"] !== "ok") {
+                alert('Error uploading video');
+            }
+            const pt_id = data1.pt_id; // Supondo que a resposta inclua o pt_id
+            const newFilename = `nomedoficheiro_${pt_id}.mp4`;
+            const renamedFile = new File([videofile], newFilename, { type: videofile.type });
+            const formData = new FormData();
+            formData.append("videofile", renamedFile);
+            const response2 = await api.post(`/videos/upload`, 
+                formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
             });
-            alert('Video uploaded successfully');
+            const data2 = response2.data;
+            if (data2["result"] !== "ok") {
+                alert('Error uploading video');
+            }
+            utils.goToHome();
         } catch (error) {
             console.error('Error uploading video:', error);
             alert('Error uploading video');
         }
-        */
     };
-
+    
     return (
         <div className="flex justify-center items-center h-screen bg-gray-100">
             <form onSubmit={handleSubmit} className="p-10 bg-white rounded-lg shadow-xl">
