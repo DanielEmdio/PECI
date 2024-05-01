@@ -1,9 +1,11 @@
+import json
 from repository.pts import PersonalTrainersRepository
 from repository.subs import SubscriptionsRepository
 from repository.users import UsersRepository
 from fastapi import APIRouter
 from auth.oauth2_jwt import *
 from typing import Tuple
+from fastapi import UploadFile, File
 import schemas
 
 router = APIRouter(prefix="/users")
@@ -51,6 +53,66 @@ def register_user(user: schemas.UserRegister):
         jwt_token: str = PersonalTrainersRepository.logIn(new_pt)
 
     return { "result": "ok", "token": jwt_token }
+
+
+@router.post("/registerPTdetails")
+def register_pt_details(token: schemas.TokenData, details: schemas.PtDetails):
+
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data is None:
+        return { "result": "no", "error": "Unauthorized." }
+    if jwt_data["isNormalUser"]:
+        return { "result": "no", "error": "Unauthorized." }
+    pt_id = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+    if pt_id is None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    PersonalTrainersRepository.update_pt_details(pt_id, details.model_dump())
+    return { "result": "ok", "pt_id": pt_id }
+
+# Before calling this function, we need to change the photofile.name to the pt_id'.png' like this:
+#   const pt_id = data1.pt_id; // Supondo que a resposta inclua o pt_id
+#   const renamedFile = new File([photofile], `${pt_id}.png`, { type: photofile.type });
+# This happens because (if i understood correctly) we can't send the pt_id as a parameter in the request, so we need to change the name of the file to the pt_id
+@router.post("/safePTphoto")
+async def safe_pt_photo(photofile: UploadFile = File(...)):
+
+    print("photofile.filename: ",photofile.filename)
+    # Extrair pt_id do nome do arquivo
+    pt_id = int(photofile.filename.replace('.png', ''))
+
+    pt_username = PersonalTrainersRepository.get_pt_username(pt_id)
+
+    print("pt_username: ",pt_username)
+    print("photofile.filename: ",photofile.filename)
+
+    # check the file size
+    max_size_in_bytes = 5 * 1024 * 1024  # 5 MB
+    content_length = 0
+    while True:
+        data = photofile.file.read(8192)
+        if not data:
+            break
+        content_length += len(data)
+        if content_length > max_size_in_bytes:
+            return {"result": "no", "error": "O ficheiro selecionado excede o tamanho máximo (5 MB). Por favor escolha outra imagem."}
+
+    # save the image file
+    print(pt_username)
+    with open('./images/avatars/' + pt_username + '.png', 'wb') as f:
+        # reset file pointer to the beginning of the file
+        photofile.file.seek(0)
+        while True:
+            data = photofile.file.read(8192)
+            if not data:
+                break
+            f.write(data)
+
+    PersonalTrainersRepository.save_pt_photopath(pt_username,pt_id)
+    return { "result": "ok" }
+
+
+
 
 @router.post("/login")
 def login_user(user: schemas.BasicUser):

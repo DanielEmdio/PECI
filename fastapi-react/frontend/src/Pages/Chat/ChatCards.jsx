@@ -13,7 +13,7 @@ const mockedData = [
 const mockedData2 = [
     {
         name: "User1",
-        photo: "https://picsum.photos/250/200",
+        photo: "https://picsum.photos/250/201",
         decription: "I believe, that through fitness you can change not only your body but your whole life!",
         tags: ["Full Body", "Cardio", "Strength"],
     },

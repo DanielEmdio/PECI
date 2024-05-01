@@ -19,7 +19,7 @@ export default function Chat() {
                 data.messages.forEach(element => {
                     let sender = "";
                     if ((element.sent_by_user && utils.isNormalUser()) || (!element.sent_by_user && !utils.isNormalUser())) {
-                        sender = "You ";
+                        sender = " You";
                     } else if (element.sent_by_user && !utils.isNormalUser()) {
                         sender = "Athlete ";
                     } else if (!element.sent_by_user && utils.isNormalUser()) {
@@ -58,37 +58,62 @@ export default function Chat() {
 
             setMessages(prevMessages => [...prevMessages, newMessage]);
         };
+
+        socket.onerror = (e) => {
+            console.error(e);
+        }
     };
 
     const handleSubmit = async (form) => {
+
+        // clear the input box
+        setMessage('');
+
         // prevent form submission
         form.preventDefault();
 
+        // trim the message and check if the message is empty
+        const trimmedMessage = message.trim();
+        if (trimmedMessage === '') { return; }
+
         const newMessage = {
-            sender: "You ",
+            sender: " You",
             message: message
         };
 
         setMessages(prevMessages => [...prevMessages, newMessage]);
-        ws.send(JSON.stringify({ "message": message }));
+
+        if (ws) {
+            ws.send(JSON.stringify({ "message": message }));
+        }
+        else {
+            console.error("Websocket not initialized");
+        }
     };
+
+    // get name of the pt
+    const [recipient, setRecipient] = useState("Igor");
 
     return (
         <div className="chat-body card">
             <div className="card-body">
                 <strong id="profile"></strong>
-                <h4 className="card-title text-center">Chat</h4>
+                <h4 className="card-title text-center" style={{ fontSize: '2em' }}>{recipient}</h4>
                 <hr />
                 <div id="messages">
                     {messages.map((message, index) => (
-                        <p key={index}>
-                            <strong>{message.sender}</strong>
-                            <span>{message.message}</span>
-                        </p>
+                        <div key={index}>
+                            <div className="message-box" key={index}>
+                                <p>
+                                    <span>{message.message}</span>
+                                    <strong>{message.sender}</strong>
+                                </p>
+                            </div>
+                        </div>
                     ))}
                 </div>
                 <form className="form-inline" id="chat-form" onSubmit={handleSubmit}>
-                    <input type="text" className="form-control" placeholder="Write your message" onChange={(e) => setMessage(e.target.value)} />
+                    <input type="text" className="form-control" placeholder="Write your message" value={message} onChange={(e) => setMessage(e.target.value)} />
                     <button id="send" type="submit" className="btn btn-primary">Send</button>
                 </form>
             </div>

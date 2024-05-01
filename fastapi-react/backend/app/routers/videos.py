@@ -77,7 +77,9 @@ def get_accessible_videos(token: schemas.TokenData):
     if videos == None:
         return { "result": "ok", "videos": [] }
 
-    videos = [ {"id":video.id,"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
+    #videos = [ {"id":video.id, "title": video.videoname, "mainMuscles": video.muscletargets,"rating": video.rating, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
+    videos = [ {"id":video.id, "title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate, "personal_trainer_id": video.personal_trainer_id} for video in videos]
+
     return { "result": "ok", "videos": videos }
 
 @router.post("/getPTPreVideos")
@@ -106,10 +108,10 @@ async def get_pt_premium_videos(token: schemas.TokenData):
     #print("videos",videos)
     #print("video.pt_username",videos[0].pt_username)
     
-    videos = [ {"id":video.id,"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
+    #videos = [ {"id":video.id,"title": video.videoname, "mainMuscles": video.muscletargets, "thumbnail": video.thumbnail, "username": video.pt_username ,"releasedate": video.releasedate} for video in videos]
     
     # depois de dar update á db deverá ficar este:
-    #videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate} for video in videos if video.restricted == 1]
+    videos = [ {"title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate} for video in videos]
 
 
     return { "result": "ok", "videos": videos if videos != None else [] }

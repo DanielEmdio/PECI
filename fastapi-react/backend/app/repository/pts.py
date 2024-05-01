@@ -23,9 +23,22 @@ class PersonalTrainersRepository():
     @staticmethod
     def get_pt_by_username(username: str) -> Optional[models.PersonalTrainer]: # retorna o username e o token 
         return db.query(models.PersonalTrainer).filter(models.PersonalTrainer.username == username).first()
+    
+    #@staticmethod
+    #def get_pt_by_email(email: str) -> Optional[models.PersonalTrainer]:
+    #    return db.query(models.PersonalTrainer).filter(models.PersonalTrainer.email == email).first()
 
     @staticmethod
-    def get_pt_by_token(token: str) -> Optional[models.PersonalTrainer]:
+    def get_pt_by_token(token: schemas.TokenData) -> Optional[models.PersonalTrainer]:
+        #print("token: ",token)
+        #token = token.token
+        #print
+        #print(db.query(models.PersonalTrainer).filter(models.PersonalTrainer.token == token).first())
+        # print("token: ",token)
+        # #print all element of the table, and columns id, username, password, token
+        # t =db.query(models.PersonalTrainer).all()
+        # for i in t:
+        #     print(i.id,i.username,i.password,i.token)
         return db.query(models.PersonalTrainer).filter(models.PersonalTrainer.token == token).first()
 
     @staticmethod
@@ -45,9 +58,30 @@ class PersonalTrainersRepository():
         pt_ids_to_exclude = SubscriptionsRepository.get_pt_ids_for_user(user_id)     # get the pts ids to which the user is subbed
 
         return db.query(models.PersonalTrainer).filter(~models.PersonalTrainer.id.in_(pt_ids_to_exclude)).all()
-    # @staticmethod
-    # def get_pt_username(pt_id: str): # retorna o username do PersonalTrainer, com base no seu id
-    #     return db.query(models.PersonalTrainer.username).filter(models.PersonalTrainer.id == pt_id).scalar()
+    # details will be dictionary with the following keys: name, email, description, tags, photo, price, slots, lang, hours, education, bg
+    @staticmethod
+    def update_pt_details(pt_id: int, details):
+        pt = db.query(models.PersonalTrainer).filter(models.PersonalTrainer.id == pt_id).first()
+        print(details)
+        for key in details:
+            setattr(pt, key, details[key])
+        # print all pt elements
+        #print(pt.id,pt.username,pt.password,pt.token,pt.name,pt.email,pt.description,pt.tags,pt.photo,pt.price,pt.slots,pt.lang,pt.hours,pt.education,pt.bg)
+        db.commit()
+
+    # caso o pt já tenha uma foto(photopath), esta será substituída pela nova
+    @staticmethod
+    def save_pt_photopath(pt_username : str, pt_id: int):
+        photopath = "./avatars/"+pt_username+".png"
+        print("photo path: ",photopath)
+        pt = db.query(models.PersonalTrainer).filter(models.PersonalTrainer.id == pt_id).first()
+        pt.photo = photopath
+        db.commit()
+
+
+    @staticmethod
+    def get_pt_username(pt_id: str): # retorna o username do PersonalTrainer, com base no seu id
+        return db.query(models.PersonalTrainer.username).filter(models.PersonalTrainer.id == pt_id).scalar()
     # @staticmethod
     # def get_pt_priv_videos(pt_id:str):
     #     result = (

@@ -34,6 +34,7 @@ class PersonalTrainer(PersonalTrainerBase):
     id: int
     token: str
     name: str
+    email: str
     description: str
     tags: str
     photo: str
@@ -63,6 +64,9 @@ class VideoCreate(VideoBase):
     muscletargets: str
     releasedate: str
     restricted: int
+    rating: str
+    duration: str
+    dificulty: str
 
 class Video(VideoBase):
     id: int
@@ -91,3 +95,16 @@ class Subscription(SubscriptionBase):
 
 class TokenData(BaseModel):
     token: str
+
+class PtDetails(BaseModel):
+    name: str 
+    email: str 
+    description: str 
+    tags: str 
+    price: str 
+    slots: int 
+    lang: str 
+    hours: str 
+    education: str 
+    bg: str 
+    
