@@ -377,8 +377,8 @@ COPY public.users (id, username, password, token) FROM stdin;
 COPY public.workout (id, title, tags, premium, thumbnail, releasedate, rating, personal_trainer_id) FROM stdin;
 1	Leg day	'Calisthenics'	0	thumbnails/uatreino1.png	2023-01-25	2	18
 2	Upper Body	'Weight lifting, Calisthenics	0	thumbnails/uatreino4.png	2023-09-14	1	1
-3	private workout	Glutes, Abs	1	thumbnails/uatreino2.png	2023-02-07	3	18
-4	private workout	Biceps, Triceps	1	thumbnails/uatreino5.png	2022-06-29	3	1
+3	private workout 18	Glutes, Abs	1	thumbnails/uatreino2.png	2023-02-07	3	18
+4	private workout 1	Biceps, Triceps	1	thumbnails/uatreino5.png	2022-06-29	3	1
 \.
 
 
