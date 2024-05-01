@@ -78,7 +78,7 @@ def get_accessible_videos(token: schemas.TokenData):
         return { "result": "ok", "videos": [] }
 
     #videos = [ {"id":video.id, "title": video.videoname, "mainMuscles": video.muscletargets,"rating": video.rating, "thumbnail": video.thumbnail, "releasedate": video.releasedate} for video in videos]
-    videos = [ {"id":video.id, "title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate} for video in videos]
+    videos = [ {"id":video.id, "title": video.videoname, "mainMuscles": video.muscletargets, "rating": video.rating, "duration": video.duration, "thumbnail": video.thumbnail, "dificulty": video.dificulty, "releasedate": video.releasedate, "personal_trainer_id": video.personal_trainer_id} for video in videos]
 
     return { "result": "ok", "videos": videos }
 

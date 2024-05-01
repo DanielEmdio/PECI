@@ -11,7 +11,7 @@ function VideoPlayer() {
     const [isExpanded, setIsExpanded] = useState(false);
     const { VideoID } = useParams();
     const [video, setVideo] = useState({
-        username: "",
+        pt_id: "",
         path: "",
         title: "",
         rating: "",
@@ -35,7 +35,7 @@ function VideoPlayer() {
             console.log("data: ", data);
             const element = data.video;
             setVideo({
-                username: element.username,
+                pt_id: element.personal_trainer_id,
                 path: element.videopath,
                 title: element.videoname,
                 rating: element.rating,
@@ -46,7 +46,18 @@ function VideoPlayer() {
         }).catch((_) => { });
     }, [VideoID]);
 
-    // console.log("path: ", video.path);
+    // get pt_name from pt_id
+    const [pt_name, setPtName] = useState("");
+
+    useEffect(() => {
+        api.post(`/users/getPtById/${video.pt_id}`, { token: utils.getCookie("token") }).then((r) => {
+            console.log("pt_name: ", r);
+            const data = r.data;
+            setPtName(data["pt"]["name"]);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }, [video.pt_id]);
 
     return (
         <div>
@@ -61,9 +72,9 @@ function VideoPlayer() {
             </div>
             <p><br></br></p>
             <div className=" w-11/12 mx-auto" style={{marginBottom: '30px'}}>
-                <p style={{ fontSize: '2.5em' }}>{video.title}</p>
+                <p style={{ fontSize: '2.5em'}}>{video.title}</p>
                 <p>{video.releasedate}</p>
-                <p style={{marginTop: '20px'}}>DEVE DIZER O NOME DO PT AQUI</p>
+                <p style={{marginTop: '20px', fontSize: '1.5em'}}>{pt_name}</p>
             </div>
 
             <div className=" w-11/12 mx-auto" style={{ backgroundColor: 'rgb(220, 220, 220)', padding: '5px', borderRadius: '5px' }}>
