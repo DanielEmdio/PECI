@@ -74,7 +74,11 @@ function VideoPlayer() {
             <div className=" w-11/12 mx-auto" style={{marginBottom: '30px'}}>
                 <p style={{ fontSize: '2.5em'}}>{video.title}</p>
                 <p>{video.releasedate}</p>
-                <p style={{marginTop: '20px', fontSize: '1.5em'}}>{pt_name}</p>
+                <hr style={{ borderColor: 'grey', marginTop: '20px'}} />
+                <div style={{ display: 'flex', alignItems: 'baseline'}}>
+                    <p style={{ marginTop: '20px', fontSize: '1.5em' }}>{pt_name}</p>
+                    <button style={{ fontSize: '1em', padding: '10px', marginLeft: '20px', backgroundColor: 'grey', borderRadius: '30px', color: 'white'}}>Profile</button>
+                </div>
             </div>
 
             <div className=" w-11/12 mx-auto" style={{ backgroundColor: 'rgb(220, 220, 220)', padding: '5px', borderRadius: '5px' }}>
