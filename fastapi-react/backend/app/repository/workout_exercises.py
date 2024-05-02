@@ -15,7 +15,7 @@ class WorkoutExercisesRepository():
         # return exercises
 
 
-        return db.query(models.Exercise).join(models.WorkoutExercise).filter(models.WorkoutExercise.exercise_id == models.Exercise.id).all()
+        return db.query(models.Exercise).join(models.WorkoutExercise).filter(models.WorkoutExercise.exercise_id == models.Exercise.id).filter(models.WorkoutExercise.workout_id==workout_id).all()
 
     
 
