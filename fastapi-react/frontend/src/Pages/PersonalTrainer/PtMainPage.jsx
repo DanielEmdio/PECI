@@ -55,7 +55,7 @@ export default function PtMainPage() {
     useEffect(() => {
         api.post(`/workouts/getPTworkouts/${id}`).then((r) => {
             const data = r.data;
-            console.log("videosdata: "+data);
+            console.log("videosdata: ",data);
             let newMockedData = [];
             data.workouts.forEach(element => {
                 newMockedData.push({
@@ -79,6 +79,7 @@ export default function PtMainPage() {
 
             console.log("newMockedData[0]",newMockedData[0])
             setMost_recent(newMockedData[0])
+            console.log("most_recent",most_recent)
             setMockedData(newMockedData);
             
         // setMost_recent(mockedData[0]);

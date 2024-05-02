@@ -76,9 +76,10 @@ async def get_pt_premium_workouts(token: schemas.TokenData):
 @router.post("/getPTworkouts/{pt_id}")
 async def read_root3(pt_id: int):
     workouts = WorkoutsRepository.getPtWorkouts(pt_id)
-    if workouts != None:
-        workouts = [ {"id":workout.id,"title": workout.title,"tags":workout.tags, "thumbnail": workout.thumbnail,"releasedate": workout.releasedate} for workout in workouts]
-        print(workouts)
+    print("workouts----------------------",workouts)
+    if workouts != []:
+        workouts = [ {"id":workout.id,"title": workout.title,"tags":workout.tags, "thumbnail": workout.thumbnail,"releasedate": workout.releasedate } for workout in workouts]
+        print("workout -------------- ",workouts)
         return { "result": "ok", "workouts": workouts if workouts != None else [] }
     return { "result": "no", "error": "Unauthorized" }
 
