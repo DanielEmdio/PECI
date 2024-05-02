@@ -1,5 +1,6 @@
 from repository.workouts import WorkoutsRepository
 from repository.pts import PersonalTrainersRepository
+from repository.workout_exercises import WorkoutExercisesRepository
 from fastapi import APIRouter, UploadFile, File, Cookie
 from repository.users import UsersRepository
 from repository.exercises import ExercisesRepository
@@ -69,6 +70,28 @@ async def upload_video(token: schemas.TokenData, video: UploadFile = File(...)):
 #     videos = VideosRepository.getAllVideos()
 #     print(videos)
 #     return videos
+
+@router.post("/getWorkoutExercises")
+async def get_workout_exercises(token: schemas.TokenData, workout_id:int):
+    exercises = []
+    jwt_data = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == True:
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+        workout = WorkoutsRepository.getWorkout(workout_id)
+        if not UsersRepository.hasAccessToWorkout(user_id, workout.title):
+            return { "result": "no", "error": "Unauthorized." }
+        exercises = WorkoutExercisesRepository.getExercisesForWorkout(workout_id)
+    else:
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        workout = WorkoutsRepository.getWorkout(workout_id)
+        if not PersonalTrainersRepository.hasAccessToWorkout(pt_id, workout.title):
+            return { "result": "no", "error": "Unauthorized." }
+        exercises = WorkoutExercisesRepository.getExercisesForWorkout(workout_id)
+        
+    return {"result":"ok","exercises":exercises}
 
 @router.post("/getVideoInfo")        # ESTA FUNÇÃO NÃO FILTRA A INFORMAÇÃO DO VÍDEO.
 async def get_video_info( token: schemas.TokenData, exercise_id:int):

@@ -7,7 +7,7 @@ import ReactPlayer from 'react-player';
 function VideoPlayer() {
     // Estado para controlar se a descrição está expandida ou não
     const [isExpanded, setIsExpanded] = useState(false);
-    const { VideoID } = useParams();
+    const { WorkoutID } = useParams();
     const [video, setVideo] = useState({
         path: "",
         title: "",
@@ -24,11 +24,27 @@ function VideoPlayer() {
         setIsExpanded(!isExpanded);
     };
 
+    useEffect(() => {
+        api.post(`/exercises/getWorkoutExercises?workout_id=${WorkoutID}`, { token: utils.getCookie("token") }).then((r) => {
+            const data = r.data;
+            console.log("workout_exercises: ", data);
+            const element = data.exercises[0];  // In this case, we are only interested in the first video
+            console.log("first_video: ", element)
+            setVideo({
+                path: element.path,
+                title: element.name,
+                description: element.description,
+            })
+
+        }).catch((_) => { });
+    }, [WorkoutID]);
+
+    /*
     // console.log("VideoID: ", VideoID);
     useEffect(() => {
         api.post(`/exercises/getVideoInfo?exercise_id=${VideoID}`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("data: ", data);
+            console.log("videodata: ", data);
             const element = data.video;
             setVideo({
                 path: element.path,
@@ -37,7 +53,7 @@ function VideoPlayer() {
             })
 
         }).catch((_) => { });
-    }, [VideoID]);
+    }, [VideoID]);*/
 
     // console.log("path: ", video.path);
 
