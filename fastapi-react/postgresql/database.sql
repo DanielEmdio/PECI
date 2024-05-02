@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.11 (Ubuntu 14.11-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.11 (Ubuntu 14.11-0ubuntu0.22.04.1)
+-- Dumped from database version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
+-- Dumped by pg_dump version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -128,7 +128,7 @@ CREATE SEQUENCE public.chats_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.chats_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.chats_id_seq OWNER TO postgres;
 
 --
 -- Name: chats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -136,6 +136,19 @@ ALTER TABLE public.chats_id_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.chats_id_seq OWNED BY public.chats.id;
 
+
+--
+-- Name: common_mistake; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.common_mistake (
+    id integer NOT NULL,
+    path text,
+    description text
+);
+
+
+ALTER TABLE public.common_mistake OWNER TO postgres;
 
 --
 -- Name: exercise; Type: TABLE; Schema: public; Owner: postgres
@@ -148,7 +161,8 @@ CREATE TABLE public.exercise (
     description text,
     muscletargets text,
     duration text,
-    dificulty text
+    dificulty text,
+    common_mistake_id integer
 );
 
 
@@ -194,7 +208,7 @@ CREATE SEQUENCE public.messages_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.messages_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.messages_id_seq OWNER TO postgres;
 
 --
 -- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -295,16 +309,25 @@ COPY public.chats (id, user_id, personal_trainer_id) FROM stdin;
 
 
 --
+-- Data for Name: common_mistake; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.common_mistake (id, path, description) FROM stdin;
+1	mistake1.png	Cuidado com os Braços!
+\.
+
+
+--
 -- Data for Name: exercise; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.exercise (id, path, name, description, muscletargets, duration, dificulty) FROM stdin;
-1	uatreino4.mp4	Wider back workout	Pull ups challenge to widen your back	Back	15 min	1
-2	uatreino5.mp4	The Yuri Boyka Workout	Arms killer workout	Biceps,Triceps,Chest	15 min	2
-4	uatreino1.mp4	Full body workout	Good workout for beginners	Upper,Lower 	15 min	4
-5	uatreino3.mp4	Leg day	A legs focused workout with some abs in between	Legs,Abs	30 min	3
-6	uatreino2.mp4	Upper body workout	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	15 min	4
-3	uatreino6.mp4	arms workout	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	15 min	2
+COPY public.exercise (id, path, name, description, muscletargets, duration, dificulty, common_mistake_id) FROM stdin;
+1	uatreino4.mp4	Wider back workout	Pull ups challenge to widen your back	Back	15 min	1	1
+2	uatreino5.mp4	The Yuri Boyka Workout	Arms killer workout	Biceps,Triceps,Chest	15 min	2	1
+4	uatreino1.mp4	Full body workout	Good workout for beginners	Upper,Lower 	15 min	4	1
+5	uatreino3.mp4	Leg day	A legs focused workout with some abs in between	Legs,Abs	30 min	3	1
+6	uatreino2.mp4	Upper body workout	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	15 min	4	1
+3	uatreino6.mp4	arms workout	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	15 min	2	1
 \.
 
 
@@ -449,6 +472,14 @@ ALTER TABLE ONLY public.chats
 
 
 --
+-- Name: common_mistake common_mistake_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.common_mistake
+    ADD CONSTRAINT common_mistake_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: exercise exercise_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -580,6 +611,14 @@ ALTER TABLE ONLY public.chats
 
 
 --
+-- Name: exercise exercise_common_mistake_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.exercise
+    ADD CONSTRAINT exercise_common_mistake_id_fkey FOREIGN KEY (common_mistake_id) REFERENCES public.common_mistake(id) NOT VALID;
+
+
+--
 -- Name: exercise_progress exercise_progress_athlete_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -638,4 +677,3 @@ ALTER TABLE ONLY public.workout_exercise
 --
 -- PostgreSQL database dump complete
 --
-

@@ -96,12 +96,27 @@ class ExerciseCreate(ExerciseBase):
     muscletargets: str
     duration: str
     dificulty: str
+    common_mistake_id: int
 
 class Exercise(ExerciseBase):
     id: int
 
     class Config:
         from_attributes = True #orm_mode = True
+
+class CommonMistakesBase(BaseModel):
+    pass
+
+class CommonMistakesCreate(CommonMistakesBase):
+    pass
+
+class CommonMistake(CommonMistakesBase):
+    id: int
+    path: str
+    description: str
+
+    class Config:
+        from_attributes = True
 
 ########################  WORKOUT RELATED  ########################
 
