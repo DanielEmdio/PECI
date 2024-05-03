@@ -55,7 +55,7 @@ class Exercise(Base):
     muscletargets = Column(String, index=True)
     duration = Column(String, index=True)
     dificulty = Column(String, index=True)
-    common_mistake = Column(Integer, ForeignKey("common_mistake.id"), index=True)
+    common_mistake_id = Column(Integer, ForeignKey("common_mistake.id"), index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
 
 
