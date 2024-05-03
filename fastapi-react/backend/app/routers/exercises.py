@@ -74,6 +74,7 @@ async def upload_video(token: schemas.TokenData, video: UploadFile = File(...)):
 @router.post("/getWorkoutExercises")
 async def get_workout_exercises(token: schemas.TokenData, workout_id:int):
     exercises = []
+    
     jwt_data = get_jwt_token_data(token=token.token)
     if jwt_data == None:
         return { "result": "no", "error": "Unauthorized." }
@@ -90,8 +91,7 @@ async def get_workout_exercises(token: schemas.TokenData, workout_id:int):
         if not PersonalTrainersRepository.hasAccessToWorkout(pt_id, workout.title):
             return { "result": "no", "error": "Unauthorized." }
         exercises = WorkoutExercisesRepository.getExercisesForWorkout(workout_id)
-        
-    return {"result":"ok","exercises":exercises}
+    return {"result":"ok","exercises":exercises, "workout_info":workout.personal_trainer_id}
 
 @router.post("/getVideoInfo")        # ESTA FUNÇÃO NÃO FILTRA A INFORMAÇÃO DO VÍDEO.
 async def get_video_info( token: schemas.TokenData, exercise_id:int):
