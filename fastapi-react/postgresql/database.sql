@@ -4,6 +4,8 @@
 
 -- Dumped from database version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
 -- Dumped by pg_dump version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
+-- Dumped from database version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
+-- Dumped by pg_dump version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -40,6 +42,8 @@ CREATE TABLE public.personal_trainers (
     rating text,
     n_comments text,
     education text,
+    bg text,
+    email text
     bg text,
     email text
 );
@@ -129,6 +133,7 @@ CREATE SEQUENCE public.chats_id_seq
 
 
 ALTER SEQUENCE public.chats_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.chats_id_seq OWNER TO postgres;
 
 --
 -- Name: chats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -208,6 +213,7 @@ CREATE SEQUENCE public.messages_id_seq
     CACHE 1;
 
 
+ALTER SEQUENCE public.messages_id_seq OWNER TO postgres;
 ALTER SEQUENCE public.messages_id_seq OWNER TO postgres;
 
 --

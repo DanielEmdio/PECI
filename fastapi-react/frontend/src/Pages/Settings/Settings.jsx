@@ -1,3 +1,5 @@
+import { IoChatbubble } from "react-icons/io5";
+import DropDown from "../../Components/Settings/DropDown";
 import MaterialDesignSwitch from "../../Components/Settings/MaterialDesignSwitch";
 import PopupComponent from "../../Components/Settings/PopupComponent";
 import * as utils from "../../Utils/utils";
@@ -17,17 +19,23 @@ function Settings() {
     return (
         <div className=" w-11/12 mx-auto">
             <h1 className='my-3 text-2xl font-bold'>Notifications</h1>
-            <MaterialDesignSwitch />
+            <MaterialDesignSwitch color="#10b981"/>
             <div className="divider"></div>
-            <a onClick={handleSubmit} style={{ backgroundColor: '#2693e6', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', textDecoration: 'none' }}>About Us</a>
+            <h1 className='my-3 text-2xl font-bold'>Payment Method</h1>
+            <DropDown/>
+            <div className="divider"></div>
+            <a onClick={handleSubmit} style={{ fontWeight: 'bold', backgroundColor: '#10b981', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', textDecoration: 'none' }}>About Us</a>
             <div className="divider"></div>
             <button
-                style={{ backgroundColor: '#2693e6', color: 'white', padding: '10px', cursor: 'pointer', borderRadius: '5px' }}
+                style={{ fontWeight: 'bold', backgroundColor: '#10b981', color: 'white', padding: '10px', cursor: 'pointer', borderRadius: '5px' }}
                 onClick={() => setShowPopup(true)}>
                 Delete Account
             </button>
             {showPopup && <PopupComponent onClose={() => setShowPopup(false)} />}
             <div className="divider"></div>
+            <button id="floating-button" onClick={() => window.location.href = "/chat"}>
+                <IoChatbubble size={50} />
+            </button>
         </div>
     )
 }

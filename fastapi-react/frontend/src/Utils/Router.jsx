@@ -15,6 +15,7 @@ import BGPtInfo from '../Components/PersonalTrainer/BGPtInfo';
 import Settings from '../Pages/Settings/Settings';
 import RegisterBasic from '../Components/Register/RegisterBasic';
 import RegisterPt from '../Components/Register/RegisterPt';
+import RegisterPtDetails from '../Components/Register/RegisterPtDetails';
 import Home from "../Pages/Home/Home";
 import Chat from '../Pages/Chat/Chat';
 import Base from "../Layouts/Base";
@@ -53,6 +54,7 @@ export default function Router() {
                     path: '/register', element: <RegisterForm />, children: [
                         { path: '/register/athlete', element: <RegisterBasic /> },
                         { path: '/register/trainer', element: <RegisterPt /> },
+                        { path: '/register/trainer/details', element: <RegisterPtDetails />}
                     ]
                 },
             ]

@@ -1,3 +1,4 @@
+import { IoChatbubble } from "react-icons/io5";
 import PtCard from "../../Components/Subscription/PtCard";
 import React, { useEffect, useState } from 'react';
 import { FaUserPlus } from "react-icons/fa6";
@@ -91,6 +92,9 @@ export default function Subscription() {
                     <PtCard className="basis-1/3" key={index} Pt={Pt} />
                 ))}
             </div>
+            <button id="floating-button" onClick={() => window.location.href = "/chat"}>
+                <IoChatbubble size={50} />
+            </button>
         </div>
     );
 };
