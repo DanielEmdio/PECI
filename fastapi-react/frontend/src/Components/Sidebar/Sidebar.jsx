@@ -21,7 +21,6 @@ export default function Sidebar() {
             setPt_id(pt.id)
             
         }).catch((_) => { });
-
     }, []);
     return <div className="drawer-side">
         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">

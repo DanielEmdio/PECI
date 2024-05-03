@@ -34,7 +34,7 @@ def get_accessible_workouts(token: schemas.TokenData):
     if workouts == None:
         return { "result": "ok", "workouts": [] }
 
-    workouts = [ {"id":workout.id,"title": workout.title, "thumbnail": workout.thumbnail, "rating": workout.rating,"releasedate": workout.releasedate} for workout in workouts]
+    workouts = [ {"id":workout.id,"title": workout.title, "tags":workout.tags, "thumbnail": workout.thumbnail, "rating": workout.rating,"releasedate": workout.releasedate} for workout in workouts]
     return { "result": "ok", "workouts": workouts }
 
 
@@ -96,7 +96,7 @@ async def get_workout_info( token: schemas.TokenData,workout_id:int):
         if not UsersRepository.hasAccessToWorkout(user_id, workout.title):
             return { "result": "no", "error": "Unauthorized." }
     else:
-        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=token).id
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
         workout = WorkoutsRepository.getWorkout(workout_id)
         if not PersonalTrainersRepository.hasAccessToWorkout(pt_id, workout.title):
             return { "result": "no", "error": "Unauthorized." }

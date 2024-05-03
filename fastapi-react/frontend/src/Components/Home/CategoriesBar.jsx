@@ -23,7 +23,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: element.difficulty,                                  // deverá ser ajustado
-                    mainMuscles: []//element.mainMuscles.split(","),
+                    mainMuscles: element.tags.split(","),
                 })
             });
 
@@ -57,7 +57,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: element.difficulty,                                  // deverá ser ajustado
-                    mainMuscles: [],//element.mainMuscles.split(","),
+                    mainMuscles: element.tags.split(","),
                 })
             });
 
@@ -89,7 +89,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: element.difficulty,                                  // deverá ser ajustado
-                    mainMuscles: []//element.mainMuscles.split(","),
+                    mainMuscles: element.tags.split(","),
                 })
             });
 
@@ -133,7 +133,7 @@ export default function CategoriesBar() {
                     releasedate: element.releasedate,
                     PTUsername: element.username,
                     difficulty: element.difficulty,                                  // deverá ser ajustado
-                    mainMuscles: []//element.mainMuscles.split(","),
+                    mainMuscles: element.tags.split(","),
                 })
             });
 
@@ -162,7 +162,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: element.difficulty,                                  // deverá ser ajustado
-                    mainMuscles: []//element.mainMuscles.split(","),
+                    mainMuscles: element.tags.split(","),
                 })
             }); 
 
@@ -170,6 +170,7 @@ export default function CategoriesBar() {
 
             setMockedData(newMockedData);
         }).catch((_) => { });
+
     }
 
     return (
