@@ -44,6 +44,14 @@ class UsersRepository():
     @staticmethod
     def get_athlete_weight_progress(user_id):
         return db.query(models.AthleteWeight).filter(models.AthleteWeight.id == user_id).all()
+    
+    @staticmethod
+    def add_athlete_weight_progress(user_id, weight, date):
+        athlete_weight = models.AthleteWeight(id=user_id, weight=weight, date=date)
+        db.add(athlete_weight)
+        db.commit()
+        db.refresh(athlete_weight)
+        return athlete_weight
 
     """@staticmethod
     def get_user_pts(user_id: int):     # retrieve all personal_trainers to which the user is subscribed to

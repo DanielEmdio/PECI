@@ -94,7 +94,6 @@ class ExerciseCreate(ExerciseBase):
     name: str
     description: str
     muscletargets: str
-    duration: str
     dificulty: str
     common_mistake_id: int
 
@@ -148,6 +147,7 @@ class Workout(WorkoutBase):
     premium: int
     thumbnail: str
     releasedate: date
+    duration: int
     rating: str
     personal_trainer_id: int
 

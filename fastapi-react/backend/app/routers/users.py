@@ -163,6 +163,22 @@ def get_weight_progress(token: schemas.TokenData):
         return { "result": "ok", "data": data }
     else:
         return { "result": "no", "error": "Unauthorized." }
+    
+@router.post("/addAthleteWeightData/{weight}/{date}")
+def add_weight_progress(token: schemas.TokenData, weight: int, date: str):
+    jwt_token_data = get_jwt_token_data(token=token.token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+
+    if jwt_token_data["isNormalUser"]:
+        user = UsersRepository.get_user_by_token(token=jwt_token_data["token"])
+        if user == None:
+            return { "result": "no", "error": "Invalid token." }
+
+        UsersRepository.add_athlete_weight_progress(user.id, weight, date)
+        return { "result": "ok" }
+    else:
+        return { "result": "no", "error": "Unauthorized." }
 
 @router.post("/getPtById/{pt_id}")
 def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
@@ -201,6 +217,10 @@ async def get_PT_by_token(token: schemas.TokenData):
             pt = {"id":pt.id, "name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price, "slots":pt.slots, "lang" : pt.lang, "hours" : pt.hours, "rating" : pt.rating, "n_comments" : pt.n_comments, "education" : pt.education, "bg" : pt.bg} 
             print(pt)
             return {"result": "yes", "pt": pt}
+        
+
+
+
 
 
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)

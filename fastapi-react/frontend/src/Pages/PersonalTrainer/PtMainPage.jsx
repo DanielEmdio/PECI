@@ -63,7 +63,7 @@ export default function PtMainPage() {
                     title: element.title,
                     thumbnail: element.thumbnail,
                     description: "", //element.description,
-                    duration: "30 min",                             // deverá ser ajustado
+                    duration: element.duration,                             // deverá ser ajustado
                     //rating: element.rating,
                     releasedate: element.releasedate,
                     mainMuscles: []//element.mainMuscles.split(","),

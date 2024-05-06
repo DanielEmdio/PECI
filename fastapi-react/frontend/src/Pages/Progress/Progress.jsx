@@ -12,6 +12,43 @@ function Progress() {
     const [months, setMonths] = useState([]);
     const [weight, setWeight] = useState([]);
     let monthsOfTheYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    
+    function getDate() {
+        const today = new Date();
+        const month = today.getMonth() + 1;
+        const year = today.getFullYear();
+        const day = today.getDate();
+        return `${year}-${month}-${day}`;
+      }
+
+    function sendWeight(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const weightInput = document.getElementById("weight");
+        if (weightInput) {
+            const weightValue = weightInput.value;
+            const date = getDate();
+            console.log(weightValue);
+            api.post(`/users/addAthleteWeightData/${weightValue}/${date}`, { token: utils.getCookie("token") }).then((r) => {
+                console.log("r: ",r);
+                const data = r.data;
+                if(data.result !== "ok"){
+                    alert("Something went wrong.");
+                    return;
+                }
+                //console.log(data)
+                //console.log(data.data);
+                //window.location.reload();
+    
+            }).catch((_) => { 
+                console.log("Unable to send weight data.");
+            });
+        } else {
+            console.error("Element with ID 'weight' not found.");
+        }
+        
+    }
+      
+    
     useEffect(() => {
         api.post("/users/getAthleteWeightData", { token: utils.getCookie("token") }).then((r) => {
             console.log("r: ",r);
@@ -131,7 +168,7 @@ function Progress() {
                             </div>
                             {/* Add more input fields for other metrics like exercises, calories, etc. */}
 
-                            <button type="submit" className="btn btn-primary text-white px-4 py-2 rounded-lg hover:bg-gray-700">Log</button>
+                            <button type="submit" onClick={sendWeight} className="btn btn-primary text-white px-4 py-2 rounded-lg hover:bg-gray-700">Log</button>
                         </form>
                     </div>
                 </div>

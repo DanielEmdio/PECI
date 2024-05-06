@@ -53,7 +53,6 @@ class Exercise(Base):
     name = Column(String, index=True)
     description = Column(String, index=True)
     muscletargets = Column(String, index=True)
-    duration = Column(String, index=True)
     dificulty = Column(String, index=True)
     common_mistake_id = Column(Integer, ForeignKey("common_mistake.id"), index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
@@ -82,6 +81,7 @@ class Workout(Base):
     premium = Column(Integer, index=True)
     thumbnail = Column(String, index=True)
     releasedate = Column(Date, index=True)
+    duration = Column(String, index=True)
     rating = Column(String, index=True)
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
 

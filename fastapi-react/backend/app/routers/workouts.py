@@ -34,7 +34,7 @@ def get_accessible_workouts(token: schemas.TokenData):
     if workouts == None:
         return { "result": "ok", "workouts": [] }
 
-    workouts = [ {"id":workout.id,"title": workout.title, "tags":workout.tags, "thumbnail": workout.thumbnail, "rating": workout.rating,"releasedate": workout.releasedate} for workout in workouts]
+    workouts = [ {"id":workout.id,"title": workout.title, "tags":workout.tags, "thumbnail": workout.thumbnail,"releasedate": workout.releasedate, "duration":workout.duration, "rating": workout.rating} for workout in workouts]
     return { "result": "ok", "workouts": workouts }
 
 
@@ -64,7 +64,7 @@ async def get_pt_premium_workouts(token: schemas.TokenData):
     #print("workouts",workouts)
     #print("workout.pt_username",workouts[0].pt_username)
     
-    workouts = [ {"id":workout.id,"title": workout.title, "tags": workout.tags, "thumbnail": workout.thumbnail, "username": workout.pt_username ,"releasedate": workout.releasedate, "rating": workout.rating} for workout in workouts]
+    workouts = [ {"id":workout.id,"title": workout.title, "tags": workout.tags, "thumbnail": workout.thumbnail, "username": workout.pt_username ,"releasedate": workout.releasedate,"duration":workout.duration ,"rating": workout.rating} for workout in workouts]
     
     # depois de dar update á db deverá ficar este:
     #workouts = [ {"title": workout.workoutname, "mainMuscles": workout.muscletargets, "rating": workout.rating, "duration": workout.duration, "thumbnail": workout.thumbnail, "dificulty": workout.dificulty, "releasedate": workout.releasedate} for workout in workouts if workout.restricted == 1]
@@ -78,7 +78,7 @@ async def read_root3(pt_id: int):
     workouts = WorkoutsRepository.getPtWorkouts(pt_id)
     print("workouts----------------------",workouts)
     if workouts != []:
-        workouts = [ {"id":workout.id,"title": workout.title,"tags":workout.tags, "thumbnail": workout.thumbnail,"releasedate": workout.releasedate } for workout in workouts]
+        workouts = [ {"id":workout.id,"title": workout.title,"tags":workout.tags, "thumbnail": workout.thumbnail,"releasedate": workout.releasedate, "duration":workout.duration } for workout in workouts]
         print("workout -------------- ",workouts)
         return { "result": "ok", "workouts": workouts if workouts != None else [] }
     return { "result": "no", "error": "Unauthorized" }
