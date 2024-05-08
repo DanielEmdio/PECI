@@ -107,7 +107,7 @@ class Subscription(Base):
     __tablename__ = "subscriptions"
 
     user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), primary_key=True)
     # Both user_id and personal_trainer_id are defined as primary keys because, together, they form a composite primary key for the subscriptions table. 
     # This means that each combination of user_id and personal_trainer_id must be unique in the table
 

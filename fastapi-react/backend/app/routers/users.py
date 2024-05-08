@@ -258,7 +258,7 @@ def get_subs(token: schemas.TokenData):
         if user_id == None:
             return { "result": "no", "error": "Unauthorized." }
 
-        # retrieve the videos that the user has access to
+        
         PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
         if PTs_info != None:
             print("PTs_info: ",PTs_info)
@@ -266,6 +266,21 @@ def get_subs(token: schemas.TokenData):
         else:
             PTs_info = []
         return { "result": "ok", "pts": PTs_info}
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+    
+
+@router.post("/subscribeToPT/{pt_id}")
+def subscribe_to_pt(token: schemas.TokenData, pt_id: int):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+    if jwt_data["isNormalUser"] == True:
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+        if user_id == None:
+            return { "result": "no", "error": "Unauthorized." }
+        SubscriptionsRepository.create(user_id, pt_id)
+        return { "result": "ok" }
     else:
         return { "result": "no", "error": "Unauthorized." }
     

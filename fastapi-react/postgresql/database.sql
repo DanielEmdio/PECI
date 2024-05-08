@@ -160,7 +160,6 @@ CREATE TABLE public.exercise (
     name text,
     description text,
     muscletargets text,
-    duration text,
     dificulty text,
     common_mistake_id integer
 );
@@ -255,6 +254,7 @@ CREATE TABLE public.workout (
     premium integer,
     thumbnail text,
     releasedate date,
+    duration text,
     rating text,
     personal_trainer_id integer
 );
@@ -295,6 +295,7 @@ ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.mes
 COPY public.athlete_weight (id, date, weight) FROM stdin;
 5	2022-02-10	60
 5	2022-05-12	65
+3	2024-05-06	67
 \.
 
 
@@ -321,13 +322,13 @@ COPY public.common_mistake (id, path, description) FROM stdin;
 -- Data for Name: exercise; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.exercise (id, path, name, description, muscletargets, duration, dificulty, common_mistake_id) FROM stdin;
-4	uatreino1.mp4	Glute bridge	Good workout for beginners	Upper,Lower 	15 min	4	1
-5	uatreino3.mp4	Squats	A legs focused workout with some abs in between	Legs,Abs	30 min	3	1
-3	uatreino6.mp4	Biceps curls	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	15 min	2	1
-1	uatreino4.mp4	Push ups	Pull ups challenge to widen your back	Back	15 min	1	1
-2	uatreino5.mp4	Triceps extensions	Arms killer workout	Biceps,Triceps,Chest	15 min	2	1
-6	uatreino2.mp4	Explosive push ups	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	15 min	4	1
+COPY public.exercise (id, path, name, description, muscletargets, dificulty, common_mistake_id) FROM stdin;
+4	uatreino1.mp4	Glute bridge	Good workout for beginners	Upper,Lower 	4	1
+5	uatreino3.mp4	Squats	A legs focused workout with some abs in between	Legs,Abs	3	1
+3	uatreino6.mp4	Biceps curls	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	2	1
+1	uatreino4.mp4	Push ups	Pull ups challenge to widen your back	Back	1	1
+2	uatreino5.mp4	Triceps extensions	Arms killer workout	Biceps,Triceps,Chest	2	1
+6	uatreino2.mp4	Explosive push ups	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	4	1
 \.
 
 
@@ -397,11 +398,11 @@ COPY public.users (id, username, password, token) FROM stdin;
 -- Data for Name: workout; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.workout (id, title, tags, premium, thumbnail, releasedate, rating, personal_trainer_id) FROM stdin;
-2	Upper Body	'Weight lifting, Calisthenics	0	thumbnails/uatreino4.png	2023-09-14	1	1
-3	private workout 18	Glutes, Abs	1	thumbnails/uatreino2.png	2023-02-07	3	18
-4	private workout 1	Biceps, Triceps	1	thumbnails/uatreino5.png	2022-06-29	3	1
-1	Leg killer	'Calisthenics'	0	thumbnails/uatreino1.png	2023-01-25	2	18
+COPY public.workout (id, title, tags, premium, thumbnail, releasedate, duration, rating, personal_trainer_id) FROM stdin;
+3	private workout 18	Glutes, Abs	1	thumbnails/uatreino2.png	2023-02-07	45 min	4	18
+4	private workout 1	Biceps, Triceps	1	thumbnails/uatreino5.png	2022-06-29	45 min	3	1
+2	Upper Body	Weight lifting, Calisthenics	0	thumbnails/uatreino4.png	2023-09-14	30 min	3	1
+1	Leg killer	Calisthenics	0	thumbnails/uatreino1.png	2023-01-25	20 min	2	18
 \.
 
 
@@ -576,14 +577,6 @@ CREATE INDEX ix_messages_sent_by_user ON public.messages USING btree (sent_by_us
 --
 
 CREATE INDEX ix_messages_text ON public.messages USING btree (text);
-
-
---
--- Name: workout PT_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.workout
-    ADD CONSTRAINT "PT_id" FOREIGN KEY (personal_trainer_id) REFERENCES public.personal_trainers(id) NOT VALID;
 
 
 --
