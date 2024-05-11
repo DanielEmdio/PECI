@@ -19,10 +19,10 @@ function Settings() {
     return (
         <div className=" w-11/12 mx-auto">
             <h1 className='my-3 text-2xl font-bold'>Notifications</h1>
-            <MaterialDesignSwitch color="#10b981"/>
+            <MaterialDesignSwitch color="#10b981" />
             <div className="divider"></div>
             <h1 className='my-3 text-2xl font-bold'>Payment Method</h1>
-            <DropDown/>
+            <DropDown />
             <div className="divider"></div>
             <a onClick={handleSubmit} style={{ fontWeight: 'bold', backgroundColor: '#10b981', color: 'white', padding: '10px 20px', border: 'none', borderRadius: '5px', cursor: 'pointer', textDecoration: 'none' }}>About Us</a>
             <div className="divider"></div>

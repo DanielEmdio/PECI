@@ -21,7 +21,6 @@ class AthleteWeight(Base):
     date = Column(Date, primary_key=True)
     weight = Column(Integer, index=True)
 
-
 class PersonalTrainer(Base):
     __tablename__ = "personal_trainers"
 
@@ -57,14 +56,12 @@ class Exercise(Base):
     common_mistake_id = Column(Integer, ForeignKey("common_mistake.id"), index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
 
-
 class CommonMistake(Base):
     __tablename__ = "common_mistake"
 
     id = Column(Integer, primary_key=True)
     path = Column(String, index=True)
     description = Column(String, index=True)
-
 
 class WorkoutExercise(Base):
     __tablename__ = "workout_exercise"
@@ -85,8 +82,6 @@ class Workout(Base):
     rating = Column(String, index=True)
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
 
-
-    
 class ExerciseProgress(Base):
     __tablename__ = "exercise_progress"
 

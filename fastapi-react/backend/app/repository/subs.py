@@ -1,5 +1,5 @@
 from database import db
-import models, schemas
+import models
 
 class SubscriptionsRepository():
     @staticmethod
@@ -33,10 +33,10 @@ class SubscriptionsRepository():
         )
 
         PTs_id = []
-        print("func->get_subs_id ______ result: ",result)
+        # print("func->get_subs_id ______ result: ",result)
         if result:
             PTs_id = [sub.personal_trainer_id for sub in result.subscriptions]
-            print("PTs_id: ",PTs_id)
+            # print("PTs_id: ",PTs_id)
         return PTs_id
 
     @staticmethod
@@ -48,8 +48,8 @@ class SubscriptionsRepository():
         )
 
         users_id = []
-        print("func->get_subs_id ______ result: ",result)
+        # print("func->get_subs_id ______ result: ",result)
         if result:
             users_id = [sub.user_id for sub in result.subscriptions]
-            print("users_id: ",users_id)
+            # print("users_id: ",users_id)
         return users_id

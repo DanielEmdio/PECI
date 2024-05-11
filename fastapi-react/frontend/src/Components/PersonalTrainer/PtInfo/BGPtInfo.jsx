@@ -1,13 +1,10 @@
-import { FaUserCircle } from "react-icons/fa";
-import { FaUserGraduate } from "react-icons/fa";
-import { FaInfo } from "react-icons/fa";
-import { FaStar } from "react-icons/fa";
+import { FaUserCircle, FaUserGraduate, FaInfo, FaStar } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { IoMdSchool } from "react-icons/io";
 import { CgGym } from "react-icons/cg";
 import React, { useState, useEffect } from "react";
-import { api } from '../../api';
-import * as utils from "../../Utils/utils";
+import { api } from '../../../api';
+import * as utils from "../../../Utils/utils";
 
 export default function BGPtInfo() {
     const { id } = useParams();
@@ -16,9 +13,8 @@ export default function BGPtInfo() {
     useEffect(() => {
         api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            //console.log("data: ",data);
+            const element = data.pt;
 
-            const element = data.pt
             setPt({
                 name: element.name,
                 photo: element.photo,

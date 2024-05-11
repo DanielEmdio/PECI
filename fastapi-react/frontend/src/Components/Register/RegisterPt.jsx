@@ -1,18 +1,16 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaUnlockAlt } from "react-icons/fa";
+import { FaUnlockAlt, FaUser } from "react-icons/fa";
 import * as utils from "../../Utils/utils";
 import { Link } from 'react-router-dom';
-import { FaUser } from "react-icons/fa";
 import { api } from "../../api";
 import React from 'react';
-import { MdOutlineMail } from "react-icons/md";
 
 function RegisterPt() {
     const userRef = useRef();
 
+    // const [email, setEmail] = useState('');
+    // const [file, setFile] = useState('');
     const [user, setUser] = useState('');
-    const [email, setEmail] = useState('');
-    const [file, setFile] = useState('');
     const [isPt, setIsPt] = useState(false);
     const [pwd, setPwd] = useState('');
     const [errMsg, setErrMsg] = useState('');
@@ -79,7 +77,7 @@ function RegisterPt() {
                     />
                     <FaUnlockAlt className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
                 </div>
-                
+
                 <div className='text-red-500 text-center mb-2'> {errMsg} </div>
                 <button type='submit' className='w-full h-12 bg-white border-none outline-none rounded-full shadow-md cursor-pointer text-base font-bold text-gray-700'>Register</button>
 

@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List
 from database import db
 import models, schemas
 
@@ -18,9 +18,3 @@ class ExercisesRepository():
     @staticmethod
     def getAllExercises(skip: int = 0, limit: int = 100) -> List[models.Exercise]:
         return db.query(models.Exercise).offset(skip).limit(limit).all()
-    
-
-
-    
-
-    

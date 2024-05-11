@@ -1,9 +1,9 @@
 import { FaUserCircle, FaUserGraduate, FaInfo, FaStar, FaCalendarAlt } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import * as utils from "../../Utils/utils";
+import * as utils from "../../../Utils/utils";
 import { BiWorld } from "react-icons/bi";
-import { api } from '../../api';
+import { api } from '../../../api';
 
 export default function OtherPtInfo() {
     const [Pt, setPt] = useState([]);
@@ -30,12 +30,10 @@ export default function OtherPtInfo() {
         }).catch((_) => { });
     }, []);
 
-    /*
-    const Pt = {
-        tags: ["English", "Portuguese"],
-        hours: [["Tuesday", "9:00 - 14:00"], ["Wednesday", "9:00 - 14:00"], ["Friday", "9:00 - 14:00"]],
-    }
-    */
+    // const Pt = {
+    //     tags: ["English", "Portuguese"],
+    //     hours: [["Tuesday", "9:00 - 14:00"], ["Wednesday", "9:00 - 14:00"], ["Friday", "9:00 - 14:00"]],
+    // }
 
     return (
         <>

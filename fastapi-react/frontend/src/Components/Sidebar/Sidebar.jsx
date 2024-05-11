@@ -13,15 +13,17 @@ export default function Sidebar() {
         utils.eraseCookie("token");
         window.location.pathname = "/login";
     };
+
     const [pt_id, setPt_id] = useState(0);
     useEffect(() => {
-        api.post(`/users/getPT`, {token: utils.getCookie("token")}).then((r) => {
+        api.post(`/users/getPT`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
             const pt = data.pt;
             setPt_id(pt.id)
-            
+
         }).catch((_) => { });
     }, []);
+
     return <div className="drawer-side">
         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             <p className="text-4xl font-bold bg-base-200 text-base-content mx-auto">Pocket Coach</p>
@@ -32,7 +34,7 @@ export default function Sidebar() {
             {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/subscriptions"}><IoPersonAdd size={32} />Subscriptions</Link></li> : <></>}
             <li className="text-xl font-bold"><Link to={"/chat"}><IoChatbubble size={32} />Chat</Link></li>
             {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />Progress</Link></li> : <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />My Athletes Progress</Link></li>}
-            <li className="text-xl font-bold"><Link to={`/profile/${pt_id}`}><FaUserCircle size={32} />Profile</Link></li>
+            <li className="text-xl font-bold"><Link to={`/PT/${pt_id}`}><FaUserCircle size={32} />Profile</Link></li>
             <li className="text-xl font-bold"><Link to={"/settings"}><FaGear size={32} />Settings</Link></li>
             <li className="text-xl font-bold"><button onClick={handleLogout}><IoMdExit size={32} />Log Out</button></li>
         </ul>
