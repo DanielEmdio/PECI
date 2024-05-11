@@ -244,6 +244,50 @@ CREATE TABLE public.subscriptions (
 ALTER TABLE public.subscriptions OWNER TO postgres;
 
 --
+-- Name: videos; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.videos (
+    id integer NOT NULL,
+    videopath character varying,
+    videoname character varying,
+    description character varying,
+    muscletargets character varying,
+    releasedate character varying,
+    restricted integer,
+    thumbnail character varying,
+    rating character varying,
+    duration character varying,
+    dificulty character varying,
+    personal_trainer_id integer
+);
+
+
+ALTER TABLE public.videos OWNER TO postgres;
+
+--
+-- Name: videos_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+CREATE SEQUENCE public.videos_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.videos_id_seq OWNER TO postgres;
+
+--
+-- Name: videos_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+--
+
+ALTER SEQUENCE public.videos_id_seq OWNED BY public.videos.id;
+
+
+--
 -- Name: workout; Type: TABLE; Schema: public; Owner: postgres
 --
 
@@ -286,6 +330,13 @@ ALTER TABLE ONLY public.chats ALTER COLUMN id SET DEFAULT nextval('public.chats_
 --
 
 ALTER TABLE ONLY public.messages ALTER COLUMN id SET DEFAULT nextval('public.messages_id_seq'::regclass);
+
+
+--
+-- Name: videos id; Type: DEFAULT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.videos ALTER COLUMN id SET DEFAULT nextval('public.videos_id_seq'::regclass);
 
 
 --
@@ -378,6 +429,8 @@ COPY public.subscriptions (user_id, personal_trainer_id) FROM stdin;
 3	18
 2	18
 5	1
+10	18
+10	1
 \.
 
 
@@ -391,6 +444,14 @@ COPY public.users (id, username, password, token) FROM stdin;
 9	user3	aA1!00000000	\N
 2	user1	aA1!00000000	9y9UCK4HKqwN
 10	user4	aA1!00000000	s0rX9BfkXMq6
+\.
+
+
+--
+-- Data for Name: videos; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY public.videos (id, videopath, videoname, description, muscletargets, releasedate, restricted, thumbnail, rating, duration, dificulty, personal_trainer_id) FROM stdin;
 \.
 
 
@@ -446,6 +507,13 @@ SELECT pg_catalog.setval('public.chats_id_seq', 2, true);
 --
 
 SELECT pg_catalog.setval('public.messages_id_seq', 2, true);
+
+
+--
+-- Name: videos_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.videos_id_seq', 1, false);
 
 
 --
@@ -529,6 +597,14 @@ ALTER TABLE ONLY public.subscriptions
 
 
 --
+-- Name: videos videos_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.videos
+    ADD CONSTRAINT videos_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: workout_exercise workout_exercise_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -577,6 +653,83 @@ CREATE INDEX ix_messages_sent_by_user ON public.messages USING btree (sent_by_us
 --
 
 CREATE INDEX ix_messages_text ON public.messages USING btree (text);
+
+
+--
+-- Name: ix_videos_description; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_description ON public.videos USING btree (description);
+
+
+--
+-- Name: ix_videos_dificulty; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_dificulty ON public.videos USING btree (dificulty);
+
+
+--
+-- Name: ix_videos_duration; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_duration ON public.videos USING btree (duration);
+
+
+--
+-- Name: ix_videos_muscletargets; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_muscletargets ON public.videos USING btree (muscletargets);
+
+
+--
+-- Name: ix_videos_personal_trainer_id; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_personal_trainer_id ON public.videos USING btree (personal_trainer_id);
+
+
+--
+-- Name: ix_videos_rating; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_rating ON public.videos USING btree (rating);
+
+
+--
+-- Name: ix_videos_releasedate; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_releasedate ON public.videos USING btree (releasedate);
+
+
+--
+-- Name: ix_videos_restricted; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_restricted ON public.videos USING btree (restricted);
+
+
+--
+-- Name: ix_videos_thumbnail; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_thumbnail ON public.videos USING btree (thumbnail);
+
+
+--
+-- Name: ix_videos_videoname; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_videoname ON public.videos USING btree (videoname);
+
+
+--
+-- Name: ix_videos_videopath; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX ix_videos_videopath ON public.videos USING btree (videopath);
 
 
 --
@@ -649,6 +802,14 @@ ALTER TABLE ONLY public.subscriptions
 
 ALTER TABLE ONLY public.subscriptions
     ADD CONSTRAINT subscriptions_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.users(id);
+
+
+--
+-- Name: videos videos_personal_trainer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.videos
+    ADD CONSTRAINT videos_personal_trainer_id_fkey FOREIGN KEY (personal_trainer_id) REFERENCES public.personal_trainers(id);
 
 
 --
