@@ -1,13 +1,11 @@
-
 import { Link } from "react-router-dom"
 import VideoCardInfo from "../../Components/PersonalTrainer/VideoCardInfo"
 import { FaPlay } from "react-icons/fa"
 import { CiClock2 } from "react-icons/ci"
-import { SiOpenlayers } from "react-icons/si";
-import { FaLayerGroup } from "react-icons/fa";
-import NewExercise from "../../Components/PersonalTrainer/AddContent/NewExercise";
-import NewWorkout from "../../Components/PersonalTrainer/AddContent/NewWorkout";
-
+import { FaCircleUp } from "react-icons/fa6";
+import { CgMoreR } from "react-icons/cg";
+import { IoChatbubble } from "react-icons/io5";
+import { IoReturnUpBack } from "react-icons/io5";
 
 const mockedData = [ // lista de treinos do pt 
         {
@@ -37,7 +35,7 @@ const mockedData = [ // lista de treinos do pt
       },
 ];
 
-export default function PtMainPage() {
+export default function PtMainPageView() {
     const Pt = { // dados do pt
         name: "UA",
         photo: "https://picsum.photos/550/800",
@@ -55,7 +53,7 @@ export default function PtMainPage() {
     <section className="w-full">
       <header className="bg-emerald-900 text-zinc-50 py-4"> {/* navbar */}
           <div className="container mx-auto px-4 md:px-6">
-            <nav className="flex items-center justify-between ">
+            <nav className="flex items-center justify-between">
               <div className="text-2xl font-bold">
                 <div className="flex items-center">
                   <div className="avatar mx-2">
@@ -68,29 +66,29 @@ export default function PtMainPage() {
               </div>
               <div className="space-x-4 flex justify-end">
                 <div className="flex items-center my-2">
-                  <button className="btn btn-outline btn-accent" onClick={()=>document.getElementById('modal_add_exercise').showModal()}><SiOpenlayers/>Add Exercise</button>
-                  <dialog id="modal_add_exercise" className="modal">
-                    <div className="modal-box w-11/12 max-w-5xl">
-                      <form method="dialog">
-                        {/* if there is a button in form, it will close the modal */}
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-black">✕</button>
-                      </form>
-                      <NewExercise/>
-                    </div>
-                  </dialog>
+                  <Link href=""><FaCircleUp className='icon text-base mr-1'/></Link>
+                  <Link  href="">
+                      Top Workouts
+                  </Link>
                 </div>
                 <div className="flex items-center my-2">
-                  <button onClick={()=>document.getElementById('modal_add_workout').showModal()} className="btn btn-outline btn-secondary"><FaLayerGroup/>Add Workout</button>
-                  <dialog id="modal_add_workout" className="modal">
-                    <div className="modal-box w-11/12 max-w-5xl">
-                      <form method="dialog">
-                        {/* if there is a button in form, it will close the modal */}
-                        <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2 text-black">✕</button>
-                      </form>
-                      <NewWorkout/>
-                    </div>
-                  </dialog>
-                </div> 
+                  <Link href=""><CgMoreR className='icon text-base mr-1'/></Link>
+                  <Link  href="">
+                      Other Workouts
+                  </Link>
+                </div>
+                <div className="flex items-center my-2">
+                  <Link href=""><IoChatbubble className='icon text-base mr-1'/></Link>
+                  <Link  href="">
+                      Chat
+                  </Link>
+                </div>
+                <div className="flex items-center my-2">
+                  <Link href=""><IoReturnUpBack className='icon text-base mr-1'/></Link>
+                  <Link  href="">
+                      Back
+                  </Link>
+                </div>
               </div>
             </nav>
           </div>
@@ -136,7 +134,7 @@ export default function PtMainPage() {
         </section>
         <div className="divider "></div>
         <section className="mb-8"> {/* Secção reservada aos workout mais vistos, recomendados, não sei esta por decidir */}
-          <h2 className="text-2xl font-bold mb-4">Exercises</h2>
+          <h2 className="text-2xl font-bold mb-4">Top Wokouts</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {mockedData.map((workout, index) => (
               <VideoCardInfo key={index} workout={workout} />
@@ -145,16 +143,14 @@ export default function PtMainPage() {
         </section>
         <div className="divider"></div>
         <section className="mb-8"> {/* Secção reservada aos restantes workouts */}
-          <h2 className="text-2xl font-bold mb-4">Workouts</h2>
+          <h2 className="text-2xl font-bold mb-4">Other Workouts</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {mockedData.map((workout, index) => (
               <VideoCardInfo key={index} workout={workout} />
             ))}
           </div>
         </section>
-        
       </main>
     </section>
     )
 }
-

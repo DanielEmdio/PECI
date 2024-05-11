@@ -1,10 +1,10 @@
 import { FaUserCircle, FaUserGraduate, FaInfo, FaStar, FaComment } from "react-icons/fa";
 import { Link, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import * as utils from "../../Utils/utils";
+import * as utils from "../../../Utils/utils";
 import Rating from '@mui/material/Rating';
 import Box from '@mui/material/Box';
-import { api } from '../../api';
+import { api } from '../../../api';
 
 export default function RatingPtInfo() {
     const [Pt, setPt] = useState([]);

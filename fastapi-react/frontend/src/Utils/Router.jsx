@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import RatingPtInfo from '../Components/PersonalTrainer/RatingPtInfo';
-import OtherPtInfo from '../Components/PersonalTrainer/OtherPtInfo';
+import RatingPtInfo from '../Components/PersonalTrainer/PtInfo/RatingPtInfo';
+import OtherPtInfo from '../Components/PersonalTrainer/PtInfo/OtherPtInfo';
 import Subscription from "../Pages/Subscription/Subscription";
 import Progress from "../Pages/Progress/Progress";
 import NewPtTable from "../Pages/Subscription/NewPtTable";
@@ -9,9 +9,10 @@ import LoginForm from '../Pages/Login/LoginForm';
 import RegisterForm from '../Pages/Register/RegisterForm';
 import Sign from '../Layouts/Sign';
 import PtSubPage from '../Pages/PersonalTrainer/PtSubPage';
-import MainPtInfo from '../Components/PersonalTrainer/MainPtInfo';
+import MainPtInfo from '../Components/PersonalTrainer/PtInfo/MainPtInfo';
+import PtMainPageView from '../Pages/PersonalTrainer/PtMainPageView';
 import PtMainPage from '../Pages/PersonalTrainer/PtMainPage';
-import BGPtInfo from '../Components/PersonalTrainer/BGPtInfo';
+import BGPtInfo from '../Components/PersonalTrainer/PtInfo/BGPtInfo';
 import Settings from '../Pages/Settings/Settings';
 import RegisterBasic from '../Components/Register/RegisterBasic';
 import RegisterPt from '../Components/Register/RegisterPt';
@@ -32,7 +33,8 @@ export default function Router() {
                 { path: '/settings', element: <Settings /> },
                 { path: '/chat', element: <ChatCards /> },
                 { path: '/chat/:id', element: <Chat /> },
-                { path: '/PT_sub/:id', element: <PtMainPage /> },
+                { path: '/PT_sub/:id', element: <PtMainPageView /> },
+                /* por questões de segurança isto não deve ficar assim */ { path: '/PT/:id', element: <PtMainPage />},
 
                 {
                     path: '/PT_nonSub/:id/', element: <PtSubPage />, children: [

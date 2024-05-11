@@ -2,8 +2,8 @@ import { FaUserCircle, FaUserGraduate, FaInfo, FaStar, FaIdBadge, FaEuroSign } f
 import { Link, useOutlet, useOutletContext, useParams } from "react-router-dom";
 import { GiCardAceSpades } from "react-icons/gi";
 import { useEffect, useState } from "react";
-import * as utils from "../../Utils/utils";
-import { api } from '../../api';
+import * as utils from "../../../Utils/utils";
+import { api } from '../../../api';
 
 export default function MainPtInfo() {
     /*
