@@ -45,7 +45,7 @@ export default function Router() {
                     ]
                 },
 
-                { path: '/video/:VideoID', element: <VideoPlayer /> }
+                { path: '/video/:WorkoutID', element: <VideoPlayer /> }
             ]
         },
         {

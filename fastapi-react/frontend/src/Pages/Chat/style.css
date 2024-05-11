@@ -1,12 +1,11 @@
 .card {
     position: absolute;
-    width: 75%;
-    height: 90%;
-    box-shadow: 0px 0px 10px gray;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;}
+    width: 95%;
+    height: 80%;
+    box-shadow: 0px 0px 5px gray;
+    left: 2.5%;
+    top: 5%;
+}
 
 #chat-form {
     display: flex;

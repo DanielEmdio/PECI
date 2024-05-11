@@ -2,6 +2,7 @@
 # In this file are all the definitions for the Pydantic models
 
 from pydantic import BaseModel
+from datetime import date
 # from typing import Any, Dict
 
 ########################  USER RELATED  ########################
@@ -21,6 +22,23 @@ class User(UserBase):
 
 class UserRegister(BasicUser):
     isNormalUser: bool
+
+
+########################  ATHLETE WEIGHT RELATED  ########################
+class AthleteWeightBase(BaseModel):
+    date: date
+    weight: int
+
+class AthleteWeightCreate(AthleteWeightBase):
+    pass
+
+class AthleteWeight(AthleteWeightBase):
+    id: int
+
+    class Config:
+        from_attributes = True # orm_mode = True
+
+
 
 
 ########################  PERSONAL TRAINER RELATED  ########################
@@ -47,35 +65,10 @@ class PersonalTrainer(PersonalTrainerBase):
     education: str
     bg: str
     subscriptions: list['Subscription'] = []
-    workout: list['Video'] = []
+    workout: list['Exercise'] = []
 
     class Config:
         from_attributes = True #orm_mode = True
-
-
-########################  VIDEO RELATED  ########################
-class VideoBase(BaseModel):
-    pass
-
-class VideoCreate(VideoBase):
-    videopath: str
-    videoname: str
-    description: str
-    muscletargets: str
-    releasedate: str
-    restricted: int
-    rating: str
-    duration: str
-    dificulty: str
-
-class Video(VideoBase):
-    id: int
-    personal_trainer_id:int
-    thumbnail: str
-
-    class Config:
-        from_attributes = True #orm_mode = True
-
 
 ########################  SUBSCRIPTION RELATED  ########################
 class SubscriptionBase(BaseModel):
@@ -90,6 +83,108 @@ class Subscription(SubscriptionBase):
 
     class Config:
         from_attributes = True # orm_mode = True
+
+
+########################  EXERCISE RELATED  ########################
+class ExerciseBase(BaseModel):
+    pass
+
+class ExerciseCreate(ExerciseBase):
+    path: str
+    name: str
+    description: str
+    muscletargets: str
+    dificulty: str
+    common_mistake_id: int
+
+class Exercise(ExerciseBase):
+    id: int
+
+    class Config:
+        from_attributes = True #orm_mode = True
+
+class CommonMistakesBase(BaseModel):
+    pass
+
+class CommonMistakesCreate(CommonMistakesBase):
+    pass
+
+class CommonMistake(CommonMistakesBase):
+    id: int
+    path: str
+    description: str
+
+    class Config:
+        from_attributes = True
+
+########################  WORKOUT RELATED  ########################
+
+class WorkoutExerciseBase(BaseModel):
+    pass
+
+class WorkoutExerciseCreate(WorkoutExerciseBase):
+    pass
+
+class WorkoutExercise(WorkoutExerciseBase):
+    workout_id: int
+    exercise_id: int
+
+    class Config:
+        from_attributes = True
+
+
+
+class WorkoutBase(BaseModel):
+    pass
+
+class WorkoutCreate(WorkoutBase):
+    pass
+
+class Workout(WorkoutBase):
+    id: int
+    title: str
+    tags: str
+    premium: int
+    thumbnail: str
+    releasedate: date
+    duration: int
+    rating: str
+    personal_trainer_id: int
+
+    class Config:
+        from_attributes = True
+
+########################  PROGRESS RELATED  ########################
+
+class ExerciseProgressBase(BaseModel):
+    pass
+
+class ExerciseProgressCreate(ExerciseProgressBase):
+    pass
+
+class ExerciseProgress(ExerciseProgressBase):
+    id: int
+    user_id: int
+    date: str
+
+    class Config:
+        from_attributes = True
+
+class RepsProgressBase(BaseModel):
+    pass
+
+class RepsProgressCreate(RepsProgressBase):
+    pass
+
+class RepsProgress(RepsProgressBase):
+    id: int
+    exercise_id: int
+    set_num: int
+    reps_made: int
+    weight_used: int
+
+    class Config:
+        from_attributes = True
 
 ########################  RANDOM  ########################
 

@@ -146,6 +146,40 @@ def check_authentication(token: schemas.TokenData):
 
     return { "result": "ok" }
 
+
+@router.post("/getAthleteWeightData")
+def get_weight_progress(token: schemas.TokenData):
+    jwt_token_data = get_jwt_token_data(token=token.token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+
+    if jwt_token_data["isNormalUser"]:
+        user = UsersRepository.get_user_by_token(token=jwt_token_data["token"])
+        if user == None:
+            return { "result": "no", "error": "Invalid token." }
+
+        data = UsersRepository.get_athlete_weight_progress(user.id)
+        data = [{"date":d.date, "weight":d.weight} for d in data]
+        return { "result": "ok", "data": data }
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+    
+@router.post("/addAthleteWeightData/{weight}/{date}")
+def add_weight_progress(token: schemas.TokenData, weight: int, date: str):
+    jwt_token_data = get_jwt_token_data(token=token.token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+
+    if jwt_token_data["isNormalUser"]:
+        user = UsersRepository.get_user_by_token(token=jwt_token_data["token"])
+        if user == None:
+            return { "result": "no", "error": "Invalid token." }
+
+        UsersRepository.add_athlete_weight_progress(user.id, weight, date)
+        return { "result": "ok" }
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+
 @router.post("/getPtById/{pt_id}")
 def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
     jwt_token_data = get_jwt_token_data(token=token.token)
@@ -156,7 +190,8 @@ def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
         if UsersRepository.get_user_by_token(token=jwt_token_data["token"]) == None:
             return { "result": "no", "error": "Invalid token." }
     else:
-        return { "result": "no", "error": "Unauthorized." }
+        if PersonalTrainersRepository.get_pt_by_token(token=jwt_token_data["token"]) == None:
+            return { "result": "no", "error": "Invalid token." }
 
     pt = PersonalTrainersRepository.get_pt(pt_id)
     if pt:
@@ -164,6 +199,29 @@ def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
         return {"result":"ok","pt":pt}
     else:
         return {"result": "no", "error": "Personal Trainer not found."} 
+    
+
+@router.post("/getPT")
+async def get_PT_by_token(token: schemas.TokenData):
+    jwt_token_data = get_jwt_token_data(token=token.token)
+    if jwt_token_data == None:
+        return { "result": "no", "error": "Invalid token." }
+    
+    if jwt_token_data["isNormalUser"]:
+        return { "result": "no", "error": "Unauthorized." }
+    else:
+        pt = PersonalTrainersRepository.get_pt_by_token(token=jwt_token_data["token"])
+        if pt == None:
+            return { "result": "no", "error": "Invalid token." }
+        else:
+            pt = {"id":pt.id, "name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price, "slots":pt.slots, "lang" : pt.lang, "hours" : pt.hours, "rating" : pt.rating, "n_comments" : pt.n_comments, "education" : pt.education, "bg" : pt.bg} 
+            print(pt)
+            return {"result": "yes", "pt": pt}
+        
+
+
+
+
 
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):
@@ -200,7 +258,7 @@ def get_subs(token: schemas.TokenData):
         if user_id == None:
             return { "result": "no", "error": "Unauthorized." }
 
-        # retrieve the videos that the user has access to
+        
         PTs_info = SubscriptionsRepository.get_pts_for_user(user_id)
         if PTs_info != None:
             print("PTs_info: ",PTs_info)
@@ -208,6 +266,21 @@ def get_subs(token: schemas.TokenData):
         else:
             PTs_info = []
         return { "result": "ok", "pts": PTs_info}
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+    
+
+@router.post("/subscribeToPT/{pt_id}")
+def subscribe_to_pt(token: schemas.TokenData, pt_id: int):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+    if jwt_data["isNormalUser"] == True:
+        user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
+        if user_id == None:
+            return { "result": "no", "error": "Unauthorized." }
+        SubscriptionsRepository.create(user_id, pt_id)
+        return { "result": "ok" }
     else:
         return { "result": "no", "error": "Unauthorized." }
     
