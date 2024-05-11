@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import { IoMdSchool } from "react-icons/io";
 import { CgGym } from "react-icons/cg";
 import React, { useState, useEffect } from "react";
-import { api } from '../../api';
-import * as utils from "../../Utils/utils";
+import { api } from '../../../api';
+import * as utils from "../../../Utils/utils";
 
 export default function BGPtInfo() {
     const { id } = useParams();
