@@ -123,6 +123,24 @@ export default function NewPtTable() {
         }).catch((_) => { });
     }, []);
 
+
+    function subscribe(pt_id) {
+        // ask the user if he realy wants to subscribe, if yes, send the request to the server and reload the page
+        if (!window.confirm("Are you sure you want to subscribe to this PT?")) {
+            return;
+        }
+
+
+        api.post(`/users/subscribeToPT/${pt_id}`, { token: utils.getCookie("token") }).then((response) => {
+            alert("Subscribed successfully!");
+            window.location.reload();
+        }
+        ).catch((_) => {
+            alert("Error subscribing to PT");
+        });
+
+    }
+
     return (
         <div className=" w-11/12 mx-auto">
             {/*<PTfilter></PTfilter>
@@ -168,7 +186,9 @@ export default function NewPtTable() {
                                 </td>
                                 <td>{Pt.description}</td>
                                 <th>
-                                    {console.log(Pt.id)}
+                                    <button className="btn btn-success btn-xs text-white" onClick={() => subscribe(Pt.id)}>Subscribe</button>
+                                </th>
+                                <th>
                                     <Link to={`/PT_nonSub/${Pt.id}/main`}><button className="btn btn-ghost btn-xs">details</button></Link>
                                 </th>
                             </tr>

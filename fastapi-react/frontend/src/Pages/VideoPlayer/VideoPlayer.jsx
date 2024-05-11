@@ -9,14 +9,16 @@ import ReactPlayer from 'react-player';
 function VideoPlayer() {
     // Estado para controlar se a descrição está expandida ou não
     const [isExpanded, setIsExpanded] = useState(false);
-    const { VideoID } = useParams();
-    const [video, setVideo] = useState({
+    const { WorkoutID } = useParams();
+    const [workout, setWorkout] = useState({
         pt_id: "",
+        releasedate: "",
+    })
+    const [video, setVideo] = useState({
         path: "",
         title: "",
         rating: "",
-        thumbnail: "",
-        releasedate: "",
+        //thumbnail: "",
         description: ""
     });
 
@@ -28,43 +30,71 @@ function VideoPlayer() {
         setIsExpanded(!isExpanded);
     };
 
+    useEffect(() => {
+        api.post(`/workouts/getWorkoutInfo?workout_id=${WorkoutID}`, { token: utils.getCookie("token") }).then((r) => {
+            const data = r.data;
+            console.log("workout: ", data);
+            const workout_info = data.workout;
+            setWorkout({
+                pt_id: workout_info.personal_trainer_id,
+                releasedate: workout_info.releasedate,
+            })
+            
+                
+
+        }).catch((_) => { });
+        
+        api.post(`/exercises/getWorkoutExercises?workout_id=${WorkoutID}`, { token: utils.getCookie("token") }).then((r) => {
+            const data = r.data;
+            console.log("workout_exercises: ", data);
+            const element = data.exercises[0];  // In this case, we are only interested in the first video
+            console.log("first_video: ", element)
+            setVideo({
+                path: element.path,
+                title: element.name,
+                rating: element.rating,
+                description: element.description,
+            })
+
+        }).catch((_) => { });
+    }, [WorkoutID]);
+
+    /*
     // console.log("VideoID: ", VideoID);
     useEffect(() => {
-        api.post(`/videos/getVideoInfo?video_id=${VideoID}`, { token: utils.getCookie("token") }).then((r) => {
+        api.post(`/exercises/getVideoInfo?exercise_id=${VideoID}`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("data: ", data);
+            console.log("videodata: ", data);
             const element = data.video;
             setVideo({
                 pt_id: element.personal_trainer_id,
-                path: element.videopath,
-                title: element.videoname,
+                path: element.path,
+                title: element.name,
                 rating: element.rating,
                 description: element.description,
-                thumbnail: element.thumbnail,
-                releasedate: element.releasedate,
             })
         }).catch((_) => { });
-    }, [VideoID]);
+    }, [VideoID]);*/
 
     // get pt_name from pt_id
     const [pt_name, setPtName] = useState("");
 
     useEffect(() => {
-        api.post(`/users/getPtById/${video.pt_id}`, { token: utils.getCookie("token") }).then((r) => {
+        api.post(`/users/getPtById/${workout.pt_id}`, { token: utils.getCookie("token") }).then((r) => {
             console.log("pt_name: ", r);
             const data = r.data;
             setPtName(data["pt"]["name"]);
         }).catch((error) => {
             console.error(error);
         });
-    }, [video.pt_id]);
+    }, [workout.pt_id]);
 
     return (
         <div>
             <br />
             <div style={{backgroundColor: 'rgb(200, 200, 200)', display: 'flex', justifyContent: 'center' }}>
                 <ReactPlayer
-                    url={`${API_URL}/videos/${video.path}`}
+                    url={`${API_URL}/exercises/${video.path}`}
                     width="70%"
                     height="100%"
                     controls
@@ -73,12 +103,8 @@ function VideoPlayer() {
             <p><br></br></p>
             <div className=" w-11/12 mx-auto" style={{marginBottom: '30px'}}>
                 <p style={{ fontSize: '2.5em'}}>{video.title}</p>
-                <p>{video.releasedate}</p>
-                <hr style={{ borderColor: 'grey', marginTop: '20px'}} />
-                <div style={{ display: 'flex', alignItems: 'baseline'}}>
-                    <p style={{ marginTop: '20px', fontSize: '1.5em' }}>{pt_name}</p>
-                    <button style={{ fontSize: '1em', padding: '10px', marginLeft: '20px', backgroundColor: 'grey', borderRadius: '30px', color: 'white'}}>Profile</button>
-                </div>
+                <p>{workout.releasedate}</p>
+                <p style={{marginTop: '20px', fontSize: '1.5em'}} >{pt_name}</p>
             </div>
 
             <div className=" w-11/12 mx-auto" style={{ backgroundColor: 'rgb(220, 220, 220)', padding: '5px', borderRadius: '5px' }}>

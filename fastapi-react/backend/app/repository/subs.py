@@ -3,8 +3,8 @@ import models, schemas
 
 class SubscriptionsRepository():
     @staticmethod
-    def create(sub: schemas.SubscriptionCreate):
-        db_sub = models.Subscription(user_id=sub.user_id, personal_trainer_id=sub.personal_trainer_id)
+    def create(user_id: int, personal_trainer_id: int):
+        db_sub = models.Subscription(user_id=user_id, personal_trainer_id=personal_trainer_id)
         db.add(db_sub)
         db.commit()
         db.refresh(db_sub)

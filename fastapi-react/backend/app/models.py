@@ -1,7 +1,7 @@
 # DESCRIPTION:
 # In this file are all the definitions for the tables in our database
 
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, Date
 from sqlalchemy.orm import relationship
 from database import Base
 
@@ -14,6 +14,13 @@ class User(Base):
     token = Column(String, index=True)
     
     subscriptions = relationship("Subscription", back_populates="user") # se fizermos um request pedindo pela coluna "subscriptions", isso retornará todos os pts a que o "user" se subscreveu
+
+class AthleteWeight(Base):
+    __tablename__ = "athlete_weight"
+    id = Column(Integer, ForeignKey("users.id"), primary_key=True)
+    date = Column(Date, primary_key=True)
+    weight = Column(Integer, index=True)
+
 
 class PersonalTrainer(Base):
     __tablename__ = "personal_trainers"
@@ -36,31 +43,71 @@ class PersonalTrainer(Base):
     education = Column(String, index=True)
     bg = Column(String, index=True)
     subscriptions = relationship("Subscription", back_populates="personal_trainer")
-    workouts = relationship("Video", back_populates="personal_trainer")
+    #exercises = relationship("Exercise", back_populates="personal_trainer")
 
-class Video(Base):
-    __tablename__ = "videos"
+class Exercise(Base):
+    __tablename__ = "exercise"
 
     id = Column(Integer, primary_key=True)
-    videopath = Column(String, index=True)
-    videoname = Column(String, index=True)
+    path = Column(String, index=True)
+    name = Column(String, index=True)
     description = Column(String, index=True)
     muscletargets = Column(String, index=True)
-    releasedate = Column(String, index=True)
-    restricted = Column(Integer, index=True)
-    thumbnail = Column(String, index=True)
-    rating = Column(String, index=True)
-    duration = Column(String, index=True)
     dificulty = Column(String, index=True)
+    common_mistake_id = Column(Integer, ForeignKey("common_mistake.id"), index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
+
+
+class CommonMistake(Base):
+    __tablename__ = "common_mistake"
+
+    id = Column(Integer, primary_key=True)
+    path = Column(String, index=True)
+    description = Column(String, index=True)
+
+
+class WorkoutExercise(Base):
+    __tablename__ = "workout_exercise"
+
+    workout_id = Column(Integer, ForeignKey("workout.id"), primary_key=True)
+    exercise_id = Column(Integer, ForeignKey("exercise.id"), primary_key=True)
+
+class Workout(Base):
+    __tablename__ = "workout"
+
+    id = Column(Integer, primary_key=True)
+    title = Column(String, index=True)
+    tags = Column(String, index=True)
+    premium = Column(Integer, index=True)
+    thumbnail = Column(String, index=True)
+    releasedate = Column(Date, index=True)
+    duration = Column(String, index=True)
+    rating = Column(String, index=True)
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
-    personal_trainer = relationship("PersonalTrainer", back_populates="workouts")
+
+
+    
+class ExerciseProgress(Base):
+    __tablename__ = "exercise_progress"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), index=True)
+    date = Column(String, index=True)
+
+class RepsProgress(Base):
+    __tablename__ = "reps_progress"
+
+    id = Column(Integer, ForeignKey("exercise_progress.id"), primary_key=True)
+    exercise_id = Column(Integer, ForeignKey("exercise.id"), index=True)
+    set_num = Column(Integer, index=True)
+    reps_made = Column(Integer, index=True)
+    weight_used = Column(Integer, index=True)
 
 class Subscription(Base):
     __tablename__ = "subscriptions"
 
     user_id = Column(Integer, ForeignKey("users.id"), primary_key=True)
-    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), primary_key=True)
     # Both user_id and personal_trainer_id are defined as primary keys because, together, they form a composite primary key for the subscriptions table. 
     # This means that each combination of user_id and personal_trainer_id must be unique in the table
 
