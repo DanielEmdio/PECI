@@ -3,7 +3,6 @@
 
 from pydantic import BaseModel
 from datetime import date
-# from typing import Any, Dict
 
 ########################  USER RELATED  ########################
 class UserBase(BaseModel):
@@ -202,4 +201,3 @@ class PtDetails(BaseModel):
     hours: str 
     education: str 
     bg: str 
-    

@@ -2,8 +2,7 @@ import { IoChatbubble } from "react-icons/io5";
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import { FaClock } from "react-icons/fa6";
-import { FaFire } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa";
+import { FaFire, FaHeart } from "react-icons/fa";
 import { api } from '../../api';
 import * as utils from '../../Utils/utils';
 
@@ -12,14 +11,14 @@ function Progress() {
     const [months, setMonths] = useState([]);
     const [weight, setWeight] = useState([]);
     let monthsOfTheYear = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    
+
     function getDate() {
         const today = new Date();
         const month = today.getMonth() + 1;
         const year = today.getFullYear();
         const day = today.getDate();
         return `${year}-${month}-${day}`;
-      }
+    }
 
     function sendWeight(event) {
         event.preventDefault(); // Prevent the default form submission behavior
@@ -29,51 +28,42 @@ function Progress() {
             const date = getDate();
             console.log(weightValue);
             api.post(`/users/addAthleteWeightData/${weightValue}/${date}`, { token: utils.getCookie("token") }).then((r) => {
-                console.log("r: ",r);
+                console.log("r: ", r);
                 const data = r.data;
-                if(data.result !== "ok"){
+                if (data.result !== "ok") {
                     alert("Something went wrong.");
                     return;
                 }
-                //console.log(data)
-                //console.log(data.data);
-                //window.location.reload();
-    
-            }).catch((_) => { 
+            }).catch((_) => {
                 console.log("Unable to send weight data.");
             });
         } else {
             console.error("Element with ID 'weight' not found.");
         }
-        
     }
-      
-    
+
     useEffect(() => {
         api.post("/users/getAthleteWeightData", { token: utils.getCookie("token") }).then((r) => {
-            console.log("r: ",r);
+            // console.log("r: ", r);
             const data = r.data;
-            //console.log(data)
-            //console.log(data.data);
             let months = [];
             let weight = [];
             data.data.forEach(element => {
                 const date = element.date.split("-");
-                
-                
+
                 months.push(monthsOfTheYear[parseInt(date[1])]);
                 weight.push(parseInt(element.weight));
-                /*
-                newMockedData.push({
-                    id: element.id,
-                    title: element.title,
-                    thumbnail: element.thumbnail,
-                    duration: "30 min",                             // deverá ser ajustado
-                    rating: element.rating,
-                    releasedate: element.releasedate,
-                    difficulty: 4,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
-                })*/
+
+                // newMockedData.push({
+                //     id: element.id,
+                //     title: element.title,
+                //     thumbnail: element.thumbnail,
+                //     duration: "30 min",                             // deverá ser ajustado
+                //     rating: element.rating,
+                //     releasedate: element.releasedate,
+                //     difficulty: 4,                                  // deverá ser ajustado
+                //     mainMuscles: element.mainMuscles.split(","),
+                // })
             });
             setMonths(months);
             setWeight(weight);
@@ -82,12 +72,11 @@ function Progress() {
     }, []);
 
     useEffect(() => {
-
         if (months.length === 0 || weight.length === 0) return; // Data not yet fetched
 
         const ctx = chartRef.current.getContext('2d');
-        console.log(months)
-        console.log(weight)
+        // console.log(months)
+        // console.log(weight)
         new Chart(ctx, {
             type: 'line',
             data: {
@@ -108,7 +97,7 @@ function Progress() {
                 }
             }
         });
-    }, [months,weight]);
+    }, [months, weight]);
 
     return (
         <div className="bg-gray-100">
@@ -123,7 +112,7 @@ function Progress() {
                         {/* Display various statistics here */}
                         <div className="mb-4">
                             <h3 className="font-semibold">Weight</h3>
-                            <p className="text-gray-600">Current Weight: <span id="current-weight">{weight[weight.length-1]}</span> kg</p>
+                            <p className="text-gray-600">Current Weight: <span id="current-weight">{weight[weight.length - 1]}</span> kg</p>
                             {/* You can add more details here like trend arrows, etc. */}
                         </div>
                         {/* Add more stats for other metrics */}
@@ -131,7 +120,7 @@ function Progress() {
 
                             <div class="stat">
                                 <div class="stat-figure text-secondary">
-                                    <FaClock className='text-primary' size={30}/>
+                                    <FaClock className='text-primary' size={30} />
                                 </div>
                                 <div class="stat-title text-primary">Active Minutes</div>
                                 <div class="stat-value">90 min</div>
@@ -140,7 +129,7 @@ function Progress() {
 
                             <div class="stat">
                                 <div class="stat-figure text-secondary">
-                                    <FaFire className='text-warning' size={30}/>
+                                    <FaFire className='text-warning' size={30} />
                                 </div>
                                 <div class="stat-title text-warning">Calories</div>
                                 <div class="stat-value">300 kcal</div>
@@ -149,7 +138,7 @@ function Progress() {
 
                             <div class="stat">
                                 <div class="stat-figure text-secondary">
-                                    <FaHeart className='text-error' size={30}/>
+                                    <FaHeart className='text-error' size={30} />
                                 </div>
                                 <div class="stat-title text-error">Avr Heartbeat Rate</div>
                                 <div class="stat-value">150 BTM</div>

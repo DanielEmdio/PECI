@@ -1,24 +1,23 @@
 import { FaUserCircle, FaUserGraduate, FaInfo, FaStar, FaIdBadge, FaEuroSign } from "react-icons/fa";
-import { Link, useOutlet, useOutletContext, useParams } from "react-router-dom";
+import { Link, /*useOutlet,*/ useOutletContext, useParams } from "react-router-dom";
 import { GiCardAceSpades } from "react-icons/gi";
-import { useEffect, useState } from "react";
-import * as utils from "../../Utils/utils";
-import { api } from '../../api';
+// import { useEffect, useState } from "react";
+// import * as utils from "../../Utils/utils";
+// import { api } from '../../api';
 
 export default function MainPtInfo() {
-    /*
-    const Pt = {
-        name: "Igor Voitenko",
-        photo: "https://picsum.photos/550/800",
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
-        tags: ["Full Body", "Cardio", "Strength"],
-        slots: 5,
-        price: "20€ - monthly"
-    }*/
+    // const Pt = {
+    //     name: "Igor Voitenko",
+    //     photo: "https://picsum.photos/550/800",
+    //     description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
+    //     tags: ["Full Body", "Cardio", "Strength"],
+    //     slots: 5,
+    //     price: "20€ - monthly"
+    // }
 
     const { id } = useParams();
     const Pt = useOutletContext();
-    console.log("MainptINfo -> Pt: ",Pt)
+    // console.log("MainptINfo -> Pt: ", Pt);
     // const [Pt, setPt] = useState({
     //     name: "",
     //     photo: "",
@@ -36,11 +35,9 @@ export default function MainPtInfo() {
     //     price: ""
     // });
     // useEffect(() => {
-
     //     api.get(`/pts/getPTbyId/${id}`).then((response) => {
     //         const data = response.data;
     //         console.log("data: ",data);
-
     //         const element = data.pt
     //         setPt({
     //             name: element.name,
@@ -50,7 +47,6 @@ export default function MainPtInfo() {
     //             slots: element.slots,
     //             price: element.price
     //         })
-
     //     }).catch((_) => { });
     // }, []);
 

@@ -1,8 +1,6 @@
 from repository.workouts import WorkoutsRepository
-from repository.exercises import ExercisesRepository
 from repository.pts import PersonalTrainersRepository
 from repository.subs import SubscriptionsRepository
-from repository.exercises import ExercisesRepository
 from repository.workout_exercises import WorkoutExercisesRepository
 from auth.oauth2_jwt import *
 from typing import List
@@ -109,11 +107,11 @@ class UsersRepository():
         if PTs_id != []:
             for id in PTs_id:
                 priv_workouts = WorkoutsRepository.getPtPrivWorkouts(id)
-                for workout in priv_workouts:
-                    print("PTprivworkouts: ",workout.title, workout.thumbnail)
+                # for workout in priv_workouts:
+                #     print("PTprivworkouts: ",workout.title, workout.thumbnail)
                 if priv_workouts != None:
                     workouts += priv_workouts
-        print("workouts: ",workouts)
+        # print("workouts: ",workouts)
         return workouts
     
     @staticmethod
@@ -139,10 +137,10 @@ class UsersRepository():
         if workouts:
             for workout in workouts:
                 exercises = WorkoutExercisesRepository.getExercisesForWorkout(workout.id)
-                print("exercises:",exercises)
+                # print("exercises:",exercises)
                 # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
                 for ex in exercises:
-                    print("ex:",ex.path, "videoname:",videoname)
+                    # print("ex:",ex.path, "videoname:",videoname)
                     if videoname in ex.path:
                         return True
         return False

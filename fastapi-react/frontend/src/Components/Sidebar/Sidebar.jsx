@@ -13,15 +13,17 @@ export default function Sidebar() {
         utils.eraseCookie("token");
         window.location.pathname = "/login";
     };
+
     const [pt_id, setPt_id] = useState(0);
     useEffect(() => {
-        api.post(`/users/getPT`, {token: utils.getCookie("token")}).then((r) => {
+        api.post(`/users/getPT`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
             const pt = data.pt;
             setPt_id(pt.id)
-            
+
         }).catch((_) => { });
     }, []);
+
     return <div className="drawer-side">
         <ul className="menu p-4 w-80 min-h-full bg-base-200 text-base-content">
             <p className="text-4xl font-bold bg-base-200 text-base-content mx-auto">Pocket Coach</p>

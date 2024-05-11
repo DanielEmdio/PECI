@@ -1,9 +1,8 @@
 from typing import List, Optional
 from database import db
-import models, schemas
+import models
 
 class WorkoutsRepository():
-
     @staticmethod
     def getWorkout(workout_id: int) -> Optional[models.Workout]:
         return db.query(models.Workout).filter(models.Workout.id == workout_id).first()
@@ -26,13 +25,11 @@ class WorkoutsRepository():
         # else:
         #     return None
 
-
     @staticmethod
     def getPtWorkouts(pt_id:str) -> Optional[List[models.Exercise]]:   # getPtExercises -> getPtVideos
         return db.query(models.Workout).filter(models.Workout.personal_trainer_id==pt_id).all()
         # personal_trainer = db.query(models.PersonalTrainer).filter(models.PersonalTrainer.id == pt_id).first()
         # return personal_trainer.workouts if personal_trainer else None
-
 
     @staticmethod
     def getAllRestrictedWorkouts():

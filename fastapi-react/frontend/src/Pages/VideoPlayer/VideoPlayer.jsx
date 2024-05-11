@@ -13,7 +13,8 @@ function VideoPlayer() {
     const [workout, setWorkout] = useState({
         pt_id: "",
         releasedate: "",
-    })
+    });
+
     const [video, setVideo] = useState({
         path: "",
         title: "",
@@ -23,7 +24,7 @@ function VideoPlayer() {
     });
 
     // Texto de exemplo da descrição
-    //const description = "Esta é a descrição do vídeo. Aqui pode ir um texto mais longo que explique o conteúdo do vídeo, detalhes sobre a produção, créditos, ou qualquer outra informação relevante que você queira incluir.";
+    // const description = "Esta é a descrição do vídeo. Aqui pode ir um texto mais longo que explique o conteúdo do vídeo, detalhes sobre a produção, créditos, ou qualquer outra informação relevante que você queira incluir.";
     // Função para alternar a visibilidade
 
     const toggleDescription = () => {
@@ -38,12 +39,9 @@ function VideoPlayer() {
             setWorkout({
                 pt_id: workout_info.personal_trainer_id,
                 releasedate: workout_info.releasedate,
-            })
-            
-                
-
+            });
         }).catch((_) => { });
-        
+
         api.post(`/exercises/getWorkoutExercises?workout_id=${WorkoutID}`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
             console.log("workout_exercises: ", data);
@@ -92,7 +90,7 @@ function VideoPlayer() {
     return (
         <div>
             <br />
-            <div style={{backgroundColor: 'rgb(200, 200, 200)', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ backgroundColor: 'rgb(200, 200, 200)', display: 'flex', justifyContent: 'center' }}>
                 <ReactPlayer
                     url={`${API_URL}/exercises/${video.path}`}
                     width="70%"
@@ -101,16 +99,16 @@ function VideoPlayer() {
                 />
             </div>
             <p><br></br></p>
-            <div className=" w-11/12 mx-auto" style={{marginBottom: '30px'}}>
-                <p style={{ fontSize: '2.5em'}}>{video.title}</p>
+            <div className=" w-11/12 mx-auto" style={{ marginBottom: '30px' }}>
+                <p style={{ fontSize: '2.5em' }}>{video.title}</p>
                 <p>{workout.releasedate}</p>
-                <p style={{marginTop: '20px', fontSize: '1.5em'}} >{pt_name}</p>
+                <p style={{ marginTop: '20px', fontSize: '1.5em' }} >{pt_name}</p>
             </div>
 
             <div className=" w-11/12 mx-auto" style={{ backgroundColor: 'rgb(220, 220, 220)', padding: '5px', borderRadius: '5px' }}>
-                <p style={{fontSize: '1.2em', marginBottom: '10px', textDecoration: 'underline', fontWeight: 'bold' }}>Description</p>
+                <p style={{ fontSize: '1.2em', marginBottom: '10px', textDecoration: 'underline', fontWeight: 'bold' }}>Description</p>
                 {
-                /* Renderiza a descrição com base no estado isExpanded */
+                    /* Renderiza a descrição com base no estado isExpanded */
                 }
                 <p>
                     {isExpanded ? video.description : `${video.description.substring(0, 100)}...`}
@@ -122,7 +120,7 @@ function VideoPlayer() {
             </div>
 
             <div className=" w-11/12 mx-auto">
-                <p style={{fontSize: '1.2em', marginBottom: '10px', marginTop: '30px', textDecoration: 'underline', fontWeight: 'bold' }}>Reviews</p>
+                <p style={{ fontSize: '1.2em', marginBottom: '10px', marginTop: '30px', textDecoration: 'underline', fontWeight: 'bold' }}>Reviews</p>
                 <Box
                     sx={{
                         '& > legend': { mt: 2 },
