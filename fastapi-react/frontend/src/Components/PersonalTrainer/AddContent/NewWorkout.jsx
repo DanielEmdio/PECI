@@ -5,34 +5,28 @@ import { FaClock } from "react-icons/fa";
 import Select from 'react-select';
 import NewCommonMistake from './NewCommonMistake';
 
+import ListExercise from './List_exercise';
+
 export default function NewWorkout() {
     const [video, setVideo] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+
     const [targetMuscles, setTargetMuscles] = useState('');
+    
+
     const [personalTrainerId, setPersonalTrainerId] = useState('');
 
-    const [common_mistakes, setCommonMistakes] = useState([]);
-    const [new_mistake, setNewMistake] = useState('');
 
     const handleTagChange = (targetMuscles) => {
         setTargetMuscles(targetMuscles);
     };
+
+
   
     const handleVideoChange = (event) => {
         setVideo(event.target.files[0]);
     };
-
-    const handleMistakeChange = (event) => {
-        setNewMistake(event.target.value);
-    };
-
-    const handleAddMistake = () => {
-        setCommonMistakes([...common_mistakes, new_mistake]);
-        setNewMistake('');
-    };
-
-    
 
     const tags = [
         { value: "Full Body", label: "Full Body" },
@@ -65,6 +59,7 @@ export default function NewWorkout() {
         { value: "Trapezius", label: "Trapezius" },
         { value: "Latissimus Dorsi", label: "Latissimus Dorsi" }
     ];
+    
   
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -119,57 +114,59 @@ export default function NewWorkout() {
     return (
         <div className="flex justify-center  h-screen ">
             <form onSubmit={handleSubmit} className="p-8 bg-white grow">
-                <h2 className="text-2xl font-semibold mb-7 text-center text-gray-800">Upload New Workout</h2>
-                <div className="mb-4">
-                    <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded text-black"/>
-                </div>
-                <div className="mb-4">
-                    <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className="w-full p-2 border border-gray-300 rounded h-32 text-black"></textarea>
-                </div>
-
-                <Select
-                    options={tags}
-                    value={targetMuscles}
-                    onChange={handleTagChange}
-                    isMulti={true}
-                    className='mb-4 text-black'
-                    placeholder="Target Muscles"
-                />
-
-                <p className='text-black mb-2'>Tumbnail:</p>
-                <div className="mb-4">
-                    <input 
-                    type="file" accept="jpg, jpeg, png" 
-                    onChange={handleVideoChange}
-                    className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
-                    file-input-primary file:text-white file:hover:bg-[#009977]"/>
-                </div>
-
-                <p className='text-black mb-2'>Exercises:</p>
-                
-                <button className="btn btn-square btn-outline btn-primary mb-4 text-2xl"> + </button>
-
-                <div className="divider"></div> 
-
-                <div className='grid grid-cols-3'>
-                    <h3 className='text-black justify-self-start'>Difficulty:</h3>
-                    <h3 className='text-black justify-self-start'>Duration:</h3>
-                    <p></p>
-                    <div className="rating justify-self-start my-2">
-                        <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
-                        <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" checked />
-                        <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
+                <fildset>
+                    <h2 className="text-2xl font-semibold mb-7 text-center text-gray-800">Upload New Workout</h2>
+                    <div className="mb-4">
+                        <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded text-black"/>
                     </div>
-                    <div className='flex justify-self-start'>
-                        <FaClock className='text-green-500 size-10 my-2'/>
-                        <input  type="number"
-                                min="0" // Impede valores negativos
-                                step="1" // Passo de 1 para impedir valores decimais
-                                placeholder="minutes" // Mantém o placeholder visível
-                                className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
+                    <div className="mb-4">
+                        <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className="w-full p-2 border border-gray-300 rounded h-32 text-black"></textarea>
                     </div>
-                    <button type="submit" className="w-full my-1 btn btn-primary hover:bg-[#009977]  text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25}/> Upload Workout</button>
-                </div>                
+
+                    <Select
+                        options={tags}
+                        value={targetMuscles}
+                        onChange={handleTagChange}
+                        isMulti={true}
+                        className='mb-4 text-black'
+                        placeholder="Tags"
+                    />
+
+                    <p className='text-black mb-2'>Tumbnail:</p>
+                    <div className="mb-4">
+                        <input 
+                        type="file" accept="jpg, jpeg, png" 
+                        onChange={handleVideoChange}
+                        className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
+                        file-input-primary file:text-white file:hover:bg-[#009977]"/>
+                    </div>
+
+                    <p className='text-black'>Exercises:</p>
+
+                    <ListExercise/>
+
+                    <div className="divider"></div> 
+
+                    <div className='grid grid-cols-3'>
+                        <h3 className='text-black justify-self-start'>Difficulty:</h3>
+                        <h3 className='text-black justify-self-start'>Duration:</h3>
+                        <p></p>
+                        <div className="rating justify-self-start my-2">
+                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
+                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" checked />
+                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
+                        </div>
+                        <div className='flex justify-self-start'>
+                            <FaClock className='text-green-500 size-10 my-2'/>
+                            <input  type="number"
+                                    min="0" // Impede valores negativos
+                                    step="1" // Passo de 1 para impedir valores decimais
+                                    placeholder="minutes" // Mantém o placeholder visível
+                                    className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
+                        </div>
+                        <button type="submit" className="w-full my-1 btn btn-primary hover:bg-[#009977]  text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25}/> Upload Workout</button>
+                    </div>
+                </fildset>                 
             </form>
         </div>
     );    
