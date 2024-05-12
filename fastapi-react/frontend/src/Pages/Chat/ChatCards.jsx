@@ -9,7 +9,10 @@ export default function ChatCards() {
     // get pts or athletes
     useEffect(() => {
         api.post(`/users/${utils.isNormalUser() ? 'getSubs' : 'getUsersSubToPt'}`, { token: utils.getCookie("token") }).then((r) => {
-            setData(utils.isNormalUser() ? r.data.pts : r.data.users);
+            const d = r.data;
+            if (d.result === "ok") {
+                setData(utils.isNormalUser() ? d.pts : d.users);
+            }
         }).catch((_) => { });
     }, []);
 

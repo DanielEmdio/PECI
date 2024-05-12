@@ -5,10 +5,21 @@ import { API_URL, api } from "../../api";
 import './style.css';
 
 export default function Chat() {
+    const [recipient, setRecipient] = useState("Chat");
     const [messages, setMessages] = useState([]);
     const [message, setMessage] = useState('');
     const [ws, setWs] = useState(null);
     const { id } = useParams();
+
+    // get recipient name
+    useEffect(() => {
+        api.post(`/users/${utils.isNormalUser() ? 'getPtById' : 'getUserById'}/${id}`, { token: utils.getCookie("token") }).then((r) => {
+            const d = r.data;
+            if (d.result === "ok") {
+                setRecipient(utils.isNormalUser() ? d.pt.name : d.user.name);
+            }
+        }).catch((_) => { });
+    }, []);
 
     useEffect(() => {
         // get chat messages
@@ -91,9 +102,6 @@ export default function Chat() {
         }
     };
 
-    // get name of the pt
-    const [recipient, setRecipient] = useState("Igor");
-
     return (
         <div className="chat-body card">
             <div className="card-body">
@@ -102,13 +110,8 @@ export default function Chat() {
                 <hr />
                 <div id="messages">
                     {messages.map((message, index) => (
-                        <div key={index}>
-                            <div className="message-box" key={index}>
-                                <p>
-                                    <span>{message.message}</span>
-                                    <strong>{message.sender}</strong>
-                                </p>
-                            </div>
+                        <div key={index} className={`flex ${message.sender.includes('You') ? 'justify-end' : 'justify-start'}`}>
+                            <span className="message-box" key={index}>{message.message}</span>
                         </div>
                     ))}
                 </div>
