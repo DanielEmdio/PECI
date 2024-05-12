@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import Select from 'react-select';
 
 export default function ListExercise() {
@@ -20,12 +20,16 @@ export default function ListExercise() {
 
     const handleExerciseSubmit = (event) => {
         event.preventDefault();
-        //setExercises(selectedExercises);
-        //console.log('Exercises:', exercises);
+        setExercises(selectedExercises);
+        setSelectedExercises([]);
     };
 
+    useEffect(() => {
+        console.log("exercises", exercises);
+    }, [exercises]);
+
     return(
-        <fieldset>
+        <>
             <p className='text-gray-500 mb-4 text-center font-bold'>No exercises added yet</p>
             <form onSubmit={handleExerciseSubmit}>
                 <div className='flex'>
@@ -40,6 +44,6 @@ export default function ListExercise() {
                     <button type='submit' className="btn btn-square btn-sm btn-primary my-1 text-xs text-white">Add</button>
                 </div>
             </form>
-        </fieldset>
+        </>
     );
 }

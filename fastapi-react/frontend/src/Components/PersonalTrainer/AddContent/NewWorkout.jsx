@@ -113,7 +113,7 @@ export default function NewWorkout() {
 
     return (
         <div className="flex justify-center  h-screen ">
-            <form onSubmit={handleSubmit} className="p-8 bg-white grow">
+            <div className="p-8 bg-white grow">
                 <fildset>
                     <h2 className="text-2xl font-semibold mb-7 text-center text-gray-800">Upload New Workout</h2>
                     <div className="mb-4">
@@ -167,7 +167,7 @@ export default function NewWorkout() {
                         <button type="submit" className="w-full my-1 btn btn-primary hover:bg-[#009977]  text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25}/> Upload Workout</button>
                     </div>
                 </fildset>                 
-            </form>
+            </div>
         </div>
     );    
 }
