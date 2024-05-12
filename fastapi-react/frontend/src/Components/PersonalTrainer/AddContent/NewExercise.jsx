@@ -147,15 +147,16 @@ export default function NewExercise() {
                     <input 
                     type="file" accept="jpg, jpeg, png" 
                     onChange={handleVideoChange}
-                    className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
+                    className="w-full text-sm text-gray-500 file-input file-input-bordered 
                     file-input-primary file:text-white file:hover:bg-[#009977]"/>
                 </div>
 
 
-                <p className='text-black mb-2'>Common mistake:</p>
+                <p className='text-black mb-2'>Common mistakes:</p>
                 
-                <NewCommonMistake/>
-
+                <div className='flex'>
+                    <NewCommonMistake className="basis-1/2"/>
+                </div>
                 
                 <button type="submit" className="w-full btn btn-primary hover:bg-[#009977] text-white font-bold py-2 mb-2 px-4 rounded focus:outline-none focus:shadow-outline" >Upload Video</button>
             </div>

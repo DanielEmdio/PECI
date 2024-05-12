@@ -141,7 +141,7 @@ export default function NewWorkout() {
                         file-input-primary file:text-white file:hover:bg-[#009977]"/>
                     </div>
 
-                    <p className='text-black'>Exercises:</p>
+                    <p className='text-black mb-2'>Exercises:</p>
 
                     <ListExercise/>
 
