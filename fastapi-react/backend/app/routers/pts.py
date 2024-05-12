@@ -1,9 +1,5 @@
-from repository.pts import PersonalTrainersRepository
-from repository.users import UsersRepository
-from models import PersonalTrainer
 from fastapi import APIRouter
 from auth.oauth2_jwt import *
-import schemas
 
 router = APIRouter(prefix="/pts")
 

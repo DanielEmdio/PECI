@@ -55,7 +55,7 @@ export default function Router() {
                     path: '/register', element: <RegisterForm />, children: [
                         { path: '/register/athlete', element: <RegisterBasic /> },
                         { path: '/register/trainer', element: <RegisterPt /> },
-                        { path: '/register/trainer/details', element: <RegisterPtDetails />}
+                        { path: '/register/trainer/details', element: <RegisterPtDetails /> }
                     ]
                 },
             ]

@@ -1,8 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { FaUnlockAlt } from "react-icons/fa";
+import { FaUnlockAlt, FaUser } from "react-icons/fa";
 import * as utils from "../../Utils/utils";
 import { Link } from 'react-router-dom';
-import { FaUser } from "react-icons/fa";
 import { api } from "../../api";
 import React from 'react';
 

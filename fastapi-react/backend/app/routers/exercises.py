@@ -78,7 +78,7 @@ async def get_workout_exercises(token: schemas.TokenData, workout_id:int):
     jwt_data = get_jwt_token_data(token=token.token)
     if jwt_data == None:
         return { "result": "no", "error": "Unauthorized." }
-    print("here")
+
     if jwt_data["isNormalUser"] == True:
         user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
         workout = WorkoutsRepository.getWorkout(workout_id)
@@ -111,5 +111,3 @@ async def get_video_info( token: schemas.TokenData, exercise_id:int):
             return { "result": "no", "error": "Unauthorized." }
         
     return {"result":"ok","video":exercise}
-
-

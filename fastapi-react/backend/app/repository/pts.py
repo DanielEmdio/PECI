@@ -154,8 +154,7 @@ class PersonalTrainersRepository():
                     if videoname in ex.path:
                         return True
         return False
-    
-    
+
     @staticmethod
     def hasAccessToWorkout(pt_id: int, workoutTitle: str) -> bool:
         workouts = PersonalTrainersRepository.getAccessibleWorkouts(pt_id)

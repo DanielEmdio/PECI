@@ -43,10 +43,7 @@ export default function Workoutcard({ workout }) {
                     <p>{workout.duration}</p>
                     <p>{workout.releasedate}</p>
                     <Box
-                        sx={{
-                            '& > legend': { mt: 2 },
-                        }}
-                    >
+                        sx={{ '& > legend': { mt: 2 } }}>
                         <Rating name="read-only" value={workout.rating} readOnly />
                     </Box>
                     <div className="card-actions justify-between items-end">

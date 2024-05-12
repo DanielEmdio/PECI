@@ -16,12 +16,10 @@ def read_item(item_id: int, q: Union[str, None] = None):
 def update_item(item_id: int, item: Item):
     return {"item_name": item.name, "item_id": item_id}"""
 
-from routers import users, pts, chat, images,exercises, workouts
+from routers import users, chat, images,exercises, workouts
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from models import User, PersonalTrainer
-from fastapi import FastAPI, WebSocket
-from sqlalchemy.orm import joinedload
+from fastapi import FastAPI
 from database import db
 from os import environ
 

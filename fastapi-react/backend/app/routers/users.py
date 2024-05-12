@@ -54,7 +54,6 @@ def register_user(user: schemas.UserRegister):
 
     return { "result": "ok", "token": jwt_token }
 
-
 @router.post("/registerPTdetails")
 def register_pt_details(token: schemas.TokenData, details: schemas.PtDetails):
 
@@ -76,15 +75,9 @@ def register_pt_details(token: schemas.TokenData, details: schemas.PtDetails):
 # This happens because (if i understood correctly) we can't send the pt_id as a parameter in the request, so we need to change the name of the file to the pt_id
 @router.post("/safePTphoto")
 async def safe_pt_photo(photofile: UploadFile = File(...)):
-
-    print("photofile.filename: ",photofile.filename)
     # Extrair pt_id do nome do arquivo
     pt_id = int(photofile.filename.replace('.png', ''))
-
     pt_username = PersonalTrainersRepository.get_pt_username(pt_id)
-
-    print("pt_username: ",pt_username)
-    print("photofile.filename: ",photofile.filename)
 
     # check the file size
     max_size_in_bytes = 5 * 1024 * 1024  # 5 MB
@@ -110,9 +103,6 @@ async def safe_pt_photo(photofile: UploadFile = File(...)):
 
     PersonalTrainersRepository.save_pt_photopath(pt_username,pt_id)
     return { "result": "ok" }
-
-
-
 
 @router.post("/login")
 def login_user(user: schemas.BasicUser):
@@ -199,7 +189,6 @@ def get_Pt_data_by_id(token: schemas.TokenData, pt_id: int):
         return {"result":"ok","pt":pt}
     else:
         return {"result": "no", "error": "Personal Trainer not found."} 
-    
 
 @router.post("/getPT")
 async def get_PT_by_token(token: schemas.TokenData):
@@ -217,11 +206,6 @@ async def get_PT_by_token(token: schemas.TokenData):
             pt = {"id":pt.id, "name":pt.name, "description":pt.description, "tags":pt.tags, "photo":pt.photo, "price":pt.price, "slots":pt.slots, "lang" : pt.lang, "hours" : pt.hours, "rating" : pt.rating, "n_comments" : pt.n_comments, "education" : pt.education, "bg" : pt.bg} 
             print(pt)
             return {"result": "yes", "pt": pt}
-        
-
-
-
-
 
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):
@@ -283,25 +267,6 @@ def subscribe_to_pt(token: schemas.TokenData, pt_id: int):
         return { "result": "ok" }
     else:
         return { "result": "no", "error": "Unauthorized." }
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 # @router.post("/addPTCustom",response_model=schemas.BasicPersonalTrainer)
 # async def add_pt(pt: schemas.BasicPersonalTrainer):
@@ -342,4 +307,3 @@ async def get_new_pts(token: schemas.TokenData):
         return {"result":"ok","pts":pts}
     else:
             return { "result": "no", "error": "Unauthorized." }
-        

@@ -19,7 +19,7 @@ export default function CategoriesBar() {
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    duration: element.duration,                             
+                    duration: element.duration,
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: element.difficulty,                                  // deverá ser ajustado
@@ -35,9 +35,9 @@ export default function CategoriesBar() {
         setShowAddVideo(!showAddVideo);  // Alternar visibilidade de AddVideo
         setActiveButton("addvideo");
     };
-    
+
     const popularClick = (e) => {
-        if(showAddVideo){
+        if (showAddVideo) {
             setShowAddVideo(!showAddVideo);
         }
         e.preventDefault();
@@ -69,7 +69,7 @@ export default function CategoriesBar() {
     }
 
     const recentClick = (e) => {
-        if(showAddVideo){
+        if (showAddVideo) {
             setShowAddVideo(!showAddVideo);
         }
         e.preventDefault();
@@ -112,7 +112,7 @@ export default function CategoriesBar() {
     }
 
     const exclusiveClick = (e) => {
-        if(showAddVideo){
+        if (showAddVideo) {
             setShowAddVideo(!showAddVideo);
         }
         e.preventDefault();
@@ -142,7 +142,7 @@ export default function CategoriesBar() {
     }
 
     const AllClick = (e) => {
-        if(showAddVideo){
+        if (showAddVideo) {
             setShowAddVideo(!showAddVideo);
         }
         e.preventDefault();
@@ -164,7 +164,7 @@ export default function CategoriesBar() {
                     difficulty: element.difficulty,                                  // deverá ser ajustado
                     mainMuscles: element.tags.split(","),
                 })
-            }); 
+            });
 
             //console.log(newMockedData);
 

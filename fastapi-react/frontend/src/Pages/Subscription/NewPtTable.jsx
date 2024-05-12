@@ -1,105 +1,9 @@
-import PTfilter from "../../Components/Subscription/PTfilter";
 import { useEffect, useState } from "react";
 import * as utils from "../../Utils/utils";
 import { api, API_URL } from "../../api";
 import { Link } from "react-router-dom";
 
 export default function NewPtTable() {
-    /*
-    const mockedData = [
-        {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/300/200",
-            description: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-            price: "20€ - monthly",
-            id: 1
-        },
-        {
-            name: "Dantes",
-            photo: "https://picsum.photos/500/200",
-            description: "Welcome to the Rodeo.",
-            tags: ["Budget", "Core", "Strength"],
-            price: "20€ - monthly",
-            id: 2
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/350/200",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly",
-            id: 3
-        },
-        {
-            name: "Mario Antunes",
-            photo: "https://picsum.photos/300/250",
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quibusdam odit voluptatum recusandae est aspernatur velit commodi saepe, dicta repellendus nam at sapiente officia dolor ipsam dolore non quisquam nemo?",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly",
-            id: 4
-        },
-        {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/250/200",
-            description: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-            price: "20€ - monthly",
-            id: 5
-        },
-        {
-            name: "Dantes",
-            photo: "https://picsum.photos/330/200",
-            description: "Welcome to the Rodeo.",
-            tags: ["Budget", "Core", "Strength"],
-            price: "20€ - monthly",
-            id: 6
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/300/205",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly",
-            id: 7
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/306/200",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
-        },
-        {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/250/200",
-            description: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-            price: "20€ - monthly"
-        },
-        {
-            name: "Dantes",
-            photo: "https://picsum.photos/330/200",
-            description: "Welcome to the Rodeo.",
-            tags: ["Budget", "Core", "Strength"],
-            price: "20€ - monthly"
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/300/205",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/306/200",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
-        },
-    ]*/
-
     const [mockedData, setMockedData] = useState([]);
 
     useEffect(() => {
@@ -123,13 +27,11 @@ export default function NewPtTable() {
         }).catch((_) => { });
     }, []);
 
-
     function subscribe(pt_id) {
         // ask the user if he realy wants to subscribe, if yes, send the request to the server and reload the page
         if (!window.confirm("Are you sure you want to subscribe to this PT?")) {
             return;
         }
-
 
         api.post(`/users/subscribeToPT/${pt_id}`, { token: utils.getCookie("token") }).then((response) => {
             alert("Subscribed successfully!");

@@ -10,53 +10,25 @@ import NewWorkout from "../../Components/PersonalTrainer/AddContent/NewWorkout";
 
 import { useEffect, useState } from "react";
 import { API_URL, api } from "../../api";
-import * as utils from "../../Utils/utils"
-// const mockedData = [ // lista de treinos do pt 
-//         {
-//           title: "Arms Workout ",
-//           thumbnail: "https://picsum.photos/200/200",
-//           duration: "30 min",
-//           mainMuscles: ["Biceps", "Triceps"],
-//           id: 1,
-//           description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quibusdam, vitae, quidem iusto veniam provident perspiciatis sequi debitis ab consectetur dolorum totam natus velit! Placeat architecto adipisci eligendi quisquam quos!",
-//         },
-//         {
-//             title: "Arms Workout ",
-//             thumbnail: "https://picsum.photos/200/200",
-//             duration: "30 min",
-//             mainMuscles: ["Biceps", "Triceps"],
-//             id: 2,
-//             description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quibusdam, vitae, quidem iusto veniam provident perspiciatis sequi debitis ab consectetur dolorum totam natus velit! Placeat architecto adipisci eligendi quisquam quos!",
-
-//       },
-//       {
-//         title: "Arms Workout ",
-//         thumbnail: "https://picsum.photos/200/200",
-//         duration: "30 min",
-//         mainMuscles: ["Biceps", "Triceps"],
-//         id: 3,
-//         description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quibusdam, vitae, quidem iusto veniam provident perspiciatis sequi debitis ab consectetur dolorum totam natus velit! Placeat architecto adipisci eligendi quisquam quos!",
-//       },
-// ];
-
+import * as utils from "../../Utils/utils";
 
 export default function PtMainPage() {
-  const [mockedData, setMockedData] = useState([]);
-  const [most_recent, setMost_recent] = useState({
-    id: 0,
-    title: "",
-    thumbnail: "",
-    description: "",
-    duration: "",                             // deverá ser ajustado
-    //rating: element.rating,
-    releasedate: "",
-    mainMuscles: [],
-  });
+    const [mockedData, setMockedData] = useState([]);
+    const [most_recent, setMost_recent] = useState({
+        id: 0,
+        title: "",
+        thumbnail: "",
+        description: "",
+        duration: "",                             // deverá ser ajustado
+        //rating: element.rating,
+        releasedate: "",
+        mainMuscles: [],
+    });
 
     useEffect(() => {
         api.post(`/workouts/getPTworkouts/${id}`).then((r) => {
             const data = r.data;
-            console.log("videosdata: ",data);
+            // console.log("videosdata: ", data);
             let newMockedData = [];
             data.workouts.forEach(element => {
                 newMockedData.push({
@@ -73,59 +45,45 @@ export default function PtMainPage() {
 
             // Ordenar por release date
             newMockedData.sort((a, b) => {
-              const dateA = convertToDate(a.releasedate);
-              const dateB = convertToDate(b.releasedate);
-              return dateB - dateA;
+                const dateA = convertToDate(a.releasedate);
+                const dateB = convertToDate(b.releasedate);
+                return dateB - dateA;
             });
 
-            console.log("newMockedData[0]",newMockedData[0])
+            console.log("newMockedData[0]", newMockedData[0])
             setMost_recent(newMockedData[0])
-            console.log("most_recent",most_recent)
+            console.log("most_recent", most_recent)
             setMockedData(newMockedData);
-            
-        // setMost_recent(mockedData[0]);
+
+            // setMost_recent(mockedData[0]);
         }).catch((_) => { });
 
     }, []);
 
     // Função para converter string de data no formato "DD-MM-YYYY" para um objeto Date
     function convertToDate(dateString) {
-      const [day, month, year] = dateString.split('-');
-      return new Date(`${year}-${month}-${day}`);
+        const [day, month, year] = dateString.split('-');
+        return new Date(`${year}-${month}-${day}`);
     }
 
-
-  const [Pt, setPt] = useState([]);
-  const {id} = useParams(); 
+    const [Pt, setPt] = useState([]);
+    const { id } = useParams();
     useEffect(() => {
-      api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {
-          const data = r.data;
-          console.log("data: ",data);
+        api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {
+            const data = r.data;
+            console.log("data: ", data);
 
-          const element = data.pt
-          setPt({
-              name: element.name,
-              photo: element.photo,
-              description: element.description,
-              tags: element.tags.split(","),
-          })
+            const element = data.pt
+            setPt({
+                name: element.name,
+                photo: element.photo,
+                description: element.description,
+                tags: element.tags.split(","),
+            })
 
-      }).catch((_) => { });
-  }, []);
-    // const Pt = { // dados do pt
-    //     name: "UA",
-    //     photo: "https://picsum.photos/550/800",
-    //     decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
-    //     tags: ["Full Body", "Cardio", "Strength"],
-    // }
-    // const most_recent ={ // workout mais recente, calcular depois integrar data de upload no backend
-    //   title: "Arms Workout ",
-    //   thumbnail: "https://picsum.photos/200/200",
-    //   duration: "30 min",
-    //   mainMuscles: ["Biceps", "Triceps"],
-    //   id: 6,
-    // }
-    //const most_recent = mockedData[0];
+        }).catch((_) => { });
+    }, []);
+
     return (
     <section className="w-full">
       <header className="bg-emerald-900 text-zinc-50 py-4"> {/* navbar */}
@@ -233,4 +191,3 @@ export default function PtMainPage() {
     </section>
     )
 }
-

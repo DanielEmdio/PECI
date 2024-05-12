@@ -378,6 +378,8 @@ COPY public.subscriptions (user_id, personal_trainer_id) FROM stdin;
 3	18
 2	18
 5	1
+10	18
+10	1
 \.
 
 

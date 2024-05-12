@@ -7,56 +7,6 @@ import { Link } from "react-router-dom";
 import { api } from '../../api';
 
 export default function Subscription() {
-    /*const mockedData = [
-        {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/250/200",
-            decription: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-        },
-        {
-            name: "Dantes",
-            photo: "https://picsum.photos/330/200",
-            decription: "Welcome to the Rodeo.",
-            tags: ["Budget", "Core", "Strength"],
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/300/205",
-            decription: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/306/200",
-            decription: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-        },
-        {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/250/200",
-            decription: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-        },
-        {
-            name: "Dantes",
-            photo: "https://picsum.photos/330/200",
-            decription: "Welcome to the Rodeo.",
-            tags: ["Budget", "Core", "Strength"],
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/300/205",
-            decription: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/306/200",
-            decription: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-        },
-    ]*/
     const [mockedData, setMockedData] = useState([]);
 
     useEffect(() => {

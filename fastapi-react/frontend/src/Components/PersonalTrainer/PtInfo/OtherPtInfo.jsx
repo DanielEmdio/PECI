@@ -30,12 +30,10 @@ export default function OtherPtInfo() {
         }).catch((_) => { });
     }, []);
 
-    /*
-    const Pt = {
-        tags: ["English", "Portuguese"],
-        hours: [["Tuesday", "9:00 - 14:00"], ["Wednesday", "9:00 - 14:00"], ["Friday", "9:00 - 14:00"]],
-    }
-    */
+    // const Pt = {
+    //     tags: ["English", "Portuguese"],
+    //     hours: [["Tuesday", "9:00 - 14:00"], ["Wednesday", "9:00 - 14:00"], ["Friday", "9:00 - 14:00"]],
+    // }
 
     return (
         <>
