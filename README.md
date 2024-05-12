@@ -28,23 +28,23 @@ cd PECI
 ```
 
 3. Instalar as dependencias do projeto e correr a aplicação  
-Backend, apenas na primeira vez:
+- Backend, apenas na primeira vez:
 ```sh
 cd fastapi-react/backend
 python -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
 ```
-Para iniciar o backend:
+- Para iniciar o backend:
 ```sh
 ./run.sh
 ```
-Frontend, apenas na primeira vez:
+- Frontend, apenas na primeira vez:
 ```sh
 cd fastapi-react/frontend
 npm i
 ```
-Para iniciar o frontend:
+- Para iniciar o frontend:
 ```sh
 npm start
 ```
