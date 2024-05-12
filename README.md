@@ -27,7 +27,7 @@ git clone https://github.com/DanielEmdio/PECI.git
 cd PECI
 ```
 
-3. Instalar as dependencias do projeto e correr a aplicação  
+3. Instalar as dependencias do projeto e correr a aplicação (sem Docker)  
 - Backend, apenas na primeira vez:
 ```sh
 cd fastapi-react/backend
