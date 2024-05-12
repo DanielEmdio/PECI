@@ -19,6 +19,7 @@ export default function Chat() {
                 setRecipient(utils.isNormalUser() ? d.pt.name : d.user.name);
             }
         }).catch((_) => { });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -50,6 +51,7 @@ export default function Chat() {
         }).catch((_) => {
             startChat();
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const startChat = () => {
