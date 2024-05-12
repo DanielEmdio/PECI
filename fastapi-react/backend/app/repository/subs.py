@@ -1,3 +1,4 @@
+from typing import Optional
 from database import db
 import models
 
@@ -11,7 +12,7 @@ class SubscriptionsRepository():
         return db_sub
 
     @staticmethod
-    def get_pts_for_user(user_id: int): # retrieve all personal_trainers to which the user is subscribed to
+    def get_pts_for_user(user_id: int) -> Optional[models.PersonalTrainer]: # retrieve all personal_trainers to which the user is subscribed to
         subscriptions = (
             db.query(models.Subscription)
             .filter(models.Subscription.user_id == user_id)
@@ -25,6 +26,20 @@ class SubscriptionsRepository():
             return None
 
     @staticmethod
+    def get_users_for_pt(personal_trainer_id: int) -> Optional[models.User]: # retrieve all users subscribed to a personal trainer
+        subscriptions = (
+            db.query(models.Subscription)
+            .filter(models.Subscription.personal_trainer_id == personal_trainer_id)
+            .all()
+        )
+
+        if subscriptions:
+            users = [sub.user for sub in subscriptions]
+            return users
+        else:
+            return None
+
+    @staticmethod
     def get_pt_ids_for_user(user_id: int):
         result = (
             db.query(models.User)
@@ -33,10 +48,8 @@ class SubscriptionsRepository():
         )
 
         PTs_id = []
-        # print("func->get_subs_id ______ result: ",result)
         if result:
             PTs_id = [sub.personal_trainer_id for sub in result.subscriptions]
-            # print("PTs_id: ",PTs_id)
         return PTs_id
 
     @staticmethod
@@ -48,8 +61,6 @@ class SubscriptionsRepository():
         )
 
         users_id = []
-        # print("func->get_subs_id ______ result: ",result)
         if result:
             users_id = [sub.user_id for sub in result.subscriptions]
-            # print("users_id: ",users_id)
         return users_id
