@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import { FaTag } from 'react-icons/fa';
 import { MdFileUpload } from "react-icons/md";
 import { FaClock } from "react-icons/fa";
 import Select from 'react-select';
-import NewCommonMistake from './NewCommonMistake';
 
 export default function NewWorkout() {
     const [video, setVideo] = useState(null);

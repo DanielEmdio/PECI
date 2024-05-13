@@ -113,7 +113,7 @@ export default function Chat() {
                 <div id="messages">
                     {messages.map((message, index) => (
                         <div key={index} className={`flex ${message.sender.includes('You') ? 'justify-end' : 'justify-start'}`}>
-                            <span className="message-box" key={index}>{message.message}</span>
+                            <span className={`message-box ${message.sender.includes('You') ? 'bg-green-300' : 'bg-gray-300'}`} key={index}>{message.message}</span>
                         </div>
                     ))}
                 </div>
