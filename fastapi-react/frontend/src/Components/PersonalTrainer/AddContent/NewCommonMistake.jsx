@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function NewCommonMistake() {
-
     const [common_mistakes, setCommonMistakes] = useState([]);
     const [newMistake, setNewMistake] = useState({ description: '', file: null });
 
@@ -25,11 +24,11 @@ export default function NewCommonMistake() {
         const newMistakes = [...common_mistakes];
         newMistakes.splice(index, 1);
         setCommonMistakes(newMistakes);
-    };  
+    };
 
-    useEffect(() => {
-        console.log(common_mistakes);
-    }, [common_mistakes]);
+    // useEffect(() => {
+    //     console.log(common_mistakes);
+    // }, [common_mistakes]);
 
     return (
         <div className='flex'>
@@ -37,16 +36,16 @@ export default function NewCommonMistake() {
                 <p className='text-black mb-2'>Common mistakes:</p>
                 <div className="flex justify-start p-2 outline outline-1 outline-green-500 rounded-xl mb-4">
                     <div className=" w-3/4  mb-3 grid grid-col-2 gap-2">
-                        <textarea 
-                            placeholder="Description" 
+                        <textarea
+                            placeholder="Description"
                             className="w-full p-2 border border-gray-300 rounded h-32 text-black"
                             value={newMistake.description}
                             onChange={handleDescriptionChange}>
                         </textarea>
                         <div>
                             <p className='text-gray-400 text-sm mb-1'>Exemple video:</p>
-                            <input 
-                                type="file" accept="video/mp4" 
+                            <input
+                                type="file" accept="video/mp4"
                                 className="w-full text-sm text-gray-500 file-input file-input-bordered file-input-primary file:text-white file:hover:bg-[#009977]"
                                 onChange={handleFileChange}
                             />
@@ -60,37 +59,36 @@ export default function NewCommonMistake() {
             </div>
 
             <div className="basis-1/3 place-self-auto mx-5 overflow-auto max-h-72 w-full">
-                {common_mistakes.length > 0 ?(
-                <table className="table">
-                    {/* head */}
-                    <thead>
-                    <tr>
-                        <th></th>
-                        <th>Number</th>
-                        <th>File</th>
-                        <th>Delete</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {common_mistakes.map((mistake, index) => (
-                    <tr
-                    className="bg-base-200" 
-                    key={index}>
-                        <th></th>
-                        <td>{index + 1}</td>
-                        <td>{mistake.file ? mistake.file.name : 'No file'}</td>
-                        <td>
-                            <button onClick={() => handleDeleteMistake(index)}><FaRegTrashAlt className='mx-2 text-red-500'/></button>
-                        </td>
-                    </tr>
-                    ))}
-                    </tbody>
-                </table>
+                {common_mistakes.length > 0 ? (
+                    <table className="table">
+                        {/* head */}
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Number</th>
+                                <th>File</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {common_mistakes.map((mistake, index) => (
+                                <tr
+                                    className="bg-base-200"
+                                    key={index}>
+                                    <th></th>
+                                    <td>{index + 1}</td>
+                                    <td>{mistake.file ? mistake.file.name : 'No file'}</td>
+                                    <td>
+                                        <button onClick={() => handleDeleteMistake(index)}><FaRegTrashAlt className='mx-2 text-red-500' /></button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 ) : (
                     <p className='text-gray-400 text-center'>No common mistakes added</p>
                 )}
             </div>
-            
         </div>
     );
 }
