@@ -12,7 +12,6 @@ export default function CategoriesBar() {
     useEffect(() => {
         api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.workouts);
             let newMockedData = [];
             data.workouts.forEach(element => {
                 newMockedData.push({
@@ -42,11 +41,9 @@ export default function CategoriesBar() {
         }
         e.preventDefault();
         setActiveButton("popular");
-        console.log('The link was clicked.');
 
         api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("popular videos: ", data.workouts);
             let newMockedData = [];
             data.workouts.forEach(element => {
                 newMockedData.push({
@@ -74,11 +71,9 @@ export default function CategoriesBar() {
         }
         e.preventDefault();
         setActiveButton("recent");
-        console.log('The link was clicked.');
 
         api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("recent videos: ", data.workouts);
             let newMockedData = [];
             data.workouts.forEach(element => {
                 newMockedData.push({
@@ -117,11 +112,9 @@ export default function CategoriesBar() {
         }
         e.preventDefault();
         setActiveButton("exclusive");
-        console.log('The link was clicked.');
 
         api.post("/workouts/getPTPreWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("exclusive workouts: ", data.workouts);
             let newMockedData = [];
             data.workouts.forEach(element => {
                 newMockedData.push({
@@ -147,11 +140,9 @@ export default function CategoriesBar() {
         }
         e.preventDefault();
         setActiveButton("all");
-        console.log('The link was clicked.');
 
         api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.workouts);
             let newMockedData = [];
             data.workouts.forEach(element => {
                 newMockedData.push({
@@ -165,8 +156,6 @@ export default function CategoriesBar() {
                     mainMuscles: element.tags.split(","),
                 })
             });
-
-            //console.log(newMockedData);
 
             setMockedData(newMockedData);
         }).catch((_) => { });
@@ -192,5 +181,5 @@ export default function CategoriesBar() {
                 {showAddVideo && <AddVideo />}
             </div>
         </>
-    )
+    );
 }
