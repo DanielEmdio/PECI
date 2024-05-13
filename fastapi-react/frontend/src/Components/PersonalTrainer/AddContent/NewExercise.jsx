@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FaTag } from 'react-icons/fa';
 import Select from 'react-select';
 import NewCommonMistake from './NewCommonMistake';
+import { MdFileUpload } from "react-icons/md";
 
 export default function NewExercise() {
     const [video, setVideo] = useState(null);
@@ -10,9 +11,6 @@ export default function NewExercise() {
     const [targetMuscles, setTargetMuscles] = useState('');
     const [personalTrainerId, setPersonalTrainerId] = useState('');
 
-    const [common_mistakes, setCommonMistakes] = useState([]);
-    const [new_mistake, setNewMistake] = useState('');
-
     const handleTagChange = (targetMuscles) => {
         setTargetMuscles(targetMuscles);
     };
@@ -20,16 +18,6 @@ export default function NewExercise() {
     const handleVideoChange = (event) => {
         setVideo(event.target.files[0]);
     };
-
-    const handleMistakeChange = (event) => {
-        setNewMistake(event.target.value);
-    };
-
-    const handleAddMistake = () => {
-        setCommonMistakes([...common_mistakes, new_mistake]);
-        setNewMistake('');
-    };
-
     
 
     const tags = [
@@ -150,15 +138,10 @@ export default function NewExercise() {
                     className="w-full text-sm text-gray-500 file-input file-input-bordered 
                     file-input-primary file:text-white file:hover:bg-[#009977]"/>
                 </div>
-
-
-                <p className='text-black mb-2'>Common mistakes:</p>
                 
-                <div className='flex'>
-                    <NewCommonMistake className="basis-1/2"/>
-                </div>
+                <NewCommonMistake/>
                 
-                <button type="submit" className="w-full btn btn-primary hover:bg-[#009977] text-white font-bold py-2 mb-2 px-4 rounded focus:outline-none focus:shadow-outline" >Upload Video</button>
+                <button type="submit" className="w-full btn btn-secondary text-white font-bold py-2 mb-2 px-4 rounded focus:outline-none focus:shadow-outline" ><MdFileUpload size={25}/> Upload Exercise</button>
             </div>
         </div>
     );    

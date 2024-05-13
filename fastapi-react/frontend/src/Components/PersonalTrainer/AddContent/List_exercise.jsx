@@ -90,7 +90,7 @@ export default function ListExercise() {
                                 {isChecked[index] ?
                                 (
                                     <>
-                                        <span>Duration (min):</span>
+                                        <span>Duration (sec):</span>
                                     </>
                                 ):
                                     <>

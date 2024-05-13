@@ -164,7 +164,7 @@ export default function NewWorkout() {
                                     placeholder="minutes" // Mantém o placeholder visível
                                     className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
                         </div>
-                        <button type="submit" className="w-full my-1 btn btn-primary hover:bg-[#009977]  text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25}/> Upload Workout</button>
+                        <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25}/> Upload Workout</button>
                     </div>
                 </fildset>                 
             </div>
