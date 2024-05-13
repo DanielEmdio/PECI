@@ -12,7 +12,6 @@ export default function Subscription() {
     useEffect(() => {
         api.post("/users/getSubs", { token: utils.getCookie("token") }).then((response) => {
             const data = response.data;
-            console.log("data: ", data);
 
             let newMockedData = [];
             data.pts.forEach(element => {
