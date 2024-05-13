@@ -7,7 +7,6 @@ function AddVideo() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [targetMuscles, setTargetMuscles] = useState('');
-    const [personalTrainerId, setPersonalTrainerId] = useState('');
 
     const handleVideoChange = (event) => {
         setVideo(event.target.files[0]);
@@ -61,9 +60,6 @@ function AddVideo() {
                 </div>
                 <div className="mb-4">
                     <input type="text" placeholder="Target Muscles" value={targetMuscles} onChange={e => setTargetMuscles(e.target.value)} className="w-full p-2 border border-gray-300 rounded" />
-                </div>
-                <div className="mb-6">
-                    <input type="number" placeholder="Personal Trainer ID" value={personalTrainerId} onChange={e => setPersonalTrainerId(e.target.value)} className="w-full p-2 border border-gray-300 rounded" />
                 </div>
                 <button type="submit" className="w-full bg-[#00cc99] hover:bg-[#009977] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Upload Video</button>
             </form>

@@ -2,26 +2,19 @@ import React, { useState } from 'react';
 import { MdFileUpload } from "react-icons/md";
 import { FaClock } from "react-icons/fa";
 import Select from 'react-select';
-
 import ListExercise from './List_exercise';
 
 export default function NewWorkout() {
     const [video, setVideo] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-
     const [targetMuscles, setTargetMuscles] = useState('');
-    
-
     const [personalTrainerId, setPersonalTrainerId] = useState('');
-
 
     const handleTagChange = (targetMuscles) => {
         setTargetMuscles(targetMuscles);
     };
 
-
-  
     const handleVideoChange = (event) => {
         setVideo(event.target.files[0]);
     };
@@ -57,8 +50,7 @@ export default function NewWorkout() {
         { value: "Trapezius", label: "Trapezius" },
         { value: "Latissimus Dorsi", label: "Latissimus Dorsi" }
     ];
-    
-  
+
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -81,33 +73,32 @@ export default function NewWorkout() {
         }
         */
     };
-   
-    
-/*
-    const handleTagChange = (tag) => {
-        setTempDetailsTags(prevDetails => {
-            const isTagSelected = prevDetails.tags.includes(tag[0]);
-            //console.log(tag[0]);
-            //console.log(isTagSelected);
-            if (isTagSelected) {
-                // Se o idioma já estiver selecionado, remove da lista de idiomas selecionados e atualiza o lang details
-                return {
-                    ...prevDetails,
-                    tags: prevDetails.tags.filter(tag => tag !== tag[0])
-                };
-            } else {
-                // Se o idioma ainda não estiver selecionado, adiciona à lista de idiomas selecionados e atualiza o lang details
-                //setDetails({ ...details, tags: details.tags.concat(tag[0]) });
-                return {
-                    ...prevDetails,
-                    tags: prevDetails.tags.concat(tag[0])
-                };
-            }
 
-        });
-        //console.log(tempdetailstags.tags);
-    };
-*/
+    /*
+        const handleTagChange = (tag) => {
+            setTempDetailsTags(prevDetails => {
+                const isTagSelected = prevDetails.tags.includes(tag[0]);
+                //console.log(tag[0]);
+                //console.log(isTagSelected);
+                if (isTagSelected) {
+                    // Se o idioma já estiver selecionado, remove da lista de idiomas selecionados e atualiza o lang details
+                    return {
+                        ...prevDetails,
+                        tags: prevDetails.tags.filter(tag => tag !== tag[0])
+                    };
+                } else {
+                    // Se o idioma ainda não estiver selecionado, adiciona à lista de idiomas selecionados e atualiza o lang details
+                    //setDetails({ ...details, tags: details.tags.concat(tag[0]) });
+                    return {
+                        ...prevDetails,
+                        tags: prevDetails.tags.concat(tag[0])
+                    };
+                }
+    
+            });
+            //console.log(tempdetailstags.tags);
+        };
+    */
 
     return (
         <div className="flex justify-center  h-screen ">
@@ -115,7 +106,7 @@ export default function NewWorkout() {
                 <fildset>
                     <h2 className="text-2xl font-semibold mb-7 text-center text-gray-800">Upload New Workout</h2>
                     <div className="mb-4">
-                        <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded text-black"/>
+                        <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded text-black" />
                     </div>
                     <div className="mb-4">
                         <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className="w-full p-2 border border-gray-300 rounded h-32 text-black"></textarea>
@@ -132,18 +123,18 @@ export default function NewWorkout() {
 
                     <p className='text-black mb-2'>Tumbnail:</p>
                     <div className="mb-4">
-                        <input 
-                        type="file" accept="jpg, jpeg, png" 
-                        onChange={handleVideoChange}
-                        className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
+                        <input
+                            type="file" accept="jpg, jpeg, png"
+                            onChange={handleVideoChange}
+                            className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
                         file-input-primary file:text-white file:hover:bg-[#009977]"/>
                     </div>
 
                     <p className='text-black mb-2'>Exercises:</p>
 
-                    <ListExercise/>
+                    <ListExercise />
 
-                    <div className="divider"></div> 
+                    <div className="divider"></div>
 
                     <div className='grid grid-cols-3'>
                         <h3 className='text-black justify-self-start'>Difficulty:</h3>
@@ -155,17 +146,17 @@ export default function NewWorkout() {
                             <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
                         </div>
                         <div className='flex justify-self-start'>
-                            <FaClock className='text-green-500 size-10 my-2'/>
-                            <input  type="number"
-                                    min="0" // Impede valores negativos
-                                    step="1" // Passo de 1 para impedir valores decimais
-                                    placeholder="minutes" // Mantém o placeholder visível
-                                    className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
+                            <FaClock className='text-green-500 size-10 my-2' />
+                            <input type="number"
+                                min="0" // Impede valores negativos
+                                step="1" // Passo de 1 para impedir valores decimais
+                                placeholder="minutes" // Mantém o placeholder visível
+                                className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
                         </div>
-                        <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25}/> Upload Workout</button>
+                        <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25} /> Upload Workout</button>
                     </div>
-                </fildset>                 
+                </fildset>
             </div>
         </div>
-    );    
+    );
 }

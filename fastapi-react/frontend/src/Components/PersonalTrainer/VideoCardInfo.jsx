@@ -33,8 +33,8 @@ export default function VideoCardInfo({ workout }) {
                         <div key={index} className="badge badge-lg">{muscle}</div>
                     ))}
                 </div>
-                <Link className="hover:text-blue-700 mt-4" href="#">
-                    <Link to={`/video/${workout.id}`} ><button className="btn btn-primary"><FaPlay />Check it out!</button></Link>
+                <Link className="hover:text-blue-700 mt-4" to={`/video/${workout.id}`}>
+                    <button className="btn btn-primary"><FaPlay />Check it out!</button>
                 </Link>
             </div>
         </div>

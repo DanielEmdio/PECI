@@ -161,7 +161,7 @@ export default function CategoriesBar() {
         }).catch((_) => { });
 
     }
-
+    //{!utils.isNormalUser() ? <a onClick={toggleAddVideo} className={`btn btn-ghost text-xl ${activeButton === "addvideo" ? "active" : ""}`}>Add Video</a> : <></>}
     return (
         <>
             <div className="navbar bg-base-100 rounded-xl my-10">
@@ -169,7 +169,6 @@ export default function CategoriesBar() {
                 <a onClick={popularClick} className={`btn btn-ghost text-xl ${activeButton === "popular" ? "active" : ""}`}>Popular</a>
                 <a onClick={recentClick} className={`btn btn-ghost text-xl ${activeButton === "recent" ? "active" : ""}`}>Recent</a>
                 {utils.isNormalUser() ? <a onClick={exclusiveClick} className={`btn btn-ghost text-xl ${activeButton === "exclusive" ? "active" : ""}`}>Exclusive</a> : <></>}
-                {!utils.isNormalUser() ? <a onClick={toggleAddVideo} className={`btn btn-ghost text-xl ${activeButton === "addvideo" ? "active" : ""}`}>Add Video</a> : <></>}
             </div>
             <div className="flex flex-col gap-4">
                 {(mockedData.length === 0 && !showAddVideo) ? (
