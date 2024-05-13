@@ -41,7 +41,7 @@ class UsersRepository():
     
     @staticmethod
     def get_athlete_weight_progress(user_id):
-        return db.query(models.AthleteWeight).filter(models.AthleteWeight.id == user_id).all()
+        return db.query(models.AthleteWeight).filter(models.AthleteWeight.id == user_id).order_by(models.AthleteWeight.date).all()
     
     @staticmethod
     def add_athlete_weight_progress(user_id, weight, date):
