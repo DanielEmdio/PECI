@@ -1,7 +1,6 @@
 from repository.workout_exercises import WorkoutExercisesRepository
 from repository.workouts import WorkoutsRepository
 from repository.subs import SubscriptionsRepository
-from repository.exercises import ExercisesRepository
 from auth.oauth2_jwt import *
 from database import db
 from typing import List
@@ -57,9 +56,9 @@ class PersonalTrainersRepository():
 
     @staticmethod
     def get_new_pts(user_id) -> list[models.PersonalTrainer]: 
-        pt_ids_to_exclude = SubscriptionsRepository.get_pt_ids_for_user(user_id)     # get the pts ids to which the user is subbed
-
+        pt_ids_to_exclude = SubscriptionsRepository.get_pt_ids_for_user(user_id) # get the pts ids to which the user is subbed
         return db.query(models.PersonalTrainer).filter(~models.PersonalTrainer.id.in_(pt_ids_to_exclude)).all()
+
     # details will be dictionary with the following keys: name, email, description, tags, photo, price, slots, lang, hours, education, bg
     @staticmethod
     def update_pt_details(pt_id: int, details):
@@ -68,22 +67,21 @@ class PersonalTrainersRepository():
         for key in details:
             setattr(pt, key, details[key])
         # print all pt elements
-        #print(pt.id,pt.username,pt.password,pt.token,pt.name,pt.email,pt.description,pt.tags,pt.photo,pt.price,pt.slots,pt.lang,pt.hours,pt.education,pt.bg)
+        # print(pt.id,pt.username,pt.password,pt.token,pt.name,pt.email,pt.description,pt.tags,pt.photo,pt.price,pt.slots,pt.lang,pt.hours,pt.education,pt.bg)
         db.commit()
 
     # caso o pt já tenha uma foto(photopath), esta será substituída pela nova
     @staticmethod
     def save_pt_photopath(pt_username : str, pt_id: int):
         photopath = "./avatars/"+pt_username+".png"
-        print("photo path: ",photopath)
         pt = db.query(models.PersonalTrainer).filter(models.PersonalTrainer.id == pt_id).first()
         pt.photo = photopath
         db.commit()
 
-
     @staticmethod
     def get_pt_username(pt_id: str): # retorna o username do PersonalTrainer, com base no seu id
         return db.query(models.PersonalTrainer.username).filter(models.PersonalTrainer.id == pt_id).scalar()
+
     # @staticmethod
     # def get_pt_priv_videos(pt_id:str):
     #     result = (
@@ -114,15 +112,15 @@ class PersonalTrainersRepository():
     def getAccessibleWorkouts(pt_id: int) -> Optional[List[models.Workout]]:
         unrestricted_workouts = WorkoutsRepository.getUnrestrictedWorkouts()
         private_workouts =  WorkoutsRepository.getPtPrivWorkouts(pt_id)
-        print("unrestricted_workouts: ",unrestricted_workouts)
-        print("private_workouts: ",private_workouts)
+        # print("unrestricted_workouts: ",unrestricted_workouts)
+        # print("private_workouts: ",private_workouts)
         if private_workouts == None or private_workouts == []:
             return unrestricted_workouts
 
         # put all videos in a single list
         workouts = unrestricted_workouts+private_workouts
         return workouts
-    
+
     @staticmethod
     def getPTPrivWorkouts(pt_id: int) -> Optional[List[models.Workout]]:
         private_workouts = WorkoutsRepository.getPtPrivWorkouts(pt_id)
@@ -143,14 +141,11 @@ class PersonalTrainersRepository():
     @staticmethod
     def hasAccessToExercise(pt_id: int, videoname: str) -> bool:  # REVIEW THIS FUNCTION
         workouts = PersonalTrainersRepository.getAccessibleWorkouts(pt_id)
-        print("workouts:",workouts)
         if workouts:
             for workout in workouts:
                 exercises = WorkoutExercisesRepository.getExercisesForWorkout(workout.id)
-                print("exercises:",exercises)
                 # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
                 for ex in exercises:
-                    print("ex:",ex.path, "videoname:",videoname)
                     if videoname in ex.path:
                         return True
         return False
@@ -161,7 +156,6 @@ class PersonalTrainersRepository():
         if workouts:
             for workout in workouts:
                 # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
-                print("workout.title:",workout.title, "workoutTitle:",workoutTitle)
                 if workoutTitle==workout.title:
                     return True
         return False
@@ -172,7 +166,6 @@ class PersonalTrainersRepository():
         #         # video = video[0] # video é por exemplo ('./video/pullUps.mp4',), por isso é que preciso de ir buscar o primeiro elemento
         #         if workoutTitle in workout.videopath:
         #             return True
-
         # return False
 
     @staticmethod

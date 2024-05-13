@@ -15,14 +15,22 @@ function VideoPlayer() {
         releasedate: "",
     });
 
+    // const [video, setVideo] = useState({
+    //     path: "",
+    //     title: "",
+    //     rating: "",
+    //     //thumbnail: "",
+    //     description: ""
+    // });
+
+    const [exercises, setExercises] = useState([]);
     const [video, setVideo] = useState({
         path: "",
         title: "",
         rating: "",
-        //thumbnail: "",
         description: ""
     });
-
+    const [videoIdx, setVideoIdx] = useState(-1);
     // Texto de exemplo da descrição
     // const description = "Esta é a descrição do vídeo. Aqui pode ir um texto mais longo que explique o conteúdo do vídeo, detalhes sobre a produção, créditos, ou qualquer outra informação relevante que você queira incluir.";
     // Função para alternar a visibilidade
@@ -41,21 +49,35 @@ function VideoPlayer() {
                 releasedate: workout_info.releasedate,
             });
         }).catch((_) => { });
+    }, [WorkoutID]);
+
+    useEffect(() => {
 
         api.post(`/exercises/getWorkoutExercises?workout_id=${WorkoutID}`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
             console.log("workout_exercises: ", data);
-            const element = data.exercises[0];  // In this case, we are only interested in the first video
-            console.log("first_video: ", element)
-            setVideo({
-                path: element.path,
-                title: element.name,
-                rating: element.rating,
-                description: element.description,
-            })
-
+            //const element = data.exercises[0];  // In this case, we are only interested in the first video
+            //console.log("first_video: ", element)
+            let videosInfo = [];
+            data.exercises.forEach(element => {
+                videosInfo.push({
+                    path: element.path,
+                    title: element.name,
+                    rating: element.rating,
+                    description: element.description,
+                })
+            });
+            console.log("videosInfo: ",videosInfo);
+            setExercises(videosInfo);
+            setVideoIdx(0);
+            console.log("videoIdx: ",videoIdx)
+            setVideo(videosInfo[0])
         }).catch((_) => { });
     }, [WorkoutID]);
+
+
+
+    
 
     /*
     // console.log("VideoID: ", VideoID);
@@ -86,6 +108,19 @@ function VideoPlayer() {
             console.error(error);
         });
     }, [workout.pt_id]);
+
+
+    const nextExercise = () => {
+        const newIndex = videoIdx + 1;
+        if (newIndex < exercises.length) {
+            setVideoIdx(newIndex);
+            setVideo(exercises[newIndex]);
+        }
+        else {
+            alert("Workout completed!");
+            window.location.href = "/";
+        }
+    }
 
     return (
         <div>
@@ -128,6 +163,13 @@ function VideoPlayer() {
                 >
                     {<Rating name="read-only" value={video.rating} size="large" readOnly />}
                 </Box>
+            </div>
+            <div className="flex justify-center">
+                <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={nextExercise} >
+                    <p className="flex justify-center">
+                        Complete exercise
+                    </p>
+                </button>
             </div>
         </div>
     );

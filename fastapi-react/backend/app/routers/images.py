@@ -15,7 +15,6 @@ async def get_image(image_name: str):
     # jwt_data = get_jwt_token_data(token=token.token)
     # if jwt_data == None:
     #     return { "result": "no", "error": "Unauthorized." }
-
     # if jwt_data["isNormalUser"] == True:
     #     user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
     #     if not UsersRepository.hasAccessToImage(user_id, image_name):
@@ -39,7 +38,6 @@ async def get_image(image_name: str):
     # jwt_data = get_jwt_token_data(token=token.token)
     # if jwt_data == None:
     #     return { "result": "no", "error": "Unauthorized." }
-
     # if jwt_data["isNormalUser"] == True:
     #     user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
     #     if not UsersRepository.hasAccessToImage(user_id, image_name):
@@ -51,8 +49,10 @@ async def get_image(image_name: str):
 
     if not is_safe_path(image_name):
         return { "result": "no", "error": "Image not safe." }
+
     image_name = "thumbnails/" + image_name
     image_name = IMAGES_DIR / image_name 
+
     if not image_name.exists():
         return { "result": "no", "error": "Image not found." }
 
