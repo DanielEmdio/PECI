@@ -66,8 +66,8 @@ export default function MainPtInfo() {
             {Pt.tags.map((tag, index) => (
                 <span key={index} className="badge badge-ghost badge-sm mx-1 flex-row-1 justify-start">{tag}</span>
             ))}
-            <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><FaIdBadge className="h-4 fill-current text-green-700 mr-4" />Slots left: <kbd class="kbd kbd-sm ml-1 text-black">{Pt.slots}</kbd> </p>
-            <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><FaEuroSign className="h-4 fill-current text-green-700 mr-4" />Price: <kbd class="kbd kbd-sm ml-1 text-black">{Pt.price}</kbd> </p>
+            <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><FaIdBadge className="h-4 fill-current text-green-700 mr-4" />Slots left: <kbd className="kbd kbd-sm ml-1 text-black">{Pt.slots}</kbd> </p>
+            <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><FaEuroSign className="h-4 fill-current text-green-700 mr-4" />Price: <kbd className="kbd kbd-sm ml-1 text-black">{Pt.price}</kbd> </p>
             <p className="pt-8 text-sm">{Pt.description}</p>
         </>
     )

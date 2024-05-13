@@ -150,8 +150,8 @@ export default function NewWorkout() {
                         <h3 className='text-black justify-self-start'>Duration:</h3>
                         <p></p>
                         <div className="rating justify-self-start my-2">
-                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
-                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" checked />
+                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" checked/>
+                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10"  />
                             <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
                         </div>
                         <div className='flex justify-self-start'>

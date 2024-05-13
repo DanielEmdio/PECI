@@ -67,7 +67,7 @@ export default function NewCommonMistake() {
                     <tr>
                         <th></th>
                         <th>Number</th>
-                        <th>File</th>
+                        <th>Video</th>
                         <th>Delete</th>
                     </tr>
                     </thead>
@@ -78,7 +78,7 @@ export default function NewCommonMistake() {
                     key={index}>
                         <th></th>
                         <td>{index + 1}</td>
-                        <td>{mistake.file ? mistake.file.name : 'No file'}</td>
+                        <td>{mistake.file ? mistake.file.name : 'No video'}</td>
                         <td>
                             <button onClick={() => handleDeleteMistake(index)}><FaRegTrashAlt className='mx-2 text-red-500'/></button>
                         </td>
