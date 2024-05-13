@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link, useParams } from "react-router-dom"
 import VideoCardInfo from "../../Components/PersonalTrainer/VideoCardInfo"
 import { FaPlay } from "react-icons/fa"
 import { CiClock2 } from "react-icons/ci"
@@ -6,49 +6,86 @@ import { FaCircleUp } from "react-icons/fa6";
 import { CgMoreR } from "react-icons/cg";
 import { IoChatbubble } from "react-icons/io5";
 import { IoReturnUpBack } from "react-icons/io5";
+import { useEffect, useState } from "react";
+import { API_URL, api } from "../../api";
+import * as utils from "../../Utils/utils";
 
-const mockedData = [ // lista de treinos do pt 
-        {
-          title: "Arms Workout ",
-          thumbnail: "https://picsum.photos/200/200",
-          duration: "30 min",
-          mainMuscles: ["Biceps", "Triceps"],
-          id: 1,
-          description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quibusdam, vitae, quidem iusto veniam provident perspiciatis sequi debitis ab consectetur dolorum totam natus velit! Placeat architecto adipisci eligendi quisquam quos!",
-        },
-        {
-            title: "Arms Workout ",
-            thumbnail: "https://picsum.photos/200/200",
-            duration: "30 min",
-            mainMuscles: ["Biceps", "Triceps"],
-            id: 2,
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quibusdam, vitae, quidem iusto veniam provident perspiciatis sequi debitis ab consectetur dolorum totam natus velit! Placeat architecto adipisci eligendi quisquam quos!",
 
-      },
-      {
-        title: "Arms Workout ",
-        thumbnail: "https://picsum.photos/200/200",
-        duration: "30 min",
-        mainMuscles: ["Biceps", "Triceps"],
-        id: 3,
-        description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quibusdam, vitae, quidem iusto veniam provident perspiciatis sequi debitis ab consectetur dolorum totam natus velit! Placeat architecto adipisci eligendi quisquam quos!",
-      },
-];
 
 export default function PtMainPageView() {
-    const Pt = { // dados do pt
-        name: "UA",
-        photo: "https://picsum.photos/550/800",
-        decription: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla quibusdam quos incidunt reprehenderit. Deleniti quo totam reprehenderit culpa iste, officia temporibus praesentium nulla quod. Fuga numquam voluptatum porro magni magnam.",
-        tags: ["Full Body", "Cardio", "Strength"],
-    }
-    const most_recent ={ // workout mais recente, calcular depois integrar data de upload no backend
-      title: "Arms Workout ",
-      thumbnail: "https://picsum.photos/200/200",
-      duration: "30 min",
-      mainMuscles: ["Biceps", "Triceps"],
-      id: 6,
-    }
+  const [mockedData, setMockedData] = useState([]);
+  const [most_recent, setMost_recent] = useState({
+      id: 0,
+      title: "",
+      thumbnail: "",
+      description: "",
+      duration: "",                             // deverá ser ajustado
+      //rating: element.rating,
+      releasedate: "",
+      mainMuscles: [],
+  });
+
+  const { id } = useParams();
+
+
+  useEffect(() => {
+    api.post(`/workouts/getPTworkouts/${id}`).then((r) => {
+        const data = r.data;
+        // console.log("videosdata: ", data);
+        let newMockedData = [];
+        data.workouts.forEach(element => {
+            newMockedData.push({
+                id: element.id,
+                title: element.title,
+                thumbnail: element.thumbnail,
+                description: "", //element.description,
+                duration: element.duration,                             // deverá ser ajustado
+                //rating: element.rating,
+                releasedate: element.releasedate,
+                mainMuscles: element.tags.split(",")//element.mainMuscles.split(","),
+            })
+        });
+
+        // Ordenar por release date
+        newMockedData.sort((a, b) => {
+            const dateA = convertToDate(a.releasedate);
+            const dateB = convertToDate(b.releasedate);
+            return dateB - dateA;
+        });
+
+        console.log("newMockedData[0]", newMockedData[0])
+        setMost_recent(newMockedData[0])
+        console.log("most_recent", most_recent)
+        setMockedData(newMockedData);
+
+        // setMost_recent(mockedData[0]);
+    }).catch((_) => { });
+
+  }, [id]);
+
+  // Função para converter string de data no formato "DD-MM-YYYY" para um objeto Date
+  function convertToDate(dateString) {
+      const [day, month, year] = dateString.split('-');
+      return new Date(`${year}-${month}-${day}`);
+  }
+
+  const [Pt, setPt] = useState([]);
+  useEffect(() => {
+      api.post(`/users/getPtById/${id}`, { token: utils.getCookie("token") }).then((r) => {
+          const data = r.data;
+          console.log("data: ", data);
+
+          const element = data.pt
+          setPt({
+              name: element.name,
+              photo: element.photo,
+              description: element.description,
+              tags: element.tags.split(","),
+          })
+
+      }).catch((_) => { });
+  }, [id]);
+    
     return (
     <section className="w-full">
       <header className="bg-emerald-900 text-zinc-50 py-4"> {/* navbar */}
@@ -58,7 +95,7 @@ export default function PtMainPageView() {
                 <div className="flex items-center">
                   <div className="avatar mx-2">
                     <div className="w-24 rounded-full ring ring-offset-base-100 ring-offset-2">
-                      <img src={Pt.photo} alt="" />
+                      <img src={`${API_URL}/images/${Pt.photo}`} alt="" />
                     </div>
                   </div>
                   {Pt.name}
@@ -102,7 +139,7 @@ export default function PtMainPageView() {
                   alt="Top Story"
                   className="w-full h-64 object-cover object-center rounded-lg"
                   height="400"
-                  src={most_recent.thumbnail}
+                  src={`${API_URL}/images/${most_recent.thumbnail}`}
                   style={{
                   aspectRatio: "600/400",
                   objectFit: "cover",
