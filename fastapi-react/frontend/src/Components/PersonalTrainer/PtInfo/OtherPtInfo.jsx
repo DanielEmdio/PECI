@@ -25,15 +25,10 @@ export default function OtherPtInfo() {
                 n_comments: element.n_comments,
                 lang: element.lang,
                 hours: element.hours
-            })
+            });
 
         }).catch((_) => { });
     }, []);
-
-    // const Pt = {
-    //     tags: ["English", "Portuguese"],
-    //     hours: [["Tuesday", "9:00 - 14:00"], ["Wednesday", "9:00 - 14:00"], ["Friday", "9:00 - 14:00"]],
-    // }
 
     return (
         <>
@@ -46,7 +41,7 @@ export default function OtherPtInfo() {
             <p className="pt-4 text-base font-bold flex items-center justify-center lg:justify-start"><FaCalendarAlt className="h-4 fill-current text-green-700 mr-4" />Availability:</p>
             <div className="divider"></div>
             <div className="overflow-x-auto">
-                <table className="table">
+                {Pt.hours ? (<table className="table">
                     <thead>
                         <tr>
                             <th>Days</th>
@@ -54,7 +49,6 @@ export default function OtherPtInfo() {
                         </tr>
                     </thead>
                     <tbody>
-                        {/* row 1 */}
                         {Pt.hours.map((day, index) => (
                             <tr key={index}>
                                 <th>{day[0]}</th>
@@ -62,12 +56,12 @@ export default function OtherPtInfo() {
                             </tr>
                         ))}
                     </tbody>
-                </table>
+                </table>) : 'No information Available!'}
             </div>
             <p className="pt-4 mb-1 text-base font-bold flex items-center justify-center lg:justify-start"><BiWorld className="h-4 fill-current text-green-700 mr-4" />Languages spoken:</p>
-            {Pt.lang.map((tag, index) => (
+            {Pt.lang ? Pt.lang.map((tag, index) => (
                 <span key={index} className="badge badge-ghost badge-sm mx-1 flex-row-1 justify-start">{tag}</span>
-            ))}
+            )) : 'No information Available!'}
         </>
     )
 }
