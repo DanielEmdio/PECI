@@ -7,11 +7,14 @@ export default function NewPtTable() {
     const [mockedData, setMockedData] = useState([]);
 
     useEffect(() => {
+        getAvailablePTs();
+    }, []);
+
+    function getAvailablePTs() {
         api.post("/users/getNewPts", { token: utils.getCookie("token") }).then((response) => {
             const data = response.data;
-            console.log("data: ", data);
-
             let newMockedData = [];
+
             data.pts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
@@ -25,7 +28,7 @@ export default function NewPtTable() {
 
             setMockedData(newMockedData);
         }).catch((_) => { });
-    }, []);
+    }
 
     function subscribe(pt_id) {
         // ask the user if he realy wants to subscribe, if yes, send the request to the server and reload the page
@@ -35,22 +38,17 @@ export default function NewPtTable() {
 
         api.post(`/users/subscribeToPT/${pt_id}`, { token: utils.getCookie("token") }).then((response) => {
             alert("Subscribed successfully!");
-            window.location.reload();
-        }
-        ).catch((_) => {
-            alert("Error subscribing to PT");
+            getAvailablePTs();
+        }).catch((_) => {
+            alert("Error subscribing to PT!");
         });
-
     }
 
     return (
         <div className=" w-11/12 mx-auto">
-            {/*<PTfilter></PTfilter>
-            <div className="divider"></div>*/}
             <h1 className='my-3 mt-5 text-2xl font-bold'>Recomended personal trainers:</h1>
             <div className="overflow-x-auto">
                 <table className="table">
-                    {/* head */}
                     <thead>
                         <tr>
                             <th></th>
@@ -63,11 +61,6 @@ export default function NewPtTable() {
                     <tbody>
                         {mockedData.map((Pt, index) => (
                             <tr key={index}>
-                                <th>
-                                    <label>
-                                        <input type="checkbox" className="checkbox" />
-                                    </label>
-                                </th>
                                 <td>
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
@@ -94,18 +87,8 @@ export default function NewPtTable() {
                                     <Link to={`/PT_nonSub/${Pt.id}/main`}><button className="btn btn-ghost btn-xs">details</button></Link>
                                 </th>
                             </tr>
-
                         ))}
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th><button className="btn btn-xs sm:btn-sm md:btn-sm lg:btn-sm">Load More</button></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>

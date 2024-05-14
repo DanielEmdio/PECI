@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import * as utils from "../../Utils/utils";
 import { API_URL, api } from "../../api";
-import './style.css';
 
 export default function Chat() {
     const [recipient, setRecipient] = useState("Chat");
@@ -105,21 +104,21 @@ export default function Chat() {
     };
 
     return (
-        <div className="chat-body card">
-            <div className="card-body">
-                <strong id="profile"></strong>
-                <h4 className="card-title text-center" style={{ fontSize: '2em' }}>{recipient}</h4>
-                <hr />
-                <div id="messages">
+        <div className='py-4'>
+            <div className='w-11/12 mx-auto shadow rounded p-3'>
+                <strong className='text-3xl'>{recipient}</strong>
+                <hr className='mt-3 mb-4' />
+                <div className='px-1' style={{ height: '600px', maxHeight: '600px', overflowY: 'scroll' }}>
                     {messages.map((message, index) => (
-                        <div key={index} className={`flex ${message.sender.includes('You') ? 'justify-end' : 'justify-start'}`}>
-                            <span className={`message-box ${message.sender.includes('You') ? 'bg-green-300' : 'bg-gray-300'}`} key={index}>{message.message}</span>
+                        <div key={index} className={`pt-1 flex ${message.sender.includes('You') ? 'justify-end' : 'justify-start'}`}>
+                            <span className={`p-2 rounded ${message.sender.includes('You') ? 'bg-green-300' : 'bg-gray-300'}`} key={index}>{message.message}</span>
                         </div>
                     ))}
                 </div>
-                <form className="form-inline" id="chat-form" onSubmit={handleSubmit}>
-                    <input type="text" className="form-control" placeholder="Write your message" value={message} onChange={(e) => setMessage(e.target.value)} />
-                    <button id="send" type="submit" className="btn btn-primary">Send</button>
+                <hr className='mt-4 mb-3' />
+                <form className='flex justify-center' onSubmit={handleSubmit}>
+                    <input className='border-1 border-black rounded text-center mr-1' type="text" placeholder="Write your message" value={message} onChange={(e) => setMessage(e.target.value)} />
+                    <button type="submit" className="btn btn-primary">Send</button>
                 </form>
             </div>
         </div>

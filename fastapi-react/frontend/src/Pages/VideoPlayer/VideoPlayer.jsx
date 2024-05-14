@@ -9,31 +9,22 @@ import ReactPlayer from 'react-player';
 function VideoPlayer() {
     // Estado para controlar se a descrição está expandida ou não
     const [isExpanded, setIsExpanded] = useState(false);
+    const [exercises, setExercises] = useState([]);
+    const [videoIdx, setVideoIdx] = useState(-1);
     const { WorkoutID } = useParams();
+    const [pt_name, setPtName] = useState(""); // get pt_name from pt_id
+
     const [workout, setWorkout] = useState({
         pt_id: "",
         releasedate: "",
     });
 
-    // const [video, setVideo] = useState({
-    //     path: "",
-    //     title: "",
-    //     rating: "",
-    //     //thumbnail: "",
-    //     description: ""
-    // });
-
-    const [exercises, setExercises] = useState([]);
     const [video, setVideo] = useState({
         path: "",
         title: "",
         rating: "",
         description: ""
     });
-    const [videoIdx, setVideoIdx] = useState(-1);
-    // Texto de exemplo da descrição
-    // const description = "Esta é a descrição do vídeo. Aqui pode ir um texto mais longo que explique o conteúdo do vídeo, detalhes sobre a produção, créditos, ou qualquer outra informação relevante que você queira incluir.";
-    // Função para alternar a visibilidade
 
     const toggleDescription = () => {
         setIsExpanded(!isExpanded);
@@ -42,8 +33,8 @@ function VideoPlayer() {
     useEffect(() => {
         api.post(`/workouts/getWorkoutInfo?workout_id=${WorkoutID}`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("workout: ", data);
             const workout_info = data.workout;
+
             setWorkout({
                 pt_id: workout_info.personal_trainer_id,
                 releasedate: workout_info.releasedate,
@@ -52,12 +43,9 @@ function VideoPlayer() {
     }, [WorkoutID]);
 
     useEffect(() => {
-
         api.post(`/exercises/getWorkoutExercises?workout_id=${WorkoutID}`, { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("workout_exercises: ", data);
-            //const element = data.exercises[0];  // In this case, we are only interested in the first video
-            //console.log("first_video: ", element)
+            // const element = data.exercises[0]; // In this case, we are only interested in the first video
             let videosInfo = [];
             data.exercises.forEach(element => {
                 videosInfo.push({
@@ -67,48 +55,23 @@ function VideoPlayer() {
                     description: element.description,
                 })
             });
-            console.log("videosInfo: ",videosInfo);
+
             setExercises(videosInfo);
             setVideoIdx(0);
-            console.log("videoIdx: ",videoIdx)
-            setVideo(videosInfo[0])
+            setVideo(videosInfo[0]);
         }).catch((_) => { });
     }, [WorkoutID]);
 
-
-
-    
-
-    /*
-    // console.log("VideoID: ", VideoID);
     useEffect(() => {
-        api.post(`/exercises/getVideoInfo?exercise_id=${VideoID}`, { token: utils.getCookie("token") }).then((r) => {
-            const data = r.data;
-            console.log("videodata: ", data);
-            const element = data.video;
-            setVideo({
-                pt_id: element.personal_trainer_id,
-                path: element.path,
-                title: element.name,
-                rating: element.rating,
-                description: element.description,
-            })
-        }).catch((_) => { });
-    }, [VideoID]);*/
-
-    // get pt_name from pt_id
-    const [pt_name, setPtName] = useState("");
-
-    useEffect(() => {
-        api.post(`/users/getPtById/${workout.pt_id}`, { token: utils.getCookie("token") }).then((r) => {
-            console.log("pt_name: ", r);
-            const data = r.data;
-            setPtName(data["pt"]["name"]);
-        }).catch((error) => {
-            console.error(error);
-        });
+        if (workout.pt_id) {
+            api.post(`/users/getPtById/${workout.pt_id}`, { token: utils.getCookie("token") }).then((r) => {
+                const data = r.data;
+                if (data["result"] === "ok") {
+                    setPtName(data["pt"]["name"]);
+                }
+            }).catch((_) => { });
+        }
     }, [workout.pt_id]);
-
 
     const nextExercise = () => {
         const newIndex = videoIdx + 1;
@@ -132,13 +95,13 @@ function VideoPlayer() {
     return (
         <div>
             <br />
-            <div style={{ backgroundColor: 'rgb(200, 200, 200)', display: 'flex', justifyContent: 'center' }}>
-                <ReactPlayer
+            <div style={{ backgroundColor: 'rgb(200, 200, 200)', display: 'flex', justifyContent: 'center', height: '540px' }}>
+                {video.path ? <ReactPlayer
                     url={`${API_URL}/exercises/${video.path}`}
-                    width="70%"
-                    height="100%"
+                    width="960px"
+                    height="540px"
                     controls
-                />
+                /> : null}
             </div>
             <p><br></br></p>
             <div className=" w-11/12 mx-auto" style={{ marginBottom: '30px' }}>
@@ -149,9 +112,7 @@ function VideoPlayer() {
 
             <div className=" w-11/12 mx-auto" style={{ backgroundColor: 'rgb(220, 220, 220)', padding: '5px', borderRadius: '5px' }}>
                 <p style={{ fontSize: '1.2em', marginBottom: '10px', textDecoration: 'underline', fontWeight: 'bold' }}>Description</p>
-                {
-                    /* Renderiza a descrição com base no estado isExpanded */
-                }
+                {/* Renderiza a descrição com base no estado isExpanded */}
                 <p>
                     {isExpanded ? video.description : `${video.description.substring(0, 100)}...`}
                 </p>
@@ -163,14 +124,11 @@ function VideoPlayer() {
 
             <div className=" w-11/12 mx-auto">
                 <p style={{ fontSize: '1.2em', marginBottom: '10px', marginTop: '30px', textDecoration: 'underline', fontWeight: 'bold' }}>Reviews</p>
-                <Box
-                    sx={{
-                        '& > legend': { mt: 2 },
-                    }}
-                >
-                    {<Rating name="read-only" value={video.rating} size="large" readOnly />}
+                <Box sx={{ '& > legend': { mt: 2 } }}>
+                    {<Rating name="read-only" value={parseInt(video.rating)} size="large" readOnly />}
                 </Box>
             </div>
+
             <div className="flex justify-center">
                 {videoIdx > 0 ? 
                 <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={previousExercise} >
@@ -194,7 +152,8 @@ function VideoPlayer() {
                     
                 }
             </div>
-        </div>
+            <br />
+        </div >
     );
 }
 

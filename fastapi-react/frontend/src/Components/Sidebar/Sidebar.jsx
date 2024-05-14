@@ -29,12 +29,12 @@ export default function Sidebar() {
             <p className="text-4xl font-bold bg-base-200 text-base-content mx-auto">Pocket Coach</p>
             {!utils.isNormalUser() ? <div className="text-xl badge badge-outline badge badge-success bg-base-200 text-base-content mt-2 mx-auto">PT edition</div> : <></>}
             <div className="divider"></div>
-            {!utils.isNormalUser() ? <li className="text-xl font-bold border-emerald-100 border-width-2"><Link to={"/subscriptions"}><IoPersonAdd size={32} />My Page</Link></li> : <></>}
+            {!utils.isNormalUser() ? <li className="text-xl font-bold border-emerald-100 border-width-2"><Link to={`/PT/${pt_id}`}><IoPersonAdd size={32} />My Page</Link></li> : <></>}
             <li className="text-xl font-bold"><Link to={"/"}><GiGymBag size={32} />Workouts</Link></li>
             {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/subscriptions"}><IoPersonAdd size={32} />Subscriptions</Link></li> : <></>}
             <li className="text-xl font-bold"><Link to={"/chat"}><IoChatbubble size={32} />Chat</Link></li>
             {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />Progress</Link></li> : <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />My Athletes Progress</Link></li>}
-            <li className="text-xl font-bold"><Link to={`/PT/${pt_id}`}><FaUserCircle size={32} />Profile</Link></li>
+            {/*<li className="text-xl font-bold"><Link to={`/PT/${pt_id}`}><FaUserCircle size={32} />Profile</Link></li> */}
             <li className="text-xl font-bold"><Link to={"/settings"}><FaGear size={32} />Settings</Link></li>
             <li className="text-xl font-bold"><button onClick={handleLogout}><IoMdExit size={32} />Log Out</button></li>
         </ul>
