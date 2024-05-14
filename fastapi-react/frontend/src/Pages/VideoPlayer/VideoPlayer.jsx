@@ -85,6 +85,14 @@ function VideoPlayer() {
         }
     }
 
+    const previousExercise = () => {
+        const newIndex = videoIdx - 1;
+        if (newIndex >= 0) {
+            setVideoIdx(newIndex);
+            setVideo(exercises[newIndex]);
+        }
+    }
+
     return (
         <div>
             <br />
@@ -123,6 +131,13 @@ function VideoPlayer() {
             </div>
 
             <div className="flex justify-center">
+                {videoIdx > 0 ? 
+                <button className="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={previousExercise} >
+                    <p className="flex justify-center">
+                        Previous exercise
+                    </p>
+                </button>
+                : null}
                 <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={nextExercise} >
                     <p className="flex justify-center">
                         Complete exercise
