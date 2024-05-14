@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import * as utils from "../../Utils/utils";
 import { api, API_URL } from '../../api';
@@ -118,7 +118,6 @@ function VideoPlayer() {
         }
         else {
             alert("Workout completed!");
-            window.location.href = "/";
         }
     }
 
@@ -180,11 +179,20 @@ function VideoPlayer() {
                     </p>
                 </button>
                 : null}
-                <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={nextExercise} >
-                    <p className="flex justify-center">
-                        Complete exercise
-                    </p>
-                </button>
+                {videoIdx < exercises.length - 1 ?
+                    <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={nextExercise} >
+                        <p className="flex justify-center">
+                            Next exercise
+                        </p>
+                    </button>
+                    :
+                    <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={nextExercise} >
+                        <p className="flex justify-center">
+                            <Link to="/">Complete workout</Link>
+                        </p>
+                    </button>
+                    
+                }
             </div>
         </div>
     );
