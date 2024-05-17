@@ -5,7 +5,7 @@ import Select from 'react-select';
 import ListExercise from './List_exercise';
 
 export default function NewWorkout() {
-    const [video, setVideo] = useState(null);
+    const [thumbnail, setThumbnail] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [targetMuscles, setTargetMuscles] = useState('');
@@ -15,8 +15,8 @@ export default function NewWorkout() {
         setTargetMuscles(targetMuscles);
     };
 
-    const handleVideoChange = (event) => {
-        setVideo(event.target.files[0]);
+    const handleThumbnailChange = (event) => {
+        setThumbnail(event.target.files[0]);
     };
 
     const tags = [
@@ -54,7 +54,7 @@ export default function NewWorkout() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const formData = new FormData();
-        formData.append('video', video);
+        formData.append('thumbnail', thumbnail);
         formData.append('title', title);
         formData.append('description', description);
         formData.append('targetMuscles', targetMuscles);
@@ -125,7 +125,7 @@ export default function NewWorkout() {
                     <div className="mb-4">
                         <input
                             type="file" accept="jpg, jpeg, png"
-                            onChange={handleVideoChange}
+                            onChange={handleThumbnailChange}
                             className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
                         file-input-primary file:text-white file:hover:bg-[#009977]"/>
                     </div>
