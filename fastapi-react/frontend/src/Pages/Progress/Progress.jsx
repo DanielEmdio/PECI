@@ -21,8 +21,7 @@ function Progress() {
     //     return `${year}-${month}-${day}`;
     // }
 
-    function sendWeight(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
+    function sendWeight() {
         const weightInput = document.getElementById("weight");
         const dateInput = document.getElementById("date");
         
@@ -89,6 +88,12 @@ function Progress() {
 
         }).catch((_) => { });
     }, []);
+
+
+    function handleSubmit(event) {
+        event.preventDefault();
+        sendWeight();
+    }
 
     useEffect(() => {
         if (dates.length === 0 || weight.length === 0) return; // Data not yet fetched
@@ -169,17 +174,17 @@ function Progress() {
 
                     <div className="bg-white shadow p-4 rounded-lg w-full">
                         <h2 className="text-lg font-bold mb-4">Log Your Weight Progress</h2>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="mb-4">
                                 <label htmlFor="weight" className="block font-semibold">Weight (kg):</label>
-                                <input type="number" id="weight" name="weight" className="w-full px-4 py-2 border rounded-lg" />
+                                <input type="number" id="weight" name="weight" className="w-full px-4 py-2 border rounded-lg" required/>
                                 <label htmlFor="date" className="block font-semibold inline-block">Date:</label>
-                                <input type="date" id="date" name="date" className="w-full px-4 py-2 border rounded-lg inline-block" />
+                                <input type="date" id="date" name="date" className="w-full px-4 py-2 border rounded-lg inline-block" required/>
                                 {error && <p style={{ color: 'red' }}>{error}</p>}
                                 </div>
                             {/* Add more input fields for other metrics like exercises, calories, etc. */}
 
-                            <button type="submit" onClick={sendWeight} className="btn btn-primary text-white px-4 py-2 rounded-lg hover:bg-gray-700">Log</button>
+                            <button type="submit" className="btn btn-primary text-white px-4 py-2 rounded-lg hover:bg-gray-700">Log</button>
                         </form>
                     </div>
                 </div>
