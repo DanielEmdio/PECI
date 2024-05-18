@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FaRegTrashAlt } from "react-icons/fa";
 
-export default function NewCommonMistake() {
-    const [common_mistakes, setCommonMistakes] = useState([]);
+export default function NewCommonMistake({ commonMistakes, setCommonMistakes }) {
+    //const [common_mistakes, setCommonMistakes] = useState([]);
     const [newMistake, setNewMistake] = useState({ description: '', file: null });
 
     const handleDescriptionChange = (event) => {
@@ -16,12 +16,15 @@ export default function NewCommonMistake() {
     };
 
     const handleAddMistake = () => {
-        setCommonMistakes([...common_mistakes, newMistake]);
+        if (!newMistake.description || !newMistake.file) {
+            return;
+        }
+        setCommonMistakes([...commonMistakes, newMistake]);
         setNewMistake({ description: '', file: null });
     };
 
     const handleDeleteMistake = (index) => {
-        const newMistakes = [...common_mistakes];
+        const newMistakes = [...commonMistakes];
         newMistakes.splice(index, 1);
         setCommonMistakes(newMistakes);
     };
@@ -43,7 +46,7 @@ export default function NewCommonMistake() {
                             onChange={handleDescriptionChange}>
                         </textarea>
                         <div>
-                            <p className='text-gray-400 text-sm mb-1'>Exemple video:</p>
+                            <p className='text-gray-400 text-sm mb-1'>Example video:</p>
                             <input
                                 type="file" accept="video/mp4"
                                 className="w-full text-sm text-gray-500 file-input file-input-bordered file-input-primary file:text-white file:hover:bg-[#009977]"
@@ -51,7 +54,7 @@ export default function NewCommonMistake() {
                             />
                         </div>
                     </div>
-                    <button onClick={handleAddMistake} className="self-center btn btn-square h-60 w-auto text-white btn-primary text-base ml-3 flex flex-col items-center">
+                    <button type="button" onClick={handleAddMistake} className="self-center btn btn-square h-60 w-auto text-white btn-primary text-base ml-3 flex flex-col items-center">
                         <div><FaPlus></FaPlus></div>
                         <div>Add common mistake</div>
                     </button>
@@ -59,7 +62,7 @@ export default function NewCommonMistake() {
             </div>
 
             <div className="basis-1/3 place-self-auto mx-5 overflow-auto max-h-72 w-full">
-                {common_mistakes.length > 0 ?(
+                {commonMistakes.length > 0 ?(
                 <table className="table">
                     {/* head */}
                     <thead>
@@ -71,7 +74,7 @@ export default function NewCommonMistake() {
                     </tr>
                     </thead>
                     <tbody>
-                    {common_mistakes.map((mistake, index) => (
+                    {commonMistakes.map((mistake, index) => (
                     <tr
                     className="bg-base-200" 
                     key={index}>
@@ -79,7 +82,7 @@ export default function NewCommonMistake() {
                         <td>{index + 1}</td>
                         <td>{mistake.file ? mistake.file.name : 'No video'}</td>
                         <td>
-                            <button onClick={() => handleDeleteMistake(index)}><FaRegTrashAlt className='mx-2 text-red-500'/></button>
+                            <button type="button" onClick={() => handleDeleteMistake(index)}><FaRegTrashAlt className='mx-2 text-red-500'/></button>
                         </td>
                     </tr>
                     ))}

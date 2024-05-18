@@ -94,7 +94,9 @@ class ExerciseCreate(ExerciseBase):
     description: str
     muscletargets: str
     dificulty: str
-    common_mistake_id: int
+    thumbnail_path: str
+    exercise_id: int
+    personal_trainer_id: int
 
 class Exercise(ExerciseBase):
     id: int
@@ -200,4 +202,14 @@ class PtDetails(BaseModel):
     lang: str 
     hours: str 
     education: str 
-    bg: str 
+    bg: str
+
+class NewExerciseDetails(BaseModel):
+    name: str
+    description: str
+    dificulty: str
+    muscletargets: str
+
+class NewCommonMistake(BaseModel):
+    description: str
+    exercise_id: int

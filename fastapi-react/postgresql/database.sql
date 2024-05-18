@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.11 (Ubuntu 14.11-0ubuntu0.22.04.1)
--- Dumped by pg_dump version 14.11 (Ubuntu 14.11-0ubuntu0.22.04.1)
+-- Dumped from database version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
+-- Dumped by pg_dump version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -128,7 +128,7 @@ CREATE SEQUENCE public.chats_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.chats_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.chats_id_seq OWNER TO postgres;
 
 --
 -- Name: chats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -144,11 +144,26 @@ ALTER SEQUENCE public.chats_id_seq OWNED BY public.chats.id;
 CREATE TABLE public.common_mistake (
     id integer NOT NULL,
     path text,
-    description text
+    description text,
+    exercise_id integer
 );
 
 
 ALTER TABLE public.common_mistake OWNER TO postgres;
+
+--
+-- Name: common_mistake_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.common_mistake ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.common_mistake_id_seq
+    START WITH 2
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
 
 --
 -- Name: exercise; Type: TABLE; Schema: public; Owner: postgres
@@ -161,11 +176,26 @@ CREATE TABLE public.exercise (
     description text,
     muscletargets text,
     dificulty text,
-    common_mistake_id integer
+    personal_trainer_id integer,
+    thumbnail_path text
 );
 
 
 ALTER TABLE public.exercise OWNER TO postgres;
+
+--
+-- Name: exercise_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.exercise ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.exercise_id_seq
+    START WITH 7
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
 
 --
 -- Name: exercise_progress; Type: TABLE; Schema: public; Owner: postgres
@@ -179,6 +209,20 @@ CREATE TABLE public.exercise_progress (
 
 
 ALTER TABLE public.exercise_progress OWNER TO postgres;
+
+--
+-- Name: exercise_progress_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.exercise_progress ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.exercise_progress_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
 
 --
 -- Name: messages; Type: TABLE; Schema: public; Owner: postgres
@@ -207,7 +251,7 @@ CREATE SEQUENCE public.messages_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.messages_id_seq OWNER TO postgres;
+ALTER SEQUENCE public.messages_id_seq OWNER TO postgres;
 
 --
 -- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -275,6 +319,20 @@ CREATE TABLE public.workout_exercise (
 ALTER TABLE public.workout_exercise OWNER TO postgres;
 
 --
+-- Name: workout_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+--
+
+ALTER TABLE public.workout ALTER COLUMN id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.workout_id_seq
+    START WITH 5
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
 -- Name: chats id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -313,8 +371,8 @@ COPY public.chats (id, user_id, personal_trainer_id) FROM stdin;
 -- Data for Name: common_mistake; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.common_mistake (id, path, description) FROM stdin;
-1	mistake1.png	Cuidado com os Braços!
+COPY public.common_mistake (id, path, description, exercise_id) FROM stdin;
+1	mistake1.png	Cuidado com os Braços!	\N
 \.
 
 
@@ -322,13 +380,16 @@ COPY public.common_mistake (id, path, description) FROM stdin;
 -- Data for Name: exercise; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.exercise (id, path, name, description, muscletargets, dificulty, common_mistake_id) FROM stdin;
-4	uatreino1.mp4	Glute bridge	Good workout for beginners	Upper,Lower 	4	1
-5	uatreino3.mp4	Squats	A legs focused workout with some abs in between	Legs,Abs	3	1
-3	uatreino6.mp4	Biceps curls	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	2	1
-1	uatreino4.mp4	Push ups	Pull ups challenge to widen your back	Back	1	1
-2	uatreino5.mp4	Triceps extensions	Arms killer workout	Biceps,Triceps,Chest	2	1
-6	uatreino2.mp4	Explosive push ups	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	4	1
+COPY public.exercise (id, path, name, description, muscletargets, dificulty, personal_trainer_id, thumbnail_path) FROM stdin;
+4	uatreino1.mp4	Glute bridge	Good workout for beginners	Upper,Lower 	4	\N	\N
+5	uatreino3.mp4	Squats	A legs focused workout with some abs in between	Legs,Abs	3	\N	\N
+3	uatreino6.mp4	Biceps curls	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	2	\N	\N
+1	uatreino4.mp4	Push ups	Pull ups challenge to widen your back	Back	1	\N	\N
+2	uatreino5.mp4	Triceps extensions	Arms killer workout	Biceps,Triceps,Chest	2	\N	\N
+6	uatreino2.mp4	Explosive push ups	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	4	\N	\N
+7	\N	t1	t2	Cardio, Flexible	3	1	\N
+8	\N	t1	t2	Cardio,Feee 	2	1	\N
+9	\N	t1	t2	Cardio,Feee 	2	1	\N
 \.
 
 
@@ -444,10 +505,38 @@ SELECT pg_catalog.setval('public.chats_id_seq', 2, true);
 
 
 --
+-- Name: common_mistake_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.common_mistake_id_seq', 2, false);
+
+
+--
+-- Name: exercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.exercise_id_seq', 9, true);
+
+
+--
+-- Name: exercise_progress_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.exercise_progress_id_seq', 1, false);
+
+
+--
 -- Name: messages_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
 SELECT pg_catalog.setval('public.messages_id_seq', 2, true);
+
+
+--
+-- Name: workout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+--
+
+SELECT pg_catalog.setval('public.workout_id_seq', 5, false);
 
 
 --
@@ -606,11 +695,19 @@ ALTER TABLE ONLY public.chats
 
 
 --
--- Name: exercise exercise_common_mistake_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: common_mistake common_mistake_exercise_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.common_mistake
+    ADD CONSTRAINT common_mistake_exercise_id_fkey FOREIGN KEY (exercise_id) REFERENCES public.exercise(id) NOT VALID;
+
+
+--
+-- Name: exercise exercise_personal_trainer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.exercise
-    ADD CONSTRAINT exercise_common_mistake_id_fkey FOREIGN KEY (common_mistake_id) REFERENCES public.common_mistake(id) NOT VALID;
+    ADD CONSTRAINT exercise_personal_trainer_id_fkey FOREIGN KEY (personal_trainer_id) REFERENCES public.personal_trainers(id) NOT VALID;
 
 
 --

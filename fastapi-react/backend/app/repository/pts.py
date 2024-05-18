@@ -171,6 +171,57 @@ class PersonalTrainersRepository():
     @staticmethod
     def hasAccessToImage(pt_id: int, imagename: str) -> bool:
         return True
+    
+    @staticmethod
+    def create_exercise(pt_id: int, details):
+        # create the exercise
+        exercise = models.Exercise(**details)
+        exercise.personal_trainer_id = pt_id
+        db.add(exercise)
+        db.commit()
+        db.refresh(exercise)
+        return exercise.id
+    
+    
+    @staticmethod
+    def check_exercise_table():
+        exercises = db.query(models.Exercise).all()
+        for exercise in exercises:
+            print("HEREEEEEEEEEEEEEEEEEEEEEEEE-----------",exercise.id,exercise.personal_trainer_id,exercise.name,exercise.description,exercise.muscletargets,exercise.dificulty,exercise.thumbnail_path,exercise.common_mistake_id)
+
+    @staticmethod
+    def save_exercise_videopath(video_path: str, exercise_id: int):
+        exercise = db.query(models.Exercise).filter(models.Exercise.id == exercise_id).first()
+        exercise.path = video_path
+        db.commit()
+        
+    @staticmethod
+    def save_exercise_thumbnailpath(thumbnail_path: str, exercise_id: int):
+        exercise = db.query(models.Exercise).filter(models.Exercise.id == exercise_id).first()
+        exercise.thumbnail_path = "thumbnails/"+thumbnail_path
+        db.commit()
+
+    @staticmethod 
+    def save_common_mistake_videopath(video_path: str, common_mistake_id: int):
+        common_mistake = db.query(models.CommonMistake).filter(models.CommonMistake.id == common_mistake_id).first()
+        common_mistake.path = "common_mistakes/"+video_path
+        db.commit()
+
+
+    @staticmethod
+    def save_common_mistake_description(description):
+        # create the common mistake
+        common_mistake = models.CommonMistake(**description)
+        db.add(common_mistake)
+        db.commit()
+        db.refresh(common_mistake)
+        return common_mistake.id
+
+    @staticmethod
+    def check_common_mistake_table():
+        common_mistakes = db.query(models.CommonMistake).all()
+        for mistake in common_mistakes:
+            print("HEREEEEEEEEEEEEEEEEEEEEEEEE-----------",mistake.id,mistake.path,mistake.description,mistake.exercise_id)
 
     @staticmethod
     def logIn(pt: models.PersonalTrainer) -> str:

@@ -53,7 +53,8 @@ class Exercise(Base):
     description = Column(String, index=True)
     muscletargets = Column(String, index=True)
     dificulty = Column(String, index=True)
-    common_mistake_id = Column(Integer, ForeignKey("common_mistake.id"), index=True)
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
+    thumbnail_path = Column(String, index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
 
 class CommonMistake(Base):
@@ -62,6 +63,7 @@ class CommonMistake(Base):
     id = Column(Integer, primary_key=True)
     path = Column(String, index=True)
     description = Column(String, index=True)
+    exercise_id = Column(Integer, ForeignKey("exercise.id"), index=True)
 
 class WorkoutExercise(Base):
     __tablename__ = "workout_exercise"

@@ -90,7 +90,7 @@ async def safe_pt_photo(photofile: UploadFile = File(...)):
             return {"result": "no", "error": "O ficheiro selecionado excede o tamanho máximo (5 MB). Por favor escolha outra imagem."}
 
     # save the image file
-    print(pt_username)
+    #print(pt_username)
     with open('./images/avatars/' + pt_username + '.png', 'wb') as f:
         # reset file pointer to the beginning of the file
         photofile.file.seek(0)
@@ -294,6 +294,119 @@ async def get_new_pts(token: schemas.TokenData):
         return {"result":"ok","pts":pts}
     else:
             return { "result": "no", "error": "Unauthorized." }
+    
+
+@router.post("/safePTNewExerciseDetails")
+async def safe_pt_new_exercise_details(token: schemas.TokenData, exercisedetails: schemas.NewExerciseDetails):
+    jwt_data: Optional[str] = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == False:
+        pt_id = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        if pt_id == None:
+            return { "result": "no", "error": "Unauthorized." }
+        #PersonalTrainersRepository.check_exercise_table()
+        exercise_id = PersonalTrainersRepository.create_exercise(pt_id, exercisedetails.model_dump())
+        return { "result": "ok", "exercise_id": exercise_id}
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+    
+@router.post("/safePTNewExerciseVideo")
+async def safe_pt_new_exercise_video(video: UploadFile):
+    # Extrair pt_id do nome do arquivo
+    exercise_id = int(video.filename.replace('.mp4', '').split('_')[1])
+    # Max size is 100 MB ---> (maybe more? idk)
+    max_size_in_bytes = 100 * 1024 * 1024
+    content_length = 0
+    while True:
+        data = video.file.read(8192)
+        if not data:
+            break
+        content_length += len(data)
+        if content_length > max_size_in_bytes:
+            return {"result": "no", "error": "The file size exceeds the maximum size (100 MB). Please choose another video."}
+        
+    # save the video file
+    with open('./videos/' + video.filename, 'wb') as f:
+        # reset file pointer to the beginning of the file
+        video.file.seek(0)
+        while True:
+            data = video.file.read(8192)
+            if not data:
+                break
+            f.write(data)
+
+    PersonalTrainersRepository.save_exercise_videopath(video.filename,exercise_id)
+    return { "result": "ok" }
+
+@router.post("/safePTNewExerciseThumbnail")
+async def safe_pt_new_exercise_thumbnail(thumbnail: UploadFile = File(...)):
+    # Extrair exercise_id do nome do arquivo
+    exercise_id = int(thumbnail.filename.replace('.png', '').split('_')[2])
+    # Max size is 5 MB
+    max_size_in_bytes = 5 * 1024 * 1024
+    content_length = 0
+    while True:
+        data = thumbnail.file.read(8192)
+        if not data:
+            break
+        content_length += len(data)
+        if content_length > max_size_in_bytes:
+            return {"result": "no", "error": "The file size exceeds the maximum size (5 MB). Please choose another image."}
+        
+    # save the thumbnail file
+    with open('./images/thumbnails/' + thumbnail.filename, 'wb') as f:
+        # reset file pointer to the beginning of the file
+        thumbnail.file.seek(0)
+        while True:
+            data = thumbnail.file.read(8192)
+            if not data:
+                break
+            f.write(data)
+
+    PersonalTrainersRepository.save_exercise_thumbnailpath(thumbnail.filename,exercise_id)
+    return { "result": "ok" }
+
+@router.post("/safePTNewExerciseCommonMistakeDescription")
+async def safe_pt_new_exercise_common_mistake_description(description: schemas.NewCommonMistake):
+    #PersonalTrainersRepository.check_common_mistake_table()
+    common_mistake_id = PersonalTrainersRepository.save_common_mistake_description(description.model_dump())
+    return { "result": "ok" , "common_mistake_id": common_mistake_id }
+
+@router.post("/safePTNewExerciseCommonMistakeVideo")
+async def safe_pt_new_exercise_common_mistake_video(video: UploadFile):
+    #PersonalTrainersRepository.check_common_mistake_table()
+    # Extrair exercise_id do nome do arquivo
+    common_mistake_id = int(video.filename.replace('.mp4', '').split('_')[2])
+    # Max size is 100 MB ---> (maybe more? idk)
+    max_size_in_bytes = 100 * 1024 * 1024
+    content_length = 0
+    while True:
+        data = video.file.read(8192)
+        if not data:
+            break
+        content_length += len(data)
+        if content_length > max_size_in_bytes:
+            return {"result": "no", "error": "The file size exceeds the maximum size (100 MB). Please choose another video."}
+        
+    # save the video file
+    with open('./videos/common_mistakes/' + video.filename, 'wb') as f:
+        # reset file pointer to the beginning of the file
+        video.file.seek(0)
+        while True:
+            data = video.file.read(8192)
+            if not data:
+                break
+            f.write(data)
+
+    # save and create the common mistake video
+    PersonalTrainersRepository.save_common_mistake_videopath(video.filename,common_mistake_id)
+    return { "result": "ok" }
+
+
+
+
 
 # @router.post("/addUserCustom", response_model=schemas.BasicUser)
 # async def read_root2(user: schemas.BasicUser):
