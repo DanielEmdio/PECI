@@ -54,8 +54,7 @@ class Exercise(Base):
     muscletargets = Column(String, index=True)
     dificulty = Column(String, index=True)
     personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
-    thumbnailpath = Column(String, index=True)
-    common_mistake_id = Column(Integer, ForeignKey("common_mistake.id"), index=True)
+    thumbnail_path = Column(String, index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
 
 class CommonMistake(Base):

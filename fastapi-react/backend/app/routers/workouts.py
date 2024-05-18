@@ -92,22 +92,31 @@ async def get_workout_info( token: schemas.TokenData,workout_id:int):
         
     return {"result":"ok","workout":workout}
 
+
+#
 @router.post("/addWorkout")
-def add_workout(token: schemas.TokenData,workout: schemas.WorkoutCreate, workout_exercises: List[schemas.WorkoutExercise]):
+def add_workout(token: schemas.TokenData,workout: schemas.WorkoutBase, workout_exercises: list[schemas.WorkoutExerciseCreate]):
     jwt_data = get_jwt_token_data(token=token.token)
     if jwt_data == None:
         return { "result": "no", "error": "Unauthorized." }
 
     if jwt_data["isNormalUser"] == False:
         pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
-        workout = {"title":workout.title, "tags":workout.tags, "duration":workout.duration} # REMOVE THIS LINE
-        workout["personal_trainer_id"] = pt_id                  # add the personal trainer id to the workout
+        workout = workout.model_dump()
+        workout["personal_trainer_id"] = pt_id
+        workout_create = schemas.WorkoutCreate(**workout)
 
-        WorkoutsRepository.create(workout)
+        print(workout_create)
+        newWorkout = WorkoutsRepository.create(workout_create)
         if workout_exercises != []:
             for workout_exercise in workout_exercises:
-                workout_exercise["workout_id"] = workout["id"]
-                WorkoutExercisesRepository.create(workout_exercise)
+                newWorkoutExercise = workout_exercise.model_dump()
+                print("before: ",newWorkoutExercise)
+
+                newWorkoutExercise["workout_id"] = newWorkout.id
+                print("after: ",newWorkoutExercise)
+                workout_exercise_create = schemas.WorkoutExercise(**newWorkoutExercise)
+                WorkoutExercisesRepository.create(workout_exercise_create)
         return {"result":"ok","workout":workout}
     else:
         return { "result": "no", "error": "Unauthorized." }

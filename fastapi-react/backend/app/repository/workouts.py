@@ -5,10 +5,11 @@ import models, schemas
 class WorkoutsRepository():
     @staticmethod
     def create(entry: schemas.WorkoutCreate) -> models.Workout:
-        db.add(entry)
+        db_workout = models.Workout(**entry.model_dump())
+        db.add(db_workout)
         db.commit()
-        db.refresh(entry)
-        return entry
+        db.refresh(db_workout)
+        return db_workout
 
     @staticmethod
     def getWorkout(workout_id: int) -> Optional[models.Workout]:

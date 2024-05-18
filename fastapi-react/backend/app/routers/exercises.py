@@ -123,6 +123,20 @@ async def get_video_info( token: schemas.TokenData, exercise_id:int):
         
     return {"result":"ok","video":exercise}
 
+@router.post("/getExercises")
+async def get_exercises(token: schemas.TokenData):
+    jwt_data = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == True:
+        return { "result": "no", "error": "Unauthorized." }
+    else:
+        pt_id=1 #: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        exercises = ExercisesRepository.getPTExercises(pt_id)
+    return {"result":"ok","exercises":exercises}
+
+
 # @router.post("/addVideo") # NÃO ASSOCIA O VIDEO AO PT
 # async def read_root3(videopath,videoname,description,muscletargets,releasedate,restricted=0):
 #     video = Video(videopath=videopath,videoname=videoname,description=description,muscletargets=muscletargets,releasedate=releasedate,restricted=restricted)

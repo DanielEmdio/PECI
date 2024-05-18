@@ -26,6 +26,7 @@ export default function PtMainPage() {
         api.post(`/workouts/getPTworkouts/${id}`).then((r) => {
             const data = r.data;
             let newMockedData = [];
+            console.log(data.workouts)
             data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,

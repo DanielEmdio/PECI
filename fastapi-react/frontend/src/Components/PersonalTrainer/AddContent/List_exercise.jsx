@@ -1,35 +1,53 @@
 import { MdOutlineKeyboardDoubleArrowUp, MdOutlineKeyboardDoubleArrowDown } from "react-icons/md";
 import { FaRegTrashAlt, FaRegCopy } from "react-icons/fa";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
+import { api } from "../../../api";
+import * as utils from "../../../Utils/utils" ; 
 
-export default function ListExercise() {
+export default function ListExercise({ exercises,setExercises,isChecked,setIsChecked }) {
     const [selectedExercises, setSelectedExercises] = useState([]);
-    const [exercises, setExercises] = useState([]);
+    //const [exercises, setExercises] = useState([]);    //they are already defined in the parent component
+    const [mocked_exercises, setMockedExercises] = useState([]);
 
-    const mocked_exercises = [
-        { value: "Push-ups", label: "Push-ups" },
-        { value: "Pull-ups", label: "Pull-ups" },
-        { value: "Squats", label: "Squats" },
-    ];
+    // const mocked_exercises = [
+    //     { value: "Push ups", label: "Push ups" },
+    //     { value: "Biceps Curls", label: "Biceps Curls" },
+    //     { value: "Squats", label: "Squats" },
+    // ];
 
-    const [isChecked, setIsChecked] = useState([]);
+    useEffect(() => {
+        api.post("/exercises/getExercises", {token: utils.getCookie("token")}).then((r) => {
+            const data = r.data;
+            const newMockedExercises = data.exercises.map(exercise => ({
+                value: exercise.name,
+                label: exercise.name,
+                exercise_id: exercise.id,
 
-    const handleToggle = (index) => {
-        setIsChecked(prevState => {
-            const newState = [...prevState];
-            newState[index] = !newState[index];
-            return newState;
+            }));
+            console.log("newMockedExercises: ",newMockedExercises)
+            setMockedExercises(newMockedExercises);
+        })
+        .catch((e) => { 
+            console.log(e);
         });
-    };
+    }, []);
+
+    //const [isChecked, setIsChecked] = useState([]);       //they are already defined in the parent component
+
+    
 
     const handleExerciseChange = (selectedExercises) => {
         setSelectedExercises(selectedExercises);
     }; // não mexer
 
-    const handleExerciseSubmit = (event) => {
-        event.preventDefault();
-        setExercises(prevExercises => [...prevExercises, ...selectedExercises]);
+    const handleExerciseAdd = () =>{
+        const newExercises = selectedExercises.map(exercise => ({
+            ...exercise,
+            reps_or_time: 0,  // Initialize with default repetitions value
+            is_time: false, // Initialize with default isChecked value
+        }));
+        setExercises(prevExercises => [...prevExercises, ...newExercises]);
         setSelectedExercises([]);
     }; // adicciona exercicios à lista
 
@@ -56,6 +74,7 @@ export default function ListExercise() {
             newExercises[index] = newExercises[index + 1];
             newExercises[index + 1] = temp;
             setExercises(newExercises);
+            
         }
     }; // move exercicio para baixo
 
@@ -64,6 +83,26 @@ export default function ListExercise() {
         newExercises.splice(index, 0, exercises[index]);
         setExercises(newExercises);
     }; // copia exercicio
+
+    const handleRepetitionsChange = (index, reps_or_time) => {
+        const newExercises = [...exercises];
+        newExercises[index].reps_or_time = reps_or_time;
+        setExercises(newExercises);
+    };
+
+    const handleToggle = (index) => {
+        // update the exercise state with the new isChecked value
+        const newExercises = [...exercises];
+        newExercises[index].is_time = !newExercises[index].is_time;
+        setExercises(newExercises);
+
+        // update the visual state of the checkbox
+        setIsChecked(prevState => {
+            const newState = [...prevState];
+            newState[index] = !newState[index];
+            return newState;
+        });
+    };
 
     return (
         <>
@@ -88,13 +127,20 @@ export default function ListExercise() {
                                             <span>Repetitions:</span>
                                         </>
                                     }
-                                    <input type='number' min="0" className='w-12 mx-2' />
+                                    <input 
+                                        type='number' 
+                                        min="0" 
+                                        value={exercise.reps_or_time}
+                                        onChange={(e) => handleRepetitionsChange(index, parseInt(e.target.value) || 0)}
+                                        className='w-12 mx-2'
+                                    />
                                 </div>
+                                
                                 <div>
-                                    <button onClick={() => handleDeleteExercise(index)}><FaRegTrashAlt className='mx-2 text-red-500' /></button>
-                                    <button onClick={() => handleCopyExercise(index)}><FaRegCopy className='mx-2 text-yellow-500' /></button>
-                                    <button onClick={() => handleMoveExerciseUp(index)}><MdOutlineKeyboardDoubleArrowUp className='mx-2 text-blue-500' /></button>
-                                    <button onClick={() => handleMoveExerciseDown(index)}><MdOutlineKeyboardDoubleArrowDown className='mx2 text-blue-500' /></button>
+                                    <button type="button" onClick={() => handleDeleteExercise(index)}><FaRegTrashAlt className='mx-2 text-red-500' /></button>
+                                    <button type="button" onClick={() => handleCopyExercise(index)}><FaRegCopy className='mx-2 text-yellow-500' /></button>
+                                    <button type="button" onClick={() => handleMoveExerciseUp(index)}><MdOutlineKeyboardDoubleArrowUp className='mx-2 text-blue-500' /></button>
+                                    <button type="button" onClick={() => handleMoveExerciseDown(index)}><MdOutlineKeyboardDoubleArrowDown className='mx2 text-blue-500' /></button>
                                 </div>
                             </div>
                         ))}
@@ -103,7 +149,6 @@ export default function ListExercise() {
                 <p className='text-gray-500 mb-4 text-center font-bold'>No exercises added yet</p>
             }
 
-            <form onSubmit={handleExerciseSubmit}>
                 <div className='flex mt-3'>
                     <Select
                         options={mocked_exercises}
@@ -114,9 +159,8 @@ export default function ListExercise() {
                         placeholder="Add your exercises"
                         isSearchable={true}
                     />
-                    <button type='submit' className="btn btn-square btn-sm btn-primary my-1 text-xs text-white">Add</button>
+                    <button type="button" onClick={handleExerciseAdd} className="btn btn-square btn-sm btn-primary my-1 text-xs text-white">Add</button>
                 </div>
-            </form>
         </>
     );
 }

@@ -3,22 +3,29 @@ import { MdFileUpload } from "react-icons/md";
 import { FaClock } from "react-icons/fa";
 import Select from 'react-select';
 import ListExercise from './List_exercise';
+import * as utils from "../../../Utils/utils";
+import { api } from '../../../api';
 
 export default function NewWorkout() {
     const [thumbnail, setThumbnail] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [chosenTags, setChosenTags] = useState([]);
-    const [personalTrainerId, setPersonalTrainerId] = useState('');
+    //const [personalTrainerId, setPersonalTrainerId] = useState('');
+    const [duration, setDuration] = useState('');
+    const [exercises, setExercises] = useState([]);
+    const [isChecked, setIsChecked] = useState([]);
+
+
 
     const handleTagChange = (chosenTags) => {
         setChosenTags(chosenTags);
     };
 
     const handleThumbnailChange = (event) => {
-        console.log(event.target.files[0]);
         setThumbnail(event.target.files[0]);
     };
+
 
     const tags = [
         { value: "Full Body", label: "Full Body" },
@@ -51,19 +58,39 @@ export default function NewWorkout() {
         { value: "Trapezius", label: "Trapezius" },
         { value: "Latissimus Dorsi", label: "Latissimus Dorsi" }
     ];
+    // const handleExercisesUpdate = (newExercises) => {
+    //     setExercises(newExercises);
+    // };
+    const handleDurationChange = (event) => {
+        setDuration(event.target.value);
+    };
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const formData = new FormData();
-        formData.append('thumbnail', thumbnail);
-        formData.append('title', title);
-        formData.append('description', description);
-        for (let i = 0; i < chosenTags.length; i++) {
-            chosenTags[i]=chosenTags[i].value;
+        
+        const workoutData = {
+            title: title,
+            //thumbnail: thumbnail,
+            //description: description,
+            tags: chosenTags.map(tag => tag.value).join(','), // Convert array of tags to string
+            duration: parseInt(duration),
         }
-        formData.append('tags', chosenTags);
-        //formData.append('personalTrainerId', personalTrainerId);
-        console.log(formData);
+        
+
+        console.log(workoutData);
+        for(let i = 0; i < exercises.length; i++){
+            delete(exercises[i].value);
+            delete(exercises[i].label);
+        }
+        console.log(exercises);
+        api.post("/workouts/addWorkout", {token: {token: utils.getCookie("token")} ,workout: workoutData, workout_exercises:exercises}).then((r) => {
+            console.log(r);
+        }
+        ).catch((e) => {
+            console.log(e.response.data);
+        });
+
         /*
         try {
             const response = await axios.post('../../../../backend/app/videos', formData, {
@@ -138,7 +165,7 @@ export default function NewWorkout() {
 
                         <p className='text-black mb-2'>Exercises:</p>
 
-                        <ListExercise />
+                        <ListExercise exercises={exercises} setExercises={setExercises} isChecked={isChecked} setIsChecked={setIsChecked} />
 
                         <div className="divider"></div>
 
@@ -157,6 +184,8 @@ export default function NewWorkout() {
                                     min="0" // Impede valores negativos
                                     step="1" // Passo de 1 para impedir valores decimais
                                     placeholder="minutes" // Mantém o placeholder visível
+                                    value={duration}
+                                    onChange={handleDurationChange}
                                     className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
                             </div>
                             <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25} /> Upload Workout</button>
