@@ -53,6 +53,8 @@ class Exercise(Base):
     description = Column(String, index=True)
     muscletargets = Column(String, index=True)
     dificulty = Column(String, index=True)
+    personal_trainer_id = Column(Integer, ForeignKey("personal_trainers.id"), index=True)
+    thumbnailpath = Column(String, index=True)
     common_mistake_id = Column(Integer, ForeignKey("common_mistake.id"), index=True)
     # Pt = Column(Integer, ForeignKey("pts.id"), index=True) # refers to a user id
 
@@ -68,6 +70,8 @@ class WorkoutExercise(Base):
 
     workout_id = Column(Integer, ForeignKey("workout.id"), primary_key=True)
     exercise_id = Column(Integer, ForeignKey("exercise.id"), primary_key=True)
+    reps_or_time = Column(Integer, index=True)
+    is_time = Column(Integer, index=True)
 
 class Workout(Base):
     __tablename__ = "workout"

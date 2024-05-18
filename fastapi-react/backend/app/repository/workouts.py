@@ -1,8 +1,15 @@
 from typing import List, Optional
 from database import db
-import models
+import models, schemas
 
 class WorkoutsRepository():
+    @staticmethod
+    def create(entry: schemas.WorkoutCreate) -> models.Workout:
+        db.add(entry)
+        db.commit()
+        db.refresh(entry)
+        return entry
+
     @staticmethod
     def getWorkout(workout_id: int) -> Optional[models.Workout]:
         return db.query(models.Workout).filter(models.Workout.id == workout_id).first()

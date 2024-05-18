@@ -1,7 +1,9 @@
+from typing import List
 from repository.pts import PersonalTrainersRepository
 from fastapi import APIRouter
 from repository.users import UsersRepository
 from repository.workouts import WorkoutsRepository
+from repository.workout_exercises import WorkoutExercisesRepository
 from auth.oauth2_jwt import *
 import schemas
 
@@ -89,3 +91,39 @@ async def get_workout_info( token: schemas.TokenData,workout_id:int):
             return { "result": "no", "error": "Unauthorized." }
         
     return {"result":"ok","workout":workout}
+
+@router.post("/addWorkout")
+def add_workout(token: schemas.TokenData,workout: schemas.WorkoutCreate, workout_exercises: List[schemas.WorkoutExercise]):
+    jwt_data = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == False:
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        workout = {"title":workout.title, "tags":workout.tags, "duration":workout.duration} # REMOVE THIS LINE
+        workout["personal_trainer_id"] = pt_id                  # add the personal trainer id to the workout
+
+        WorkoutsRepository.create(workout)
+        if workout_exercises != []:
+            for workout_exercise in workout_exercises:
+                workout_exercise["workout_id"] = workout["id"]
+                WorkoutExercisesRepository.create(workout_exercise)
+        return {"result":"ok","workout":workout}
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+        
+
+"""@router.post("/addExerciseToWorkout")
+def add_exercise_to_workout(token: schemas.TokenData,entry: schemas.WorkoutExercise):
+    jwt_data = get_jwt_token_data(token=token.token)
+    if jwt_data == None:
+        return { "result": "no", "error": "Unauthorized." }
+
+    if jwt_data["isNormalUser"] == False:
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        workout = WorkoutExercisesRepository.create(entry)
+        return {"result":"ok","workout":workout}
+    else:
+        return { "result": "no", "error": "Unauthorized." }
+        
+    """

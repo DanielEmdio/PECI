@@ -1,8 +1,18 @@
 from typing import List
 from database import db
-import models
+import models, schemas
 
 class WorkoutExercisesRepository():
+    @staticmethod
+    def create(entry: schemas.WorkoutExercise) -> models.WorkoutExercise:
+        # create workout_exercise
+        db_workout_exercise = models.WorkoutExercise(**entry.model_dump())
+        db.add(db_workout_exercise)
+        db.commit()
+        db.refresh(db_workout_exercise)
+        return db_workout_exercise
+
+
     @staticmethod
     def getExercisesForWorkout(workout_id: int) -> List[models.WorkoutExercise]:
         # get the exercises_id for the workout

@@ -94,7 +94,9 @@ class ExerciseCreate(ExerciseBase):
     description: str
     muscletargets: str
     dificulty: str
+    thumbnailpath: str
     common_mistake_id: int
+    personal_trainer_id: int
 
 class Exercise(ExerciseBase):
     id: int
@@ -127,6 +129,8 @@ class WorkoutExerciseCreate(WorkoutExerciseBase):
 class WorkoutExercise(WorkoutExerciseBase):
     workout_id: int
     exercise_id: int
+    reps_or_time: int
+    is_time: int
 
     class Config:
         from_attributes = True
@@ -137,16 +141,16 @@ class WorkoutBase(BaseModel):
     pass
 
 class WorkoutCreate(WorkoutBase):
-    pass
+    title: str
+    tags: str
+    duration: int
+
 
 class Workout(WorkoutBase):
     id: int
-    title: str
-    tags: str
     premium: int
     thumbnail: str
     releasedate: date
-    duration: int
     rating: str
     personal_trainer_id: int
 
@@ -200,4 +204,10 @@ class PtDetails(BaseModel):
     lang: str 
     hours: str 
     education: str 
-    bg: str 
+    bg: str
+
+class NewExerciseDetails(BaseModel):
+    name: str
+    description: str
+    dificulty: str
+    muscletargets: str
