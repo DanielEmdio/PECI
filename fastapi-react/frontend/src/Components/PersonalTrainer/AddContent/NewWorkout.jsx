@@ -8,14 +8,15 @@ export default function NewWorkout() {
     const [thumbnail, setThumbnail] = useState(null);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
-    const [targetMuscles, setTargetMuscles] = useState('');
+    const [chosenTags, setChosenTags] = useState([]);
     const [personalTrainerId, setPersonalTrainerId] = useState('');
 
-    const handleTagChange = (targetMuscles) => {
-        setTargetMuscles(targetMuscles);
+    const handleTagChange = (chosenTags) => {
+        setChosenTags(chosenTags);
     };
 
     const handleThumbnailChange = (event) => {
+        console.log(event.target.files[0]);
         setThumbnail(event.target.files[0]);
     };
 
@@ -57,8 +58,12 @@ export default function NewWorkout() {
         formData.append('thumbnail', thumbnail);
         formData.append('title', title);
         formData.append('description', description);
-        formData.append('targetMuscles', targetMuscles);
-        formData.append('personalTrainerId', personalTrainerId);
+        for (let i = 0; i < chosenTags.length; i++) {
+            chosenTags[i]=chosenTags[i].value;
+        }
+        formData.append('tags', chosenTags);
+        //formData.append('personalTrainerId', personalTrainerId);
+        console.log(formData);
         /*
         try {
             const response = await axios.post('../../../../backend/app/videos', formData, {
@@ -103,59 +108,61 @@ export default function NewWorkout() {
     return (
         <div className="flex justify-center  h-screen ">
             <div className="p-8 bg-white grow">
-                <fildset>
-                    <h2 className="text-2xl font-semibold mb-7 text-center text-gray-800">Upload New Workout</h2>
-                    <div className="mb-4">
-                        <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded text-black" />
-                    </div>
-                    <div className="mb-4">
-                        <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className="w-full p-2 border border-gray-300 rounded h-32 text-black"></textarea>
-                    </div>
-
-                    <Select
-                        options={tags}
-                        value={targetMuscles}
-                        onChange={handleTagChange}
-                        isMulti={true}
-                        className='mb-4 text-black'
-                        placeholder="Tags"
-                    />
-
-                    <p className='text-black mb-2'>Tumbnail:</p>
-                    <div className="mb-4">
-                        <input
-                            type="file" accept="jpg, jpeg, png"
-                            onChange={handleThumbnailChange}
-                            className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
-                        file-input-primary file:text-white file:hover:bg-[#009977]"/>
-                    </div>
-
-                    <p className='text-black mb-2'>Exercises:</p>
-
-                    <ListExercise />
-
-                    <div className="divider"></div>
-
-                    <div className='grid grid-cols-3'>
-                        <h3 className='text-black justify-self-start'>Difficulty:</h3>
-                        <h3 className='text-black justify-self-start'>Duration:</h3>
-                        <p></p>
-                        <div className="rating justify-self-start my-2">
-                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" checked/>
-                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10"  />
-                            <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
+                <form onSubmit={handleSubmit}>
+                    <fildset>
+                        <h2 className="text-2xl font-semibold mb-7 text-center text-gray-800">Upload New Workout</h2>
+                        <div className="mb-4">
+                            <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded text-black" />
                         </div>
-                        <div className='flex justify-self-start'>
-                            <FaClock className='text-green-500 size-10 my-2' />
-                            <input type="number"
-                                min="0" // Impede valores negativos
-                                step="1" // Passo de 1 para impedir valores decimais
-                                placeholder="minutes" // Mantém o placeholder visível
-                                className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
+                        <div className="mb-4">
+                            <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className="w-full p-2 border border-gray-300 rounded h-32 text-black"></textarea>
                         </div>
-                        <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25} /> Upload Workout</button>
-                    </div>
-                </fildset>
+
+                        <Select
+                            options={tags}
+                            value={chosenTags}
+                            onChange={handleTagChange}
+                            isMulti={true}
+                            className='mb-4 text-black'
+                            placeholder="Tags"
+                        />
+
+                        <p className='text-black mb-2'>Tumbnail:</p>
+                        <div className="mb-4">
+                            <input
+                                type="file" accept="jpg, jpeg, png"
+                                onChange={handleThumbnailChange}
+                                className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
+                            file-input-primary file:text-white file:hover:bg-[#009977]"/>
+                        </div>
+
+                        <p className='text-black mb-2'>Exercises:</p>
+
+                        <ListExercise />
+
+                        <div className="divider"></div>
+
+                        <div className='grid grid-cols-3'>
+                            <h3 className='text-black justify-self-start'>Difficulty:</h3>
+                            <h3 className='text-black justify-self-start'>Duration:</h3>
+                            <p></p>
+                            <div className="rating justify-self-start my-2">
+                                <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" checked/>
+                                <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10"  />
+                                <input type="radio" name="rating-4" className="mask mask-star-2 bg-green-500 size-10" />
+                            </div>
+                            <div className='flex justify-self-start'>
+                                <FaClock className='text-green-500 size-10 my-2' />
+                                <input type="number"
+                                    min="0" // Impede valores negativos
+                                    step="1" // Passo de 1 para impedir valores decimais
+                                    placeholder="minutes" // Mantém o placeholder visível
+                                    className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
+                            </div>
+                            <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25} /> Upload Workout</button>
+                        </div>
+                    </fildset>
+                </form>
             </div>
         </div>
     );
