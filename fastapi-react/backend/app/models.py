@@ -63,6 +63,7 @@ class CommonMistake(Base):
     id = Column(Integer, primary_key=True)
     path = Column(String, index=True)
     description = Column(String, index=True)
+    exercise_id = Column(Integer, ForeignKey("exercise.id"), index=True)
 
 class WorkoutExercise(Base):
     __tablename__ = "workout_exercise"

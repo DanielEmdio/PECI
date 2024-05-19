@@ -96,7 +96,7 @@ export default function PtMainPage() {
                         </div>
                         <div className="space-x-4 flex justify-end">
                             <div className="flex items-center my-2">
-                                <button className="btn btn-outline btn-accent" onClick={() => document.getElementById('modal_add_exercise').showModal()}><SiOpenlayers />Add Exercise</button>
+                                <button className="btn btn-accent text-white" onClick={() => document.getElementById('modal_add_exercise').showModal()}><SiOpenlayers />Add Exercise</button>
                                 <dialog id="modal_add_exercise" className="modal">
                                     <div className="modal-box w-11/12 max-w-5xl">
                                         <form method="dialog">
@@ -108,7 +108,7 @@ export default function PtMainPage() {
                                 </dialog>
                             </div>
                             <div className="flex items-center my-2">
-                                <button onClick={() => document.getElementById('modal_add_workout').showModal()} className="btn btn-outline btn-secondary"><FaLayerGroup />Add Workout</button>
+                                <button onClick={() => document.getElementById('modal_add_workout').showModal()} className="btn btn-secondary"><FaLayerGroup />Add Workout</button>
                                 <dialog id="modal_add_workout" className="modal">
                                     <div className="modal-box w-11/12 max-w-5xl">
                                         <form method="dialog">
