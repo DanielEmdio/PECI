@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
--- Dumped by pg_dump version 16.2 (Ubuntu 16.2-1.pgdg22.04+1)
+-- Dumped from database version 14.11 (Ubuntu 14.11-0ubuntu0.22.04.1)
+-- Dumped by pg_dump version 14.11 (Ubuntu 14.11-0ubuntu0.22.04.1)
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -128,7 +128,7 @@ CREATE SEQUENCE public.chats_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.chats_id_seq OWNER TO postgres;
+ALTER TABLE public.chats_id_seq OWNER TO postgres;
 
 --
 -- Name: chats_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -251,7 +251,7 @@ CREATE SEQUENCE public.messages_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.messages_id_seq OWNER TO postgres;
+ALTER TABLE public.messages_id_seq OWNER TO postgres;
 
 --
 -- Name: messages_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
@@ -294,6 +294,7 @@ ALTER TABLE public.subscriptions OWNER TO postgres;
 CREATE TABLE public.workout (
     id integer NOT NULL,
     title text,
+    description text,
     tags text,
     premium integer,
     thumbnail text,
@@ -312,7 +313,9 @@ ALTER TABLE public.workout OWNER TO postgres;
 
 CREATE TABLE public.workout_exercise (
     workout_id integer NOT NULL,
-    exercise_id integer NOT NULL
+    exercise_id integer NOT NULL,
+    reps_or_time integer,
+    is_time integer
 );
 
 
@@ -461,11 +464,13 @@ COPY public.users (id, username, password, token) FROM stdin;
 -- Data for Name: workout; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.workout (id, title, tags, premium, thumbnail, releasedate, duration, rating, personal_trainer_id) FROM stdin;
-3	private workout 18	Glutes, Abs	1	thumbnails/uatreino2.png	2023-02-07	45 min	4	18
-4	private workout 1	Biceps, Triceps	1	thumbnails/uatreino5.png	2022-06-29	45 min	3	1
-2	Upper Body	Weight lifting, Calisthenics	0	thumbnails/uatreino4.png	2023-09-14	30 min	3	1
-1	Leg killer	Calisthenics	0	thumbnails/uatreino1.png	2023-01-25	20 min	2	18
+COPY public.workout (id, title, description, tags, premium, thumbnail, releasedate, duration, rating, personal_trainer_id) FROM stdin;
+3	private workout 18	\N	Glutes, Abs	1	thumbnails/uatreino2.png	2023-02-07	45 min	4	18
+4	private workout 1	\N	Biceps, Triceps	1	thumbnails/uatreino5.png	2022-06-29	45 min	3	1
+2	Upper Body	\N	Weight lifting, Calisthenics	0	thumbnails/uatreino4.png	2023-09-14	30 min	3	1
+1	Leg killer	\N	Calisthenics	0	thumbnails/uatreino1.png	2023-01-25	20 min	2	18
+5	private workout 2	a description	Full Body,Cardio	1	thumbnails/private workout 2_thumbnail_5.png	2024-05-19	30 min	\N	1
+6	new priv workout	a description	Full Body,Endurance,Speed	1	thumbnails/new priv workout_thumbnail_6.png	2024-05-19	35 min	\N	1
 \.
 
 
@@ -473,13 +478,17 @@ COPY public.workout (id, title, tags, premium, thumbnail, releasedate, duration,
 -- Data for Name: workout_exercise; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.workout_exercise (workout_id, exercise_id) FROM stdin;
-2	1
-3	2
-3	3
-4	6
-1	5
-4	4
+COPY public.workout_exercise (workout_id, exercise_id, reps_or_time, is_time) FROM stdin;
+2	1	\N	\N
+3	2	\N	\N
+3	3	\N	\N
+4	6	\N	\N
+1	5	\N	\N
+4	4	\N	\N
+5	4	21	0
+5	3	43	0
+5	2	30	1
+6	4	10	0
 \.
 
 
@@ -536,7 +545,7 @@ SELECT pg_catalog.setval('public.messages_id_seq', 2, true);
 -- Name: workout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.workout_id_seq', 5, false);
+SELECT pg_catalog.setval('public.workout_id_seq', 6, true);
 
 
 --
@@ -759,11 +768,11 @@ ALTER TABLE ONLY public.workout_exercise
 
 
 --
--- Name: workout_exercise workout_exercise_workout_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: workout_exercise workout_exercise_workout_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.workout_exercise
-    ADD CONSTRAINT workout_exercise_workout_id_fkey FOREIGN KEY (workout_id) REFERENCES public.workout(id) NOT VALID;
+    ADD CONSTRAINT workout_exercise_workout_id FOREIGN KEY (workout_id) REFERENCES public.workout(id) NOT VALID;
 
 
 --
