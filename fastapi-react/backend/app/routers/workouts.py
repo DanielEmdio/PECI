@@ -69,7 +69,7 @@ async def get_pt_premium_workouts(token: schemas.TokenData):
 async def read_root3(pt_id: int):
     workouts = WorkoutsRepository.getPtWorkouts(pt_id)
     if workouts != []:
-        workouts = [ {"id":workout.id,"title": workout.title,"tags":workout.tags, "thumbnail": workout.thumbnail,"releasedate": workout.releasedate, "duration":workout.duration } for workout in workouts]
+        workouts = [ {"id":workout.id,"title": workout.title,"description":workout.description,"tags":workout.tags, "thumbnail": workout.thumbnail,"releasedate": workout.releasedate, "duration":workout.duration } for workout in workouts]
         return { "result": "ok", "workouts": workouts if workouts != None else [] }
     return { "result": "no", "error": "Unauthorized" }
 

@@ -19,7 +19,7 @@ export default function PtMainPage() {
         duration: "", // deverá ser ajustado
         // rating: element.rating,
         releasedate: "",
-        mainMuscles: [],
+        tags: [],
     });
 
     useEffect(() => {
@@ -28,15 +28,17 @@ export default function PtMainPage() {
             let newMockedData = [];
             console.log(data.workouts)
             data.workouts.forEach(element => {
+                if(element.description === null) element.description = "";
+                console.log(element.description)
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    description: "", // element.description,
+                    description: element.description,
                     duration: element.duration, // deverá ser ajustado
                     // rating: element.rating,
                     releasedate: element.releasedate,
-                    mainMuscles: [] // element.mainMuscles.split(","),
+                    tags: element.tags.split(","),
                 })
             });
 
@@ -146,7 +148,7 @@ export default function PtMainPage() {
                                 <p>Duration: {most_recent.duration}</p>
                             </div>
                             <div>
-                                {most_recent.mainMuscles.map((tag, index) => (
+                                {most_recent.tags.map((tag, index) => (
                                     <span key={index} className="badge badge-ghost badge-sm mx-1 flex-row-1 justify-start">{tag}</span>
                                 ))}
                             </div>

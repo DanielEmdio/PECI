@@ -29,7 +29,7 @@ export default function VideoCardInfo({ workout }) {
             </div>
             <div className="flex justify-between">
                 <div>
-                    {workout.mainMuscles.map((muscle, index) => (
+                    {workout.tags.map((muscle, index) => (
                         <div key={index} className="badge badge-lg">{muscle}</div>
                     ))}
                 </div>

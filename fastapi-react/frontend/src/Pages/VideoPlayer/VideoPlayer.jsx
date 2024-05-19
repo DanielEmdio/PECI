@@ -144,12 +144,13 @@ function VideoPlayer() {
                         </p>
                     </button>
                     :
-                    <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={nextExercise} >
-                        <p className="flex justify-center">
-                            <Link to="/">Complete workout</Link>
-                        </p>
-                    </button>
-                    
+                    <Link to="/">
+                        <button className="bg-green-700 hover:bg-green-900 text-white font-bold py-2 px-4 rounded-full w-full max-w-md" onClick={nextExercise} >
+                            <p className="flex justify-center">
+                                Complete workout
+                            </p>
+                        </button>
+                    </Link>
                 }
             </div>
             <br />

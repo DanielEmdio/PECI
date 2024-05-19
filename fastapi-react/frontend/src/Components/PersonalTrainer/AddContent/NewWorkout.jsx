@@ -16,8 +16,8 @@ export default function NewWorkout() {
     const [exercises, setExercises] = useState([]);
     const [isChecked, setIsChecked] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
-
-
+    const [isPremium, setIsPremium] = useState(false); 
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false); 
 
     const handleTagChange = (chosenTags) => {
         setChosenTags(chosenTags);
@@ -62,9 +62,16 @@ export default function NewWorkout() {
     // const handleExercisesUpdate = (newExercises) => {
     //     setExercises(newExercises);
     // };
+
+    const handlePremiumChange = (event) => {
+        setIsPremium(event.target.checked); // Update state based on checkbox
+    };
+
     const handleDurationChange = (event) => {
         setDuration(event.target.value);
     };
+
+    
 
 
     const handleSubmit = async (event) => {
@@ -78,9 +85,11 @@ export default function NewWorkout() {
         const workoutData = {
             title: title,
             //thumbnail: thumbnail,
-            //description: description,
+            description: description,
             tags: chosenTags.map(tag => tag.value).join(','), // Convert array of tags to string
-            duration: parseInt(duration),
+            duration: duration+" min",
+            premium: isPremium,
+            releasedate: new Date().toISOString().slice(0, 10)
         }
         
 
@@ -89,10 +98,9 @@ export default function NewWorkout() {
             delete(exercises[i].value);
             delete(exercises[i].label);
         }
-        console.log(exercises);
         
         const response = await api.post("/workouts/addWorkout", {token: {token: utils.getCookie("token")} ,workout: workoutData, workout_exercises:exercises});
-        if(response.data.result == "ok"){
+        if(response.data.result === "ok"){
             console.log("data: ",response.data);
         }else{
             alert("Error adding workout");
@@ -108,7 +116,6 @@ export default function NewWorkout() {
             const formData = new FormData();
             formData.append("thumbnail", renamedThumbnailFile);
 
-            console.log("thumbnail: ", formData.get("thumbnail"));
 
             const response2 = await api.post(`/workouts/uploadWorkoutThumbnail`, formData);
             const data2 = response2.data;
@@ -117,7 +124,7 @@ export default function NewWorkout() {
                 return;
             }
         }
-       
+        setShowSuccessMessage(true); // Show success message
     };
 
     /*
@@ -168,6 +175,7 @@ export default function NewWorkout() {
                             placeholder="Tags"
                             required
                         />
+                        
 
                         <p className='text-black mb-2'>Tumbnail:</p>
                         <div className="mb-4">
@@ -184,7 +192,10 @@ export default function NewWorkout() {
                         {errorMessage && (
                             <div className="text-red-500 mb-4">{errorMessage}</div>
                         )}
-
+                        <div className="flex items-center justify-self-start">
+                            <input type="checkbox" id="premium" checked={isPremium} onChange={handlePremiumChange} className="mr-2" />
+                            <label htmlFor="premium" className="text-black">Premium</label>
+                        </div>
                         <div className="divider"></div>
 
                         <div className='grid grid-cols-3'>
@@ -208,6 +219,7 @@ export default function NewWorkout() {
                                     required
                                 />
                             </div>
+                            {showSuccessMessage && <p className="text-green-500 mb-4">Workout added successfully!</p>}
                             <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25} /> Upload Workout</button>
                         </div>
                     </fildset>

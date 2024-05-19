@@ -77,6 +77,7 @@ class Workout(Base):
 
     id = Column(Integer, primary_key=True)
     title = Column(String, index=True)
+    description = Column(String, index=True)
     tags = Column(String, index=True)
     premium = Column(Integer, index=True)
     thumbnail = Column(String, index=True)

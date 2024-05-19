@@ -139,8 +139,12 @@ class WorkoutExercise(WorkoutExerciseCreate):
 
 class WorkoutBase(BaseModel):
     title: str
+    description: str
     tags: str
-    duration: int
+    duration: str
+    premium: int
+    releasedate: date
+
 
 class WorkoutCreate(WorkoutBase):
     personal_trainer_id: int
@@ -149,9 +153,7 @@ class WorkoutCreate(WorkoutBase):
 
 class Workout(WorkoutCreate):
     id: int
-    premium: int
     thumbnail: str
-    releasedate: date
     rating: str
 
     class Config:
