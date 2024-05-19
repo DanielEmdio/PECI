@@ -23,15 +23,14 @@ export default function ListExercise() {
         });
     };
 
-    const handleExerciseChange = (selectedExercises) => {
-        setSelectedExercises(selectedExercises);
-    }; // não mexer
-
-    const handleExerciseSubmit = (event) => {
-        event.preventDefault();
-        setExercises(prevExercises => [...prevExercises, ...selectedExercises]);
-        setSelectedExercises([]);
-    }; // adicciona exercicios à lista
+    const handleExerciseChange = (selectedOption) => {
+        setSelectedExercises(selectedOption);
+        handleExerciseSubmit(selectedOption);
+    };
+    
+    const handleExerciseSubmit = (selectedOption) => {
+        setExercises(prevExercises => [...prevExercises, selectedOption]);
+    };
 
     const handleDeleteExercise = (index) => {
         const newExercises = [...exercises];
@@ -102,21 +101,17 @@ export default function ListExercise() {
                 ) :
                 <p className='text-gray-500 mb-4 text-center font-bold'>No exercises added yet</p>
             }
-
-            <form onSubmit={handleExerciseSubmit}>
-                <div className='flex mt-3'>
-                    <Select
-                        options={mocked_exercises}
-                        value={selectedExercises}
-                        onChange={handleExerciseChange}
-                        isMulti={true}
-                        className='mb-4 text-black w-full mx-2'
-                        placeholder="Add your exercises"
-                        isSearchable={true}
-                    />
-                    <button type='submit' className="btn btn-square btn-sm btn-primary my-1 text-xs text-white">Add</button>
-                </div>
-            </form>
+            <div className='flex mt-3'>
+                <Select
+                    options={mocked_exercises}
+                    value={selectedExercises}
+                    onChange={handleExerciseChange}
+                    isMulti={false}
+                    className='mb-4 text-black w-full mx-2'
+                    placeholder="Add your exercises"
+                    isSearchable={true}
+                />
+            </div>
         </>
     );
 }
