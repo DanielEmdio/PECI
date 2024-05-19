@@ -14,6 +14,15 @@ export default function NewExercise() {
     const [targetMuscles, setTargetMuscles] = useState('');
     //const [personalTrainerId, setPersonalTrainerId] = useState('');
     //console.log(commonMistakes);
+
+    const [difficulty, setDifficulty] = useState('Warmup');
+    const difficulties = ['Warmup', 'Light', 'Moderate', 'Hard', 'Max effort'];
+
+
+    const handleDifficultyChange = (index) => {
+        setDifficulty(difficulties[index]);
+    };
+
     console.log('NewCommonMistake props:', { commonMistakes, setCommonMistakes });
 
     const handleTagChange = (targetMuscles) => {
@@ -228,6 +237,18 @@ export default function NewExercise() {
                         required
                         className="w-full text-sm text-gray-500 file-input file-input-bordered 
                     file-input-primary file:text-white file:hover:bg-[#009977]"/>
+                </div>
+
+                <p className='text-black mb-1'>Exercise difficulty:</p>
+                <div className="rating flex justify-center mb-1">
+                    <input type="radio" name="rating-4" value="Warmup" className="mask mask-star-2 bg-lime-500 size-10" checked={difficulty === 'Warmup'}         onChange={() => handleDifficultyChange(0)} />
+                    <input type="radio" name="rating-4" value="Light" className="mask mask-star-2 bg-green-500 size-10" checked={difficulty === 'Light'}          onChange={() => handleDifficultyChange(1)} />
+                    <input type="radio" name="rating-4" value="Moderate" className="mask mask-star-2 bg-yellow-500 size-10" checked={difficulty === 'Moderate'}   onChange={() => handleDifficultyChange(2)} />
+                    <input type="radio" name="rating-4" value="Hard" className="mask mask-star-2 bg-orange-500 size-10" checked={difficulty === 'Hard'}           onChange={() => handleDifficultyChange(3)} />
+                    <input type="radio" name="rating-4" value="Max effort" className="mask mask-star-2 bg-red-500 size-10" checked={difficulty === 'Max effort'}  onChange={() => handleDifficultyChange(4)} />
+                </div>
+                <div className="rating flex justify-center text-black mb-3">
+                    <p>{difficulty}</p>
                 </div>
 
                 <NewCommonMistake commonMistakes={commonMistakes} setCommonMistakes={setCommonMistakes} />
