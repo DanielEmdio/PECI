@@ -78,6 +78,9 @@ class PersonalTrainersRepository():
         pt.photo = photopath
         db.commit()
 
+
+    
+
     @staticmethod
     def get_pt_username(pt_id: str): # retorna o username do PersonalTrainer, com base no seu id
         return db.query(models.PersonalTrainer.username).filter(models.PersonalTrainer.id == pt_id).scalar()

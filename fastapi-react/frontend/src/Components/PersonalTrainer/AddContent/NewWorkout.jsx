@@ -15,6 +15,7 @@ export default function NewWorkout() {
     const [duration, setDuration] = useState('');
     const [exercises, setExercises] = useState([]);
     const [isChecked, setIsChecked] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');
 
 
 
@@ -68,7 +69,12 @@ export default function NewWorkout() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        
+
+        if (exercises.length === 0) {
+            setErrorMessage('You must add at least one exercise.');
+            return;
+        }
+
         const workoutData = {
             title: title,
             //thumbnail: thumbnail,
@@ -84,26 +90,34 @@ export default function NewWorkout() {
             delete(exercises[i].label);
         }
         console.log(exercises);
-        api.post("/workouts/addWorkout", {token: {token: utils.getCookie("token")} ,workout: workoutData, workout_exercises:exercises}).then((r) => {
-            console.log(r);
+        
+        const response = await api.post("/workouts/addWorkout", {token: {token: utils.getCookie("token")} ,workout: workoutData, workout_exercises:exercises});
+        if(response.data.result == "ok"){
+            console.log("data: ",response.data);
+        }else{
+            alert("Error adding workout");
+            return;
         }
-        ).catch((e) => {
-            console.log(e.response.data);
-        });
+        const workout_id = response.data.workout.id;
 
-        /*
-        try {
-            const response = await axios.post('../../../../backend/app/videos', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-            });
-            alert('Video uploaded successfully');
-        } catch (error) {
-            console.error('Error uploading video:', error);
-            alert('Error uploading video');
+        
+        // save thumbnail
+        if(thumbnail!=null){
+            const renamedThumbnailFile = new File([thumbnail], `${title}_thumbnail_${workout_id}.png`, { type: thumbnail.type });
+
+            const formData = new FormData();
+            formData.append("thumbnail", renamedThumbnailFile);
+
+            console.log("thumbnail: ", formData.get("thumbnail"));
+
+            const response2 = await api.post(`/workouts/uploadWorkoutThumbnail`, formData);
+            const data2 = response2.data;
+            if (data2["result"] !== "ok") {
+                //setErrMsg(data3["error"]);
+                return;
+            }
         }
-        */
+       
     };
 
     /*
@@ -139,10 +153,10 @@ export default function NewWorkout() {
                     <fildset>
                         <h2 className="text-2xl font-semibold mb-7 text-center text-gray-800">Upload New Workout</h2>
                         <div className="mb-4">
-                            <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded text-black" />
+                            <input type="text" placeholder="Title" value={title} onChange={e => setTitle(e.target.value)} className="w-full p-2 border border-gray-300 rounded text-black" required/>
                         </div>
                         <div className="mb-4">
-                            <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className="w-full p-2 border border-gray-300 rounded h-32 text-black"></textarea>
+                            <textarea placeholder="Description" value={description} onChange={e => setDescription(e.target.value)} className="w-full p-2 border border-gray-300 rounded h-32 text-black" required></textarea>
                         </div>
 
                         <Select
@@ -152,6 +166,7 @@ export default function NewWorkout() {
                             isMulti={true}
                             className='mb-4 text-black'
                             placeholder="Tags"
+                            required
                         />
 
                         <p className='text-black mb-2'>Tumbnail:</p>
@@ -165,7 +180,10 @@ export default function NewWorkout() {
 
                         <p className='text-black mb-2'>Exercises:</p>
 
-                        <ListExercise exercises={exercises} setExercises={setExercises} isChecked={isChecked} setIsChecked={setIsChecked} />
+                        <ListExercise exercises={exercises} setExercises={setExercises} isChecked={isChecked} setIsChecked={setIsChecked} setErrorMessage={setErrorMessage}/>
+                        {errorMessage && (
+                            <div className="text-red-500 mb-4">{errorMessage}</div>
+                        )}
 
                         <div className="divider"></div>
 
@@ -186,7 +204,9 @@ export default function NewWorkout() {
                                     placeholder="minutes" // Mantém o placeholder visível
                                     value={duration}
                                     onChange={handleDurationChange}
-                                    className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black" />
+                                    className="my-2 input input-bordered w-3/4 h-3/4 mx-2 max-w-xs text-black"
+                                    required
+                                />
                             </div>
                             <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25} /> Upload Workout</button>
                         </div>

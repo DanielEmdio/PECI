@@ -132,7 +132,7 @@ async def get_exercises(token: schemas.TokenData):
     if jwt_data["isNormalUser"] == True:
         return { "result": "no", "error": "Unauthorized." }
     else:
-        pt_id=1 #: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
+        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
         exercises = ExercisesRepository.getPTExercises(pt_id)
     return {"result":"ok","exercises":exercises}
 

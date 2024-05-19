@@ -40,6 +40,13 @@ class WorkoutsRepository():
         # return personal_trainer.workouts if personal_trainer else None
 
     @staticmethod
+    def save_workout_thumbnailpath(thumbnail_path: str, workout_id: int):
+        workout = db.query(models.Workout).filter(models.Workout.id == workout_id).first()
+        workout.thumbnail = "thumbnails/"+thumbnail_path
+        print("Workout details after commit:", workout.__dict__)
+        db.commit()
+    
+    @staticmethod
     def getAllRestrictedWorkouts():
         pass
 

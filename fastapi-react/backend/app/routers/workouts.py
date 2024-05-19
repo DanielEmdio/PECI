@@ -1,6 +1,6 @@
 from typing import List
 from repository.pts import PersonalTrainersRepository
-from fastapi import APIRouter
+from fastapi import APIRouter, UploadFile, File
 from repository.users import UsersRepository
 from repository.workouts import WorkoutsRepository
 from repository.workout_exercises import WorkoutExercisesRepository
@@ -102,37 +102,49 @@ def add_workout(token: schemas.TokenData,workout: schemas.WorkoutBase, workout_e
 
     if jwt_data["isNormalUser"] == False:
         pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
-        workout = workout.model_dump()
-        workout["personal_trainer_id"] = pt_id
-        workout_create = schemas.WorkoutCreate(**workout)
+        workout_create_data = workout.model_dump()
+        workout_create_data["personal_trainer_id"] = pt_id
+        workout_create = schemas.WorkoutCreate(**workout_create_data)
 
         print(workout_create)
-        newWorkout = WorkoutsRepository.create(workout_create)
+        new_workout = WorkoutsRepository.create(workout_create)
         if workout_exercises != []:
             for workout_exercise in workout_exercises:
-                newWorkoutExercise = workout_exercise.model_dump()
-                print("before: ",newWorkoutExercise)
+                workout_exercise_data = workout_exercise.model_dump()
 
-                newWorkoutExercise["workout_id"] = newWorkout.id
-                print("after: ",newWorkoutExercise)
-                workout_exercise_create = schemas.WorkoutExercise(**newWorkoutExercise)
+                workout_exercise_data["workout_id"] = new_workout.id
+                workout_exercise_create = schemas.WorkoutExercise(**workout_exercise_data)
                 WorkoutExercisesRepository.create(workout_exercise_create)
-        return {"result":"ok","workout":workout}
+        workout_data = WorkoutsRepository.getWorkout(new_workout.id)
+        return {"result":"ok","workout": workout_data}
     else:
         return { "result": "no", "error": "Unauthorized." }
         
+@router.post("/uploadWorkoutThumbnail")
+def upload_workout_thumbnail(thumbnail: UploadFile = File(...)):
+    # Extrair exercise_id do nome do arquivo
+    workout_id = int(thumbnail.filename.replace('.png', '').split('_')[2])
+    # Max size is 5 MB
+    max_size_in_bytes = 5 * 1024 * 1024
+    content_length = 0
+    while True:
+        data = thumbnail.file.read(8192)
+        if not data:
+            break
+        content_length += len(data)
+        if content_length > max_size_in_bytes:
+            return {"result": "no", "error": "The file size exceeds the maximum size (5 MB). Please choose another image."}
 
-"""@router.post("/addExerciseToWorkout")
-def add_exercise_to_workout(token: schemas.TokenData,entry: schemas.WorkoutExercise):
-    jwt_data = get_jwt_token_data(token=token.token)
-    if jwt_data == None:
-        return { "result": "no", "error": "Unauthorized." }
+    # save the thumbnail file
+    with open('./images/thumbnails/' + thumbnail.filename, 'wb') as f:
+        # reset file pointer to the beginning of the file
+        thumbnail.file.seek(0)
+        while True:
+            data = thumbnail.file.read(8192)
+            if not data:
+                break
+            f.write(data)
 
-    if jwt_data["isNormalUser"] == False:
-        pt_id: int = PersonalTrainersRepository.get_pt_by_token(token=jwt_data["token"]).id
-        workout = WorkoutExercisesRepository.create(entry)
-        return {"result":"ok","workout":workout}
-    else:
-        return { "result": "no", "error": "Unauthorized." }
-        
-    """
+    print("thumbnail_name: ",thumbnail.filename)
+    WorkoutsRepository.save_workout_thumbnailpath(thumbnail.filename,workout_id)
+    return { "result": "ok" }

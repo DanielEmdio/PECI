@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { api } from "../../../api";
 import * as utils from "../../../Utils/utils" ; 
 
-export default function ListExercise({ exercises,setExercises,isChecked,setIsChecked }) {
+export default function ListExercise({ exercises,setExercises,isChecked,setIsChecked,setErrorMessage}) {
     const [selectedExercises, setSelectedExercises] = useState([]);
     //const [exercises, setExercises] = useState([]);    //they are already defined in the parent component
     const [mocked_exercises, setMockedExercises] = useState([]);
@@ -39,6 +39,7 @@ export default function ListExercise({ exercises,setExercises,isChecked,setIsChe
 
     const handleExerciseChange = (selectedExercises) => {
         setSelectedExercises(selectedExercises);
+        setErrorMessage('');
     }; // não mexer
 
     const handleExerciseAdd = () =>{
@@ -49,6 +50,7 @@ export default function ListExercise({ exercises,setExercises,isChecked,setIsChe
         }));
         setExercises(prevExercises => [...prevExercises, ...newExercises]);
         setSelectedExercises([]);
+        setErrorMessage('');
     }; // adicciona exercicios à lista
 
     const handleDeleteExercise = (index) => {
