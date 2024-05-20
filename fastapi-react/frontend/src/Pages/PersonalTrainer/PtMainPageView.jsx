@@ -142,7 +142,7 @@ export default function PtMainPageView() {
                         <div className="flex flex-col justify-center">
                             <h3 className="text-xl font-bold mb-2">{most_recent.title}</h3>
                             <p className="text-zinc-500 dark:text-zinc-400">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel quibusdam, vitae, quidem iusto veniam provident perspiciatis sequi debitis ab consectetur dolorum totam natus velit! Placeat architecto adipisci eligendi quisquam quos!
+                                {most_recent.description.substring(0, 100)}...
                             </p>
                             <div className="flex items-center my-2">
                                 <CiClock2 className='icon text-base mr-1' />
