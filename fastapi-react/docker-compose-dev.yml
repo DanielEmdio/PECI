@@ -46,4 +46,4 @@ services:
       - backend
       - frontend
     ports:
-      - "88:80"
+      - "80:80"
