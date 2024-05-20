@@ -21,7 +21,7 @@ export default function PtMainPageView() {
         duration: "", // deverá ser ajustado
         //rating: element.rating,
         releasedate: "",
-        mainMuscles: [],
+        tags: [],
     });
 
     useEffect(() => {
@@ -38,7 +38,7 @@ export default function PtMainPageView() {
                     duration: element.duration, // deverá ser ajustado
                     // rating: element.rating,
                     releasedate: element.releasedate,
-                    mainMuscles: element.tags.split(",") // element.mainMuscles.split(","),
+                    tags: element.tags.split(",") // element.mainMuscles.split(","),
                 });
             });
 
@@ -151,11 +151,11 @@ export default function PtMainPageView() {
                                 </p>
                             </div>
                             <div>
-                                {most_recent.mainMuscles.map((tag, index) => (
+                                {most_recent.tags.map((tag, index) => (
                                     <span key={index} className="badge badge-ghost badge-sm mx-1 flex-row-1 justify-start">{tag}</span>
                                 ))}
                             </div>
-                            <Link className="text-blue-500 hover:text-blue-700 mt-4" href="#">
+                            <Link className="text-blue-500 hover:text-blue-700 mt-4" to={`/video/${most_recent.id}`}>
                                 <button className="btn btn-primary"><FaPlay />Check it out!</button>
                             </Link>
                         </div>
