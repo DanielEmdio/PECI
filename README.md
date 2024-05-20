@@ -15,7 +15,7 @@ Projeto de Engenharia de Computadores e Informática.
 - Carlos Ferreira **Nº 108822**
 - Gabriel Costa **Nº 109050**
 - Diogo Borges **Nº 102954**
-- ADICIONAR O SANTOLAS
+- Diogo Martins **Nº 108548**
 
 ### Uso
 1. Instalar as dependencias  
