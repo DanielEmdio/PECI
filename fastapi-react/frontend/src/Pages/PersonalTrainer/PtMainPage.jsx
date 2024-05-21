@@ -10,6 +10,7 @@ import NewWorkout from "../../Components/PersonalTrainer/AddContent/NewWorkout";
 import NewExercise from "../../Components/PersonalTrainer/AddContent/NewExercise";
 
 export default function PtMainPage() {
+    const [mockedExercises, setMockedExercises] = useState([]);
     const [mockedData, setMockedData] = useState([]);
     const [most_recent, setMost_recent] = useState({
         id: 0,
@@ -21,6 +22,7 @@ export default function PtMainPage() {
         releasedate: "",
         tags: [],
     });
+   
 
     useEffect(() => {
         api.post(`/workouts/getPTworkouts/${id}`).then((r) => {
@@ -54,6 +56,24 @@ export default function PtMainPage() {
 
             // setMost_recent(mockedData[0]);
         }).catch((_) => { });
+
+
+        api.post("/exercises/getExercises", {token: utils.getCookie("token")}).then((r) => {
+            const data = r.data;
+            const newMockedExercises = data.exercises.map(exercise => ({
+                exercise_id: exercise.id,
+                name: exercise.name,
+                description: exercise.description,
+                difficulty: exercise.difficulty,
+                tags: exercise.muscletargets.split(","),
+                thumbnail: exercise.thumbnail_path,
+            }));
+            console.log("newMockedExercises: ",newMockedExercises)
+            setMockedExercises(newMockedExercises);
+        })
+        .catch((e) => { 
+            console.log(e);
+        });
     }, []);
 
     // Função para converter string de data no formato "DD-MM-YYYY" para um objeto Date
@@ -162,7 +182,7 @@ export default function PtMainPage() {
                 <section className="mb-8"> {/* Secção reservada aos workout mais vistos, recomendados, não sei esta por decidir */}
                     <h2 className="text-2xl font-bold mb-4">Exercises</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {mockedData.map((workout, index) => (
+                        {mockedExercises.map((workout, index) => (
                             <VideoCardInfo key={index} workout={workout} />
                         ))}
                     </div>

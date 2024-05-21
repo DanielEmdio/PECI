@@ -170,7 +170,7 @@ export default function NewExercise() {
                     
                 }
             }
-
+            document.getElementById('modal_add_exercise').close();
             // Lógica para sucesso
             //utils.goToHome();
         } catch (error) {

@@ -17,7 +17,7 @@ export default function NewWorkout() {
     const [isChecked, setIsChecked] = useState([]);
     const [errorMessage, setErrorMessage] = useState('');
     const [isPremium, setIsPremium] = useState(false); 
-    const [showSuccessMessage, setShowSuccessMessage] = useState(false); 
+    
 
     const handleTagChange = (chosenTags) => {
         setChosenTags(chosenTags);
@@ -123,8 +123,10 @@ export default function NewWorkout() {
                 //setErrMsg(data3["error"]);
                 return;
             }
-        }
-        setShowSuccessMessage(true); // Show success message
+        }   
+        //setIsModalOpen(false); // Close modal
+        document.getElementById('modal_add_workout').close();
+        //setShowSuccessMessage(true); // Show success message
     };
 
     /*
@@ -219,7 +221,6 @@ export default function NewWorkout() {
                                     required
                                 />
                             </div>
-                            {showSuccessMessage && <p className="text-green-500 mb-4">Workout added successfully!</p>}
                             <button type="submit" className="w-full my-1 btn btn-secondary text-white  font-bold mb-2 px-4 rounded focus:outline-none focus:shadow-outline" > <MdFileUpload size={25} /> Upload Workout</button>
                         </div>
                     </fildset>
