@@ -147,4 +147,5 @@ def upload_workout_thumbnail(thumbnail: UploadFile = File(...)):
 
     print("thumbnail_name: ",thumbnail.filename)
     WorkoutsRepository.save_workout_thumbnailpath(thumbnail.filename,workout_id)
+    #WorkoutsRepository.check_workout_table()
     return { "result": "ok" }

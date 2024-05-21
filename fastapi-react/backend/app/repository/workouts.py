@@ -45,6 +45,13 @@ class WorkoutsRepository():
         workout.thumbnail = "thumbnails/"+thumbnail_path
         print("Workout details after commit:", workout.__dict__)
         db.commit()
+
+    @staticmethod
+    # print workout table
+    def check_workout_table():
+        #print("Workout table:", db.query(models.Workout).all())
+        for workout in db.query(models.Workout).all():
+            print(workout.id, workout.title, workout.description, workout.tags, workout.premium, workout.thumbnail, workout.releasedate, workout.duration, workout.rating, workout.personal_trainer_id)
     
     @staticmethod
     def getAllRestrictedWorkouts():

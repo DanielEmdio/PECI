@@ -182,7 +182,7 @@ export default function NewWorkout() {
                         <p className='text-black mb-2'>Tumbnail:</p>
                         <div className="mb-4">
                             <input
-                                type="file" accept="jpg, jpeg, png"
+                                type="file" accept="image/*"
                                 onChange={handleThumbnailChange}
                                 className="w-1/4 text-sm text-gray-500 file-input file-input-bordered 
                             file-input-primary file:text-white file:hover:bg-[#009977]"/>

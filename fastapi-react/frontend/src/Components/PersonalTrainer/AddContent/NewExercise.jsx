@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import NewCommonMistake from './NewCommonMistake';
 import { MdFileUpload } from "react-icons/md";
@@ -12,15 +12,19 @@ export default function NewExercise() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [targetMuscles, setTargetMuscles] = useState('');
+    const [errMsg, setErrMsg] = useState('');
     //const [personalTrainerId, setPersonalTrainerId] = useState('');
     //console.log(commonMistakes);
 
     const [difficulty, setDifficulty] = useState('Warmup');
+    const [dificulty_db, setDificulty_db] = useState('1');
     const difficulties = ['Warmup', 'Light', 'Moderate', 'Hard', 'Max effort'];
+    const dificulties_db = ['1', '2', '3', '4', '5'];
 
 
     const handleDifficultyChange = (index) => {
         setDifficulty(difficulties[index]);
+        setDificulty_db(dificulties_db[index]);
     };
 
     console.log('NewCommonMistake props:', { commonMistakes, setCommonMistakes });
@@ -36,6 +40,10 @@ export default function NewExercise() {
     const handleThumbnailChange = (event) => {
         setThumbnail(event.target.files[0]);
     }
+
+    useEffect(() => {
+        setErrMsg('');
+    }, [title, description, targetMuscles, video, thumbnail, commonMistakes]);
 
     const tags = [
         { value: "Full Body", label: "Full Body" },
@@ -75,7 +83,7 @@ export default function NewExercise() {
         const exercisedetails = {
             name: title,
             description: description,
-            dificulty: "1",               // frontend needs to be done.................
+            dificulty: dificulty_db,               // frontend needs to be done.................
             muscletargets: targetMuscles.map(muscle => muscle.value).join(','),
         };
         
@@ -87,13 +95,12 @@ export default function NewExercise() {
         console.log(thumbnail);
         
         try {
-
             //console.log("details : " + details);
             const response1 = await api.post(`/users/safePTNewExerciseDetails`, { token: { "token": utils.getCookie("token") }, exercisedetails: exercisedetails });
 
             const data1 = response1.data;
             if (data1["result"] !== "ok") {
-                //setErrMsg(data1["error"]);
+                setErrMsg(data1["error"]);
                 return;
             }
             // save video
@@ -109,7 +116,7 @@ export default function NewExercise() {
             const response2 = await api.post(`/users/safePTNewExerciseVideo`, formData2);
             const data2 = response2.data;
             if (data2["result"] !== "ok") {
-                //setErrMsg(data2["error"]);
+                setErrMsg(data2["error"]);
                 return;
             }
             
@@ -123,7 +130,7 @@ export default function NewExercise() {
             const response3 = await api.post(`/users/safePTNewExerciseThumbnail`, formData3);
             const data3 = response3.data;
             if (data3["result"] !== "ok") {
-                //setErrMsg(data3["error"]);
+                setErrMsg(data3["error"]);
                 return;
             }
 
@@ -140,7 +147,7 @@ export default function NewExercise() {
 
                     const data4 = response4.data;
                     if (data4["result"] !== "ok") {
-                        //setErrMsg(data4["error"]);
+                        setErrMsg(data4["error"]);
                         return;
                     }
 
@@ -156,7 +163,7 @@ export default function NewExercise() {
 
                     const data5 = response5.data;
                     if (data5["result"] !== "ok") {
-                        //setErrMsg(data4["error"]);
+                        setErrMsg(data5["error"]);
                         return;
                     }
 
@@ -252,7 +259,7 @@ export default function NewExercise() {
                 </div>
 
                 <NewCommonMistake commonMistakes={commonMistakes} setCommonMistakes={setCommonMistakes} />
-
+                <div className='text-red-500 text-center mb-2'> {errMsg} </div>
                 <button type="submit" className="w-full btn btn-secondary text-white font-bold py-2 mb-2 px-4 rounded focus:outline-none focus:shadow-outline" ><MdFileUpload size={25} /> Upload Exercise</button>
             </div>
             </form>
