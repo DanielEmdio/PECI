@@ -127,6 +127,7 @@ class WorkoutExerciseCreate(WorkoutExerciseBase):
     reps_or_time: int
     is_time: int
     exercise_id: int
+    set_num: int
 
 class WorkoutExercise(WorkoutExerciseCreate):
     workout_id: int

@@ -61,7 +61,7 @@ export default function PtMainPage() {
         api.post("/exercises/getExercises", {token: utils.getCookie("token")}).then((r) => {
             const data = r.data;
             const newMockedExercises = data.exercises.map(exercise => ({
-                exercise_id: exercise.id,
+                id: exercise.id,
                 name: exercise.name,
                 description: exercise.description,
                 difficulty: exercise.difficulty,

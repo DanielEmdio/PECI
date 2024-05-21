@@ -102,6 +102,7 @@ async def get_workout_exercises(token: schemas.TokenData, workout_id:int):
         if not PersonalTrainersRepository.hasAccessToWorkout(pt_id, workout.title):
             return { "result": "no", "error": "Unauthorized." }
         exercises = WorkoutExercisesRepository.getExercisesForWorkout(workout_id)
+
     return {"result":"ok","exercises":exercises, "workout_info":workout.personal_trainer_id}
 
 @router.post("/getVideoInfo")        # ESTA FUNÇÃO NÃO FILTRA A INFORMAÇÃO DO VÍDEO.

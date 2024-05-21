@@ -70,6 +70,7 @@ class WorkoutExercise(Base):
 
     workout_id = Column(Integer, ForeignKey("workout.id"), primary_key=True)
     exercise_id = Column(Integer, ForeignKey("exercise.id"), primary_key=True)
+    set_num = Column(Integer, primary_key=True)
     reps_or_time = Column(Integer, index=True)
     is_time = Column(Integer, index=True)
 

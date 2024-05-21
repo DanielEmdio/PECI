@@ -314,6 +314,7 @@ ALTER TABLE public.workout OWNER TO postgres;
 CREATE TABLE public.workout_exercise (
     workout_id integer NOT NULL,
     exercise_id integer NOT NULL,
+    set_num integer DEFAULT 1 NOT NULL,
     reps_or_time integer,
     is_time integer
 );
@@ -357,6 +358,12 @@ COPY public.athlete_weight (id, date, weight) FROM stdin;
 5	2022-02-10	60
 5	2022-05-12	65
 3	2024-05-06	67
+5	2021-02-01	55
+13	2023-12-02	63
+13	2024-01-01	65
+5	2021-05-05	60
+5	2021-06-07	58
+5	2021-10-05	63
 \.
 
 
@@ -367,6 +374,8 @@ COPY public.athlete_weight (id, date, weight) FROM stdin;
 COPY public.chats (id, user_id, personal_trainer_id) FROM stdin;
 1	5	1
 2	2	1
+3	13	18
+4	13	42
 \.
 
 
@@ -384,15 +393,17 @@ COPY public.common_mistake (id, path, description, exercise_id) FROM stdin;
 --
 
 COPY public.exercise (id, path, name, description, muscletargets, dificulty, personal_trainer_id, thumbnail_path) FROM stdin;
-4	uatreino1.mp4	Glute bridge	Good workout for beginners	Upper,Lower 	4	\N	\N
-5	uatreino3.mp4	Squats	A legs focused workout with some abs in between	Legs,Abs	3	\N	\N
-3	uatreino6.mp4	Biceps curls	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	2	\N	\N
-1	uatreino4.mp4	Push ups	Pull ups challenge to widen your back	Back	1	\N	\N
-2	uatreino5.mp4	Triceps extensions	Arms killer workout	Biceps,Triceps,Chest	2	\N	\N
-6	uatreino2.mp4	Explosive push ups	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	4	\N	\N
 7	\N	t1	t2	Cardio, Flexible	3	1	\N
 8	\N	t1	t2	Cardio,Feee 	2	1	\N
 9	\N	t1	t2	Cardio,Feee 	2	1	\N
+10	title_10.mp4	title	chest	Full Body,Cardio	1	1	thumbnails/title_thumbnail_10.png
+11	gfdsgds_11.mp4	gfdsgds	gdfgds	Full Body,Cardio	1	1	thumbnails/gfdsgds_thumbnail_11.png
+4	uatreino1.mp4	Glute bridge	Good workout for beginners	Upper,Lower 	4	18	\N
+5	uatreino3.mp4	Squats	A legs focused workout with some abs in between	Legs,Abs	3	18	\N
+3	uatreino6.mp4	Biceps curls	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	2	18	\N
+1	uatreino4.mp4	Push ups	Pull ups challenge to widen your back	Back	1	18	\N
+2	uatreino5.mp4	Triceps extensions	Arms killer workout	Biceps,Triceps,Chest	2	1	\N
+6	uatreino2.mp4	Explosive push ups	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	4	1	\N
 \.
 
 
@@ -444,6 +455,8 @@ COPY public.subscriptions (user_id, personal_trainer_id) FROM stdin;
 5	1
 10	18
 10	1
+13	42
+13	18
 \.
 
 
@@ -457,6 +470,7 @@ COPY public.users (id, username, password, token) FROM stdin;
 9	user3	aA1!00000000	\N
 2	user1	aA1!00000000	9y9UCK4HKqwN
 10	user4	aA1!00000000	s0rX9BfkXMq6
+13	user20	scuffedpasS20!	NiViIA7WvM0v
 \.
 
 
@@ -478,17 +492,17 @@ COPY public.workout (id, title, description, tags, premium, thumbnail, releaseda
 -- Data for Name: workout_exercise; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-COPY public.workout_exercise (workout_id, exercise_id, reps_or_time, is_time) FROM stdin;
-2	1	\N	\N
-3	2	\N	\N
-3	3	\N	\N
-4	6	\N	\N
-1	5	\N	\N
-4	4	\N	\N
-5	4	21	0
-5	3	43	0
-5	2	30	1
-6	4	10	0
+COPY public.workout_exercise (workout_id, exercise_id, set_num, reps_or_time, is_time) FROM stdin;
+2	1	1	\N	\N
+3	2	1	\N	\N
+3	3	1	\N	\N
+4	6	1	\N	\N
+1	5	1	\N	\N
+4	4	1	\N	\N
+5	4	1	21	0
+5	3	1	43	0
+5	2	1	30	1
+6	4	1	10	0
 \.
 
 
@@ -503,28 +517,28 @@ SELECT pg_catalog.setval('public."PTs_id_seq"', 43, true);
 -- Name: Users_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."Users_id_seq"', 12, true);
+SELECT pg_catalog.setval('public."Users_id_seq"', 13, true);
 
 
 --
 -- Name: chats_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.chats_id_seq', 2, true);
+SELECT pg_catalog.setval('public.chats_id_seq', 4, true);
 
 
 --
 -- Name: common_mistake_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.common_mistake_id_seq', 2, false);
+SELECT pg_catalog.setval('public.common_mistake_id_seq', 2, true);
 
 
 --
 -- Name: exercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercise_id_seq', 9, true);
+SELECT pg_catalog.setval('public.exercise_id_seq', 11, true);
 
 
 --
@@ -545,7 +559,7 @@ SELECT pg_catalog.setval('public.messages_id_seq', 2, true);
 -- Name: workout_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.workout_id_seq', 6, true);
+SELECT pg_catalog.setval('public.workout_id_seq', 34, true);
 
 
 --
@@ -629,11 +643,11 @@ ALTER TABLE ONLY public.subscriptions
 
 
 --
--- Name: workout_exercise workout_exercise_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: workout_exercise workout_exercise_PK; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.workout_exercise
-    ADD CONSTRAINT workout_exercise_pkey PRIMARY KEY (workout_id, exercise_id);
+    ADD CONSTRAINT "workout_exercise_PK" PRIMARY KEY (workout_id, exercise_id, set_num);
 
 
 --
@@ -712,6 +726,14 @@ ALTER TABLE ONLY public.common_mistake
 
 
 --
+-- Name: workout_exercise exercise_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.workout_exercise
+    ADD CONSTRAINT exercise_id FOREIGN KEY (exercise_id) REFERENCES public.exercise(id) NOT VALID;
+
+
+--
 -- Name: exercise exercise_personal_trainer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -760,19 +782,11 @@ ALTER TABLE ONLY public.subscriptions
 
 
 --
--- Name: workout_exercise workout_exercise_exercise_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: workout_exercise workout_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.workout_exercise
-    ADD CONSTRAINT workout_exercise_exercise_id_fkey FOREIGN KEY (exercise_id) REFERENCES public.exercise(id);
-
-
---
--- Name: workout_exercise workout_exercise_workout_id; Type: FK CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.workout_exercise
-    ADD CONSTRAINT workout_exercise_workout_id FOREIGN KEY (workout_id) REFERENCES public.workout(id) NOT VALID;
+    ADD CONSTRAINT workout_id FOREIGN KEY (workout_id) REFERENCES public.workout(id) NOT VALID;
 
 
 --

@@ -82,6 +82,7 @@ export default function NewWorkout() {
             return;
         }
 
+
         const workoutData = {
             title: title,
             //thumbnail: thumbnail,
@@ -92,13 +93,27 @@ export default function NewWorkout() {
             releasedate: new Date().toISOString().slice(0, 10)
         }
         
-
         console.log(workoutData);
+
+        const exerciseSetNumbers = {}; // Map to keep track of set numbers
+
         for(let i = 0; i < exercises.length; i++){
             delete(exercises[i].value);
             delete(exercises[i].label);
+
+            // If exercise id is found in the map, increment the set number
+            if (exercises[i].id in exerciseSetNumbers) {
+                exercises[i].set_num = exerciseSetNumbers[exercises[i].id] + 1;
+            }
+            else {
+                exercises[i].set_num = 1;
+            }
+
+
+            // Update the set number in the map
+            exerciseSetNumbers[exercises[i].id] = exercises[i].set_num;
         }
-        
+        //console.log("exercises: ",exercises); 
         const response = await api.post("/workouts/addWorkout", {token: {token: utils.getCookie("token")} ,workout: workoutData, workout_exercises:exercises});
         if(response.data.result === "ok"){
             console.log("data: ",response.data);
