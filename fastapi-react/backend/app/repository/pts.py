@@ -185,13 +185,12 @@ class PersonalTrainersRepository():
         db.refresh(exercise)
         return exercise.id
     
-    
     @staticmethod
     def check_exercise_table():
         exercises = db.query(models.Exercise).all()
         for exercise in exercises:
-            print("HEREEEEEEEEEEEEEEEEEEEEEEEE-----------",exercise.id,exercise.personal_trainer_id,exercise.name,exercise.description,exercise.muscletargets,exercise.dificulty,exercise.thumbnail_path,exercise.common_mistake_id)
-
+            print("HEREEEEEEEEEEEEEEEEEEEEEEEE-----------",exercise.id,exercise.path,exercise.name,exercise.description,exercise.muscletargets,exercise.dificulty,exercise.personal_trainer_id,exercise.thumbnail_path)
+    
     @staticmethod
     def save_exercise_videopath(video_path: str, exercise_id: int):
         exercise = db.query(models.Exercise).filter(models.Exercise.id == exercise_id).first()
