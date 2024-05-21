@@ -36,19 +36,25 @@ export default function ListExercise({ exercises,setExercises,isChecked,setIsChe
     //const [isChecked, setIsChecked] = useState([]);       //they are already defined in the parent component
 
     
+    
+    const handleExerciseChange = (selectedOption) => {
+        setSelectedExercises(selectedOption);
+        handleExerciseAdd(selectedOption);
+    };
 
-    const handleExerciseChange = (selectedExercises) => {
-        setSelectedExercises(selectedExercises);
-        setErrorMessage('');
-    }; // não mexer
-
-    const handleExerciseAdd = () =>{
-        const newExercises = selectedExercises.map(exercise => ({
-            ...exercise,
+    /*
+    const handleExerciseSubmit = (selectedOption) => {
+        setExercises(prevExercises => [...prevExercises, selectedOption]);
+    };
+    */
+   
+    const handleExerciseAdd = (selectedOption) =>{
+        const newExercise = {
+            ...selectedOption,
             reps_or_time: 0,  // Initialize with default repetitions value
             is_time: false, // Initialize with default isChecked value
-        }));
-        setExercises(prevExercises => [...prevExercises, ...newExercises]);
+        };
+        setExercises(prevExercises => [...prevExercises, newExercise]);
         setSelectedExercises([]);
         setErrorMessage('');
     }; // adicciona exercicios à lista
@@ -151,18 +157,17 @@ export default function ListExercise({ exercises,setExercises,isChecked,setIsChe
                 <p className='text-gray-500 mb-4 text-center font-bold'>No exercises added yet</p>
             }
 
-                <div className='flex mt-3'>
-                    <Select
-                        options={mocked_exercises}
-                        value={selectedExercises}
-                        onChange={handleExerciseChange}
-                        isMulti={true}
-                        className='mb-4 text-black w-full mx-2'
-                        placeholder="Add your exercises"
-                        isSearchable={true}
-                    />
-                    <button type="button" onClick={handleExerciseAdd} className="btn btn-square btn-sm btn-primary my-1 text-xs text-white">Add</button>
-                </div>
+            <div className='flex mt-3'>
+                <Select
+                    options={mocked_exercises}
+                    value={selectedExercises}
+                    onChange={handleExerciseChange}
+                    isMulti={false}
+                    className='mb-4 text-black w-full mx-2'
+                    placeholder="Add your exercises"
+                    isSearchable={true}
+                />
+            </div>
         </>
     );
 }
