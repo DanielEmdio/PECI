@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import * as utils from "../../Utils/utils";
 import { Link } from 'react-router-dom';
 import { api } from "../../api";
+import Select from 'react-select';
 
 function RegisterPt() {
     const userRef = useRef();
@@ -26,14 +27,6 @@ function RegisterPt() {
     const [tempprice, setTempPrice] = useState(0);
     const [period, setPeriod] = useState("Monthly");
 
-    const [tempdetails, setTempDetails] = useState({
-        lang: [],
-    });
-
-    const [tempdetailstags, setTempDetailsTags] = useState({
-        tags: [],
-    });
-
     const [previewphoto, setPreviewPhoto] = useState({ photo: '' });
     const [photofile, setPhoto] = useState(null);
 
@@ -43,15 +36,6 @@ function RegisterPt() {
     useEffect(() => {
         userRef.current.focus();
     }, []);
-
-    useEffect(() => {
-        setDetails({ ...details, lang: tempdetails.lang.join(',') });
-    }, [tempdetails]);
-
-    useEffect(() => {
-        setDetails({ ...details, tags: tempdetailstags.tags.join(',') });
-    }, [tempdetailstags]);
-
     useEffect(() => {
         setErrMsg('');
     }, [details]);
@@ -70,64 +54,74 @@ function RegisterPt() {
         }
     };
 
-    const languages = ["Portuguese", "English", "Spanish", "French", "German", "Italian", "Russian", "Chinese", "Japanese", "Korean", "Arabic", "Hindi", "Bengali", "Urdu", "Turkish", "Vietnamese", "Thai", "Swedish", "Dutch", "Polish", "Romanian", "Hungarian", "Czech", "Greek"];
+    const lags =[
+        { value: "Portuguese", label: "Portuguese" },
+        { value: "English", label: "English" },
+        { value: "Spanish", label: "Spanish" },
+        { value: "French", label: "French" },
+        { value: "German", label: "German" },
+        { value: "Italian", label: "Italian" },
+        { value: "Russian", label: "Russian" },
+        { value: "Chinese", label: "Chinese" },
+        { value: "Japanese", label: "Japanese" },
+        { value: "Korean", label: "Korean" },
+        { value: "Arabic", label: "Arabic" },
+        { value: "Hindi", label: "Hindi" },
+        { value: "Bengali", label: "Bengali" },
+        { value: "Urdu", label: "Urdu" },
+        { value: "Turkish", label: "Turkish" },
+        { value: "Vietnamese", label: "Vietnamese" },
+        { value: "Thai", label: "Thai" },
+        { value: "Swedish", label: "Swedish" },
+        { value: "Dutch", label: "Dutch" },
+        { value: "Polish", label: "Polish" },
+        { value: "Romanian", label: "Romanian" },
+        { value: "Hungarian", label: "Hungarian" },
+        { value: "Czech", label: "Czech" },
+        { value: "Greek", label: "Greek" }
+    ];
+    const [languages, setLanguages] = useState('');
     const handleLanguageChange = (language) => {
-        setTempDetails(prevDetails => {
-            const isLanguageSelected = prevDetails.lang.includes(language[0]);
-            if (isLanguageSelected) {
-                // Se o idioma já estiver selecionado, remove da lista de idiomas selecionados e atualiza o lang details
-                return {
-                    ...prevDetails,
-                    lang: prevDetails.lang.filter(lang => lang !== language[0])
-                };
-            } else {
-                // Se o idioma ainda não estiver selecionado, adiciona à lista de idiomas selecionados e atualiza o lang details
-                setDetails({ ...details, lang: details.lang.concat(language[0]) });
-                return {
-                    ...prevDetails,
-                    lang: prevDetails.lang.concat(language[0])
-                };
-            }
-
-        });
-
-        // console.log(tempdetails.lang);
+        setLanguages(language);
+        setDetails({ ...details, lang: language.map(lang => lang.value).join(',') });
     };
 
-    const [searchTerm, setSearchTerm] = useState('');
-    const tags = ["Full Body", "Cardio", "Strength", "Endurance", "Flexibility", "Balance", "Agility", "Speed", "Power", "Plyometrics", "Core", "Upper Body", "Lower Body", "Back", "Chest", "Shoulders", "Arms", "Legs", "Glutes", "Abs", "Biceps", "Triceps", "Quads", "Hamstrings", "Calves", "Pectorals", "Deltoids", "Trapezius", "Latissimus Dorsi"];
-    const handleTagChange = (tag) => {
-        setTempDetailsTags(prevDetails => {
-            const isTagSelected = prevDetails.tags.includes(tag[0]);
-            if (isTagSelected) {
-                // Se o idioma já estiver selecionado, remove da lista de idiomas selecionados e atualiza o lang details
-                return {
-                    ...prevDetails,
-                    tags: prevDetails.tags.filter(tag => tag !== tag[0])
-                };
-            } else {
-                // Se o idioma ainda não estiver selecionado, adiciona à lista de idiomas selecionados e atualiza o lang details
-                setDetails({ ...details, tags: details.tags.concat(tag[0]) });
-                return {
-                    ...prevDetails,
-                    tags: prevDetails.tags.concat(tag[0])
-                };
-            }
-
-        });
+    const tags = [
+        { value: "Full Body", label: "Full Body" },
+        { value: "Cardio", label: "Cardio" },
+        { value: "Strength", label: "Strength" },
+        { value: "Endurance", label: "Endurance" },
+        { value: "Flexibility", label: "Flexibility" },
+        { value: "Balance", label: "Balance" },
+        { value: "Agility", label: "Agility" },
+        { value: "Speed", label: "Speed" },
+        { value: "Power", label: "Power" },
+        { value: "Plyometrics", label: "Plyometrics" },
+        { value: "Core", label: "Core" },
+        { value: "Upper Body", label: "Upper Body" },
+        { value: "Lower Body", label: "Lower Body" },
+        { value: "Back", label: "Back" },
+        { value: "Chest", label: "Chest" },
+        { value: "Shoulders", label: "Shoulders" },
+        { value: "Arms", label: "Arms" },
+        { value: "Legs", label: "Legs" },
+        { value: "Glutes", label: "Glutes" },
+        { value: "Abs", label: "Abs" },
+        { value: "Biceps", label: "Biceps" },
+        { value: "Triceps", label: "Triceps" },
+        { value: "Quads", label: "Quads" },
+        { value: "Hamstrings", label: "Hamstrings" },
+        { value: "Calves", label: "Calves" },
+        { value: "Pectorals", label: "Pectorals" },
+        { value: "Deltoids", label: "Deltoids" },
+        { value: "Trapezius", label: "Trapezius" },
+        { value: "Latissimus Dorsi", label: "Latissimus Dorsi" }
+    ];
+    const [targetMuscles, setTargetMuscles] = useState('');
+    const handleTagChange = (targetMuscles) => {
+        setTargetMuscles(targetMuscles);
+        setDetails({ ...details, tags: targetMuscles.map(muscle => muscle.value).join(',') });
     };
-
-    const [searchTermTags, setSearchTermTags] = useState('');
-
-    // Filtra as línguas com base no termo de pesquisa
-    const filteredLanguages = languages.filter(language =>
-        language.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-
-    // Filtra as tags com base no termo de pesquisa
-    const filteredTags = tags.filter(tag =>
-        tag.toLowerCase().includes(searchTermTags.toLowerCase())
-    );
 
     const updateDetails = async () => {
         // Atualize o estado com base no estado anterior
@@ -136,9 +130,9 @@ function RegisterPt() {
         // Atualize o campo 'price'
         updatedDetails.price = `${tempprice} - ${period}`;
 
-        // Converta 'tempdetails.lang' e 'tempdetailstags.tags' para string e atualize os campos 'lang' e 'tags'
-        updatedDetails.lang = tempdetails.lang.join(',');
-        updatedDetails.tags = tempdetailstags.tags.join(',');
+        // Atualize os campos 'lang' e 'tags'
+        updatedDetails.lang = languages.map(lang => lang.value).join(',');
+        updatedDetails.tags = targetMuscles.map(muscle => muscle.value).join(',');
 
         // Atualize o estado
         setDetails(updatedDetails);
@@ -231,30 +225,15 @@ function RegisterPt() {
                         />
                         <MdDescription className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
                     </div>
-
-                    <span className="text-white mb-1">Tags</span>
-                    <div className="input-box relative w-full my-3">
-                        <FaTag className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
-                        <input
-                            type="text"
-                            placeholder="Search Tags..."
-                            value={searchTermTags}
-                            onChange={(e) => setSearchTermTags(e.target.value)}
-                            className="w-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-lg text-white text-base pl-4 pr-10 pt-3 pb-2 resize-none mb-2"
-                        />
-
-                        <select
-                            multiple
-                            value={tempdetailstags.tags}
-                            onChange={(e) => handleTagChange(Array.from(e.target.selectedOptions, option => option.value))}
-                            className="w-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-lg text-white text-base pl-4 pr-10 pt-3 pb-2 resize-none"
-                            required
-                        >
-                            {filteredTags.map(tag => (
-                                <option key={tag} value={tag}>{tag}</option>
-                            ))}
-                        </select>
-                    </div>
+                    <Select
+                        options={tags}
+                        value={targetMuscles}
+                        onChange={handleTagChange}
+                        isMulti={true}
+                        className='mb-4 text-black'
+                        placeholder="Tags"
+                        required
+                    />
 
                     <span className="text-white mb-1">Price</span>
                     <div className="input-box relative w-full h-12 my-3">
@@ -303,29 +282,15 @@ function RegisterPt() {
                     </div>
                 </div>
                 <div className="flex flex-col flex-1 md:w-1/2 bg-opacity-25 border-2 border-white border-opacity-20 backdrop-blur-md shadow-md text-white rounded-lg p-8 bg-black">
-                    <span className="text-white mb-1">Languages Spoken</span>
-                    <div className="input-box relative w-full my-3">
-                        <MdLanguage className='icon absolute right-4 top-1/2 transform -translate-y-1/2 text-base' />
-                        <input
-                            type="text"
-                            placeholder="Search languages..."
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-lg text-white text-base pl-4 pr-10 pt-3 pb-2 resize-none mb-2"
-                        />
-                        <select
-                            multiple
-                            value={tempdetails.lang}
-                            onChange={(e) => handleLanguageChange(Array.from(e.target.selectedOptions, option => option.value))}
-                            className="w-full bg-transparent outline-none border-2 border-white border-opacity-20 rounded-lg text-white text-base pl-4 pr-10 pt-3 pb-2 resize-none"
-                            required
-                        >
-                            {filteredLanguages.map(language => (
-                                <option key={language} value={language}>{language}</option>
-                            ))}
-
-                        </select>
-                    </div>
+                    <Select
+                        options={lags}
+                        value={languages}
+                        onChange={handleLanguageChange}
+                        isMulti={true}
+                        className='mb-4 text-black'
+                        placeholder="Languages"
+                        required
+                    />
                     <div className="w-full">
                         <div className="input-box relative w-full h-12 my-3">
                             <input
