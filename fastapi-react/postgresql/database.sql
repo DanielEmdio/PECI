@@ -393,17 +393,14 @@ COPY public.common_mistake (id, path, description, exercise_id) FROM stdin;
 --
 
 COPY public.exercise (id, path, name, description, muscletargets, dificulty, personal_trainer_id, thumbnail_path) FROM stdin;
-7	\N	t1	t2	Cardio, Flexible	3	1	\N
-8	\N	t1	t2	Cardio,Feee 	2	1	\N
-9	\N	t1	t2	Cardio,Feee 	2	1	\N
-10	title_10.mp4	title	chest	Full Body,Cardio	1	1	thumbnails/title_thumbnail_10.png
-11	gfdsgds_11.mp4	gfdsgds	gdfgds	Full Body,Cardio	1	1	thumbnails/gfdsgds_thumbnail_11.png
-4	uatreino1.mp4	Glute bridge	Good workout for beginners	Upper,Lower 	4	18	\N
-5	uatreino3.mp4	Squats	A legs focused workout with some abs in between	Legs,Abs	3	18	\N
-3	uatreino6.mp4	Biceps curls	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	2	18	\N
-1	uatreino4.mp4	Push ups	Pull ups challenge to widen your back	Back	1	18	\N
-2	uatreino5.mp4	Triceps extensions	Arms killer workout	Biceps,Triceps,Chest	2	1	\N
-6	uatreino2.mp4	Explosive push ups	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	4	1	\N
+4	uatreino1.mp4	Glute bridge	Good workout for beginners	Upper,Lower 	4	18	thumbnails/exercise_thumbnail.png
+5	uatreino3.mp4	Squats	A legs focused workout with some abs in between	Legs,Abs	3	18	thumbnails/exercise_thumbnail.png
+3	uatreino6.mp4	Biceps curls	Do This to Get ARMS | Home Workout Challenge\n\nNext Workout Challenge: \nhttps://nextworkoutchallenge.com/\n\nFull Free Home Workout Programs: http://igorvoitenko.com/getfit-programm\nMy Instagram:   / igorvoitenkofitness  \n\nAlso check out my best videos: \n\n7 push up mistakes that are killing your gains:    • 7 WORST Push Up Mistakes Killing Your...  \nDiet for fat loss:    • Eat Like This Every Day to Lose Belly...  \n\nMusic: NCS, Neffex	Biceps,Triceps	2	18	thumbnails/exercise_thumbnail.png
+1	uatreino4.mp4	Push ups	Pull ups challenge to widen your back	Back	1	18	thumbnails/exercise_thumbnail.png
+2	uatreino5.mp4	Triceps extensions	Arms killer workout	Biceps,Triceps,Chest	2	1	thumbnails/exercise_thumbnail.png
+6	uatreino2.mp4	Explosive push ups	A good all-around upper body target workout	Biceps,Triceps,Chest,Shoulders	4	1	thumbnails/exercise_thumbnail.png
+10	title_10.mp4	Elevated push ups	chest exercise	Full Body,Cardio	1	1	thumbnails/exercise_thumbnail.png
+11	gfdsgds_11.mp4	Crunches	abs exercise	Full Body,Cardio	1	1	thumbnails/exercise_thumbnail.png
 \.
 
 
@@ -538,7 +535,7 @@ SELECT pg_catalog.setval('public.common_mistake_id_seq', 2, true);
 -- Name: exercise_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.exercise_id_seq', 11, true);
+SELECT pg_catalog.setval('public.exercise_id_seq', 12, true);
 
 
 --

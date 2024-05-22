@@ -62,8 +62,9 @@ export default function PtMainPage() {
             const data = r.data;
             const newMockedExercises = data.exercises.map(exercise => ({
                 id: exercise.id,
-                name: exercise.name,
+                title: exercise.name,
                 description: exercise.description,
+                duration: "1 min",
                 difficulty: exercise.difficulty,
                 tags: exercise.muscletargets.split(","),
                 thumbnail: exercise.thumbnail_path,
