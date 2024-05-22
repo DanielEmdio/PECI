@@ -51,10 +51,10 @@ export default function NewPtTable() {
                 <table className="table">
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Name</th>
                             <th>Specialty</th>
                             <th>Description</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
