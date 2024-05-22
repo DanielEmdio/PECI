@@ -64,6 +64,7 @@ export default function PtMainPage() {
                 id: exercise.id,
                 title: exercise.name,
                 description: exercise.description,
+                duration: "1 min",
                 difficulty: exercise.difficulty,
                 tags: exercise.muscletargets.split(","),
                 thumbnail: exercise.thumbnail_path,
