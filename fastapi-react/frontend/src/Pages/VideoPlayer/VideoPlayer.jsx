@@ -95,19 +95,23 @@ function VideoPlayer() {
     return (
         <div>
             <br />
-            <div style={{ backgroundColor: 'rgb(200, 200, 200)', display: 'flex', justifyContent: 'center', height: '540px' }}>
-                {video.path ? <ReactPlayer
-                    url={`${API_URL}/exercises/${video.path}`}
-                    width="960px"
-                    height="540px"
-                    controls
-                /> : null}
+            <div style={{ display: 'flex', justifyContent: 'center', height: '560px' }}>
+                {video.path ? 
+                    <div style={{ backgroundColor: 'rgb(200, 200, 200)', padding: '8px' }}>
+                        <ReactPlayer
+                            url={`${API_URL}/exercises/${video.path}`}
+                            width="960px"
+                            height="540px"
+                            controls
+                        />
+                    </div> 
+                : null}
             </div>
             <p><br></br></p>
             <div className=" w-11/12 mx-auto" style={{ marginBottom: '30px' }}>
                 <p style={{ fontSize: '2.5em' }}>{video.title}</p>
                 <p>{workout.releasedate}</p>
-                <p style={{ marginTop: '20px', fontSize: '1.5em' }} >{pt_name}</p>
+                <Link to={`/PT_sub/${workout.pt_id}`}> <button><p style={{backgroundColor: 'rgb(100, 200, 100)', padding: '10px', borderRadius: '10px', marginTop: '20px', fontSize: '1.5em', display: 'inline-block', color: 'white'}}>{pt_name}</p></button> </Link>
             </div>
 
             <div className=" w-11/12 mx-auto" style={{ backgroundColor: 'rgb(220, 220, 220)', padding: '5px', borderRadius: '5px' }}>
@@ -120,13 +124,6 @@ function VideoPlayer() {
                 <button onClick={toggleDescription}>
                     {isExpanded ? 'Show Less' : 'Show More'}
                 </button>
-            </div>
-
-            <div className=" w-11/12 mx-auto">
-                <p style={{ fontSize: '1.2em', marginBottom: '10px', marginTop: '30px', textDecoration: 'underline', fontWeight: 'bold' }}>Reviews</p>
-                <Box sx={{ '& > legend': { mt: 2 } }}>
-                    {<Rating name="read-only" value={parseInt(video.rating)} size="large" readOnly />}
-                </Box>
             </div>
 
             <div className="flex justify-center">
