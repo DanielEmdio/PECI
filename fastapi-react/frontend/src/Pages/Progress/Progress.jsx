@@ -1,4 +1,3 @@
-import { IoChatbubble } from "react-icons/io5";
 import React, { useEffect, useRef, useState } from 'react';
 import Chart from 'chart.js/auto';
 import { FaClock } from "react-icons/fa6";
@@ -195,9 +194,6 @@ function Progress() {
                     <canvas ref={chartRef}></canvas>
                 </div>
             </main>
-            <button id="floating-button" onClick={() => window.location.href = "/chat"}>
-                <IoChatbubble size={50} />
-            </button>
         </div>
     );
 }
