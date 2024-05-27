@@ -16,7 +16,12 @@ export default function PtCard({ Pt }) {
                     ))}
                 </div>
                 <div className="card-actions justify-end">
-                    <Link to={`/PT_sub/${Pt.id}`}><button className="btn btn-primary">View</button></Link>
+                    <div>
+                        <Link to={`/chat/${Pt.id}`}><button className="btn btn-primary">Chat</button></Link>
+                    </div>
+                    <div>
+                        <Link to={`/PT_sub/${Pt.id}`}><button className="btn btn-primary">View</button></Link>
+                    </div>
                 </div>
             </div>
         </div>
