@@ -37,7 +37,6 @@ export default function NewPtTable() {
         }
 
         api.post(`/users/subscribeToPT/${pt_id}`, { token: utils.getCookie("token") }).then((response) => {
-            alert("Subscribed successfully!");
             getAvailablePTs();
         }).catch((_) => {
             alert("Error subscribing to PT!");

@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import * as utils from "../../Utils/utils";
 import { API_URL, api } from "../../api";
+import { TiArrowBack } from "react-icons/ti";
+//import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 export default function Chat() {
     const [recipient, setRecipient] = useState("Chat");
@@ -9,6 +12,7 @@ export default function Chat() {
     const [message, setMessage] = useState('');
     const [ws, setWs] = useState(null);
     const { id } = useParams();
+    //const history = useHistory();
 
     // get recipient name
     useEffect(() => {
@@ -106,7 +110,10 @@ export default function Chat() {
     return (
         <div className='py-4'>
             <div className='w-11/12 mx-auto shadow rounded p-3'>
-                <strong className='text-3xl'>{recipient}</strong>
+                <div className='flex'>
+                    <strong className='text-3xl basis-full'>{recipient}</strong>
+                    <button><Link to={"/chat"}><TiArrowBack className='size-10'/></Link></button>
+                </div>
                 <hr className='mt-3 mb-4' />
                 <div className='px-1' style={{ height: '600px', maxHeight: '600px', overflowY: 'scroll' }}>
                     {messages.map((message, index) => (

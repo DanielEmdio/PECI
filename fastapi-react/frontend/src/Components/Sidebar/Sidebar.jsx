@@ -31,7 +31,7 @@ export default function Sidebar() {
             <div className="divider"></div>
             {!utils.isNormalUser() ? <li className="text-xl font-bold border-emerald-100 border-width-2"><Link to={`/PT/${pt_id}`}><IoPersonAdd size={32} />My Page</Link></li> : <></>}
             <li className="text-xl font-bold"><Link to={"/"}><GiGymBag size={32} />Workouts</Link></li>
-            {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/subscriptions"}><IoPersonAdd size={32} />Subscriptions</Link></li> : <></>}
+            {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/subscriptions"}><IoPersonAdd size={32} />Personal Trainers</Link></li> : <></>}
             <li className="text-xl font-bold"><Link to={"/chat"}><IoChatbubble size={32} />Chat</Link></li>
             {utils.isNormalUser() ? <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />Progress</Link></li> : <li className="text-xl font-bold"><Link to={"/progress"}><GiProgression size={32} />My Athletes Progress</Link></li>}
             {/*<li className="text-xl font-bold"><Link to={`/PT/${pt_id}`}><FaUserCircle size={32} />Profile</Link></li> */}
