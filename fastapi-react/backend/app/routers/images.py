@@ -1,10 +1,7 @@
-from repository.pts import PersonalTrainersRepository
-from repository.users import UsersRepository
 from fastapi.responses import FileResponse
 from fastapi import APIRouter
 from auth.oauth2_jwt import *
 from pathlib import Path
-import schemas
 
 IMAGES_DIR = Path("images")
 router = APIRouter(prefix="/images")
@@ -18,7 +15,6 @@ async def get_image(image_name: str):
     # jwt_data = get_jwt_token_data(token=token.token)
     # if jwt_data == None:
     #     return { "result": "no", "error": "Unauthorized." }
-
     # if jwt_data["isNormalUser"] == True:
     #     user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
     #     if not UsersRepository.hasAccessToImage(user_id, image_name):
@@ -31,20 +27,17 @@ async def get_image(image_name: str):
     if not is_safe_path(image_name):
         return { "result": "no", "error": "Image not safe." }
 
-    image_name = IMAGES_DIR / image_name 
-    print("image_name: ",image_name)
+    image_name = IMAGES_DIR / image_name
     if not image_name.exists():
         return { "result": "no", "error": "Image not found." }
 
     return FileResponse(image_name)
-
 
 @router.get("/thumbnails/{image_name}")
 async def get_image(image_name: str):
     # jwt_data = get_jwt_token_data(token=token.token)
     # if jwt_data == None:
     #     return { "result": "no", "error": "Unauthorized." }
-
     # if jwt_data["isNormalUser"] == True:
     #     user_id: int = UsersRepository.get_user_by_token(token=jwt_data["token"]).id
     #     if not UsersRepository.hasAccessToImage(user_id, image_name):
@@ -56,9 +49,10 @@ async def get_image(image_name: str):
 
     if not is_safe_path(image_name):
         return { "result": "no", "error": "Image not safe." }
-    image_name="thumbnails/"+image_name
+
+    image_name = "thumbnails/" + image_name
     image_name = IMAGES_DIR / image_name 
-    print("image_name: ",image_name)
+
     if not image_name.exists():
         return { "result": "no", "error": "Image not found." }
 

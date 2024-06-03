@@ -1,113 +1,20 @@
-import PTfilter from "../../Components/Subscription/PTfilter";
 import { useEffect, useState } from "react";
 import * as utils from "../../Utils/utils";
 import { api, API_URL } from "../../api";
 import { Link } from "react-router-dom";
 
 export default function NewPtTable() {
-    /*
-    const mockedData = [
-        {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/300/200",
-            description: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-            price: "20€ - monthly",
-            id: 1
-        },
-        {
-            name: "Dantes",
-            photo: "https://picsum.photos/500/200",
-            description: "Welcome to the Rodeo.",
-            tags: ["Budget", "Core", "Strength"],
-            price: "20€ - monthly",
-            id: 2
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/350/200",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly",
-            id: 3
-        },
-        {
-            name: "Mario Antunes",
-            photo: "https://picsum.photos/300/250",
-            description: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem quibusdam odit voluptatum recusandae est aspernatur velit commodi saepe, dicta repellendus nam at sapiente officia dolor ipsam dolore non quisquam nemo?",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly",
-            id: 4
-        },
-        {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/250/200",
-            description: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-            price: "20€ - monthly",
-            id: 5
-        },
-        {
-            name: "Dantes",
-            photo: "https://picsum.photos/330/200",
-            description: "Welcome to the Rodeo.",
-            tags: ["Budget", "Core", "Strength"],
-            price: "20€ - monthly",
-            id: 6
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/300/205",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly",
-            id: 7
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/306/200",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
-        },
-        {
-            name: "Igor Voitenko",
-            photo: "https://picsum.photos/250/200",
-            description: "I believe, that through fitness you can change not only your body but your whole life!",
-            tags: ["Full Body", "Cardio", "Strength"],
-            price: "20€ - monthly"
-        },
-        {
-            name: "Dantes",
-            photo: "https://picsum.photos/330/200",
-            description: "Welcome to the Rodeo.",
-            tags: ["Budget", "Core", "Strength"],
-            price: "20€ - monthly"
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/300/205",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
-        },
-        {
-            name: "Rui Aguiar",
-            photo: "https://picsum.photos/306/200",
-            description: "Play hard, work harder.",
-            tags: ["Professional", "Flexibility"],
-            price: "20€ - monthly"
-        },
-    ]*/
-
     const [mockedData, setMockedData] = useState([]);
 
     useEffect(() => {
+        getAvailablePTs();
+    }, []);
+
+    function getAvailablePTs() {
         api.post("/users/getNewPts", { token: utils.getCookie("token") }).then((response) => {
             const data = response.data;
-            console.log("data: ", data);
-
             let newMockedData = [];
+
             data.pts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
@@ -121,33 +28,39 @@ export default function NewPtTable() {
 
             setMockedData(newMockedData);
         }).catch((_) => { });
-    }, []);
+    }
+
+    function subscribe(pt_id) {
+        // ask the user if he realy wants to subscribe, if yes, send the request to the server and reload the page
+        if (!window.confirm("Are you sure you want to subscribe to this PT?")) {
+            return;
+        }
+
+        api.post(`/users/subscribeToPT/${pt_id}`, { token: utils.getCookie("token") }).then((response) => {
+            alert("Subscribed successfully!");
+            getAvailablePTs();
+        }).catch((_) => {
+            alert("Error subscribing to PT!");
+        });
+    }
 
     return (
         <div className=" w-11/12 mx-auto">
-            {/*<PTfilter></PTfilter>
-            <div className="divider"></div>*/}
             <h1 className='my-3 mt-5 text-2xl font-bold'>Recomended personal trainers:</h1>
             <div className="overflow-x-auto">
                 <table className="table">
-                    {/* head */}
                     <thead>
                         <tr>
-                            <th></th>
                             <th>Name</th>
                             <th>Specialty</th>
                             <th>Description</th>
+                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         {mockedData.map((Pt, index) => (
                             <tr key={index}>
-                                <th>
-                                    <label>
-                                        <input type="checkbox" className="checkbox" />
-                                    </label>
-                                </th>
                                 <td>
                                     <div className="flex items-center gap-3">
                                         <div className="avatar">
@@ -168,22 +81,14 @@ export default function NewPtTable() {
                                 </td>
                                 <td>{Pt.description}</td>
                                 <th>
-                                    {console.log(Pt.id)}
+                                    <button className="btn btn-success btn-xs text-white" onClick={() => subscribe(Pt.id)}>Subscribe</button>
+                                </th>
+                                <th>
                                     <Link to={`/PT_nonSub/${Pt.id}/main`}><button className="btn btn-ghost btn-xs">details</button></Link>
                                 </th>
                             </tr>
-
                         ))}
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th><button className="btn btn-xs sm:btn-sm md:btn-sm lg:btn-sm">Load More</button></th>
-                            <th></th>
-                        </tr>
-                    </tfoot>
                 </table>
             </div>
         </div>

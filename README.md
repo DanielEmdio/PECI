@@ -1,13 +1,18 @@
 # PECI
-
-## Description
-
 Projeto da disciplina de PECI.
 
-## Autores
+## Index
+* [Sobre o projeto](#sobre-o-projeto)
+* [Autores](#Autores)
+* [Uso](#Uso)
+
+### Sobre o projeto
+Projeto de Engenharia de Computadores e Informática.
+
+### Autores
 - Daniel Emídio **Nº 108986**
 - Henrique Coelho **Nº 108342**
 - Carlos Ferreira **Nº 108822**
 - Gabriel Costa **Nº 109050**
 - Diogo Borges **Nº 102954**
-- Diogo Martins **Nº 108548**
+- ADICIONEM AQUI OS OUTROS

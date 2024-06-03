@@ -10,20 +10,19 @@ export default function CategoriesBar() {
     const [showAddVideo, setShowAddVideo] = useState(false);
 
     useEffect(() => {
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.videos);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
                     thumbnail: element.thumbnail,
-                    duration: element.duration,                             
+                    duration: element.duration,
                     rating: element.rating,
                     releasedate: element.releasedate,
-                    difficulty: element.difficulty,                         
-                    mainMuscles: element.mainMuscles.split(","),
+                    difficulty: element.difficulty,                                  // deverá ser ajustado
+                    mainMuscles: element.tags.split(","),
                 })
             });
 
@@ -35,20 +34,18 @@ export default function CategoriesBar() {
         setShowAddVideo(!showAddVideo);  // Alternar visibilidade de AddVideo
         setActiveButton("addvideo");
     };
-    
+
     const popularClick = (e) => {
-        if(showAddVideo){
+        if (showAddVideo) {
             setShowAddVideo(!showAddVideo);
         }
         e.preventDefault();
         setActiveButton("popular");
-        console.log('The link was clicked.');
 
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("popular videos: ", data.videos);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -56,8 +53,8 @@ export default function CategoriesBar() {
                     duration: element.duration,                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
-                    difficulty: element.dificulty,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    difficulty: element.difficulty,                                  // deverá ser ajustado
+                    mainMuscles: element.tags.split(","),
                 })
             });
 
@@ -69,18 +66,16 @@ export default function CategoriesBar() {
     }
 
     const recentClick = (e) => {
-        if(showAddVideo){
+        if (showAddVideo) {
             setShowAddVideo(!showAddVideo);
         }
         e.preventDefault();
         setActiveButton("recent");
-        console.log('The link was clicked.');
 
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("recent videos: ", data.videos);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -89,7 +84,7 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     difficulty: element.difficulty,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    mainMuscles: element.tags.split(","),
                 })
             });
 
@@ -112,18 +107,16 @@ export default function CategoriesBar() {
     }
 
     const exclusiveClick = (e) => {
-        if(showAddVideo){
+        if (showAddVideo) {
             setShowAddVideo(!showAddVideo);
         }
         e.preventDefault();
         setActiveButton("exclusive");
-        console.log('The link was clicked.');
 
-        api.post("/videos/getPTPreVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getPTPreWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log("exclusive videos: ", data.videos);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -132,8 +125,8 @@ export default function CategoriesBar() {
                     rating: element.rating,
                     releasedate: element.releasedate,
                     PTUsername: element.username,
-                    difficulty: element.dificulty,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    difficulty: element.difficulty,                                  // deverá ser ajustado
+                    mainMuscles: element.tags.split(","),
                 })
             });
 
@@ -142,18 +135,16 @@ export default function CategoriesBar() {
     }
 
     const AllClick = (e) => {
-        if(showAddVideo){
+        if (showAddVideo) {
             setShowAddVideo(!showAddVideo);
         }
         e.preventDefault();
         setActiveButton("all");
-        console.log('The link was clicked.');
 
-        api.post("/videos/getAccessibleVideos", { token: utils.getCookie("token") }).then((r) => {
+        api.post("/workouts/getAccessibleWorkouts", { token: utils.getCookie("token") }).then((r) => {
             const data = r.data;
-            console.log(data.videos);
             let newMockedData = [];
-            data.videos.forEach(element => {
+            data.workouts.forEach(element => {
                 newMockedData.push({
                     id: element.id,
                     title: element.title,
@@ -161,17 +152,16 @@ export default function CategoriesBar() {
                     duration: element.duration,                             // deverá ser ajustado
                     rating: element.rating,
                     releasedate: element.releasedate,
-                    difficulty: element.dificulty,                                  // deverá ser ajustado
-                    mainMuscles: element.mainMuscles.split(","),
+                    difficulty: element.difficulty,                                  // deverá ser ajustado
+                    mainMuscles: element.tags.split(","),
                 })
-            }); 
-
-            //console.log(newMockedData);
+            });
 
             setMockedData(newMockedData);
         }).catch((_) => { });
-    }
 
+    }
+    //{!utils.isNormalUser() ? <a onClick={toggleAddVideo} className={`btn btn-ghost text-xl ${activeButton === "addvideo" ? "active" : ""}`}>Add Video</a> : <></>}
     return (
         <>
             <div className="navbar bg-base-100 rounded-xl my-10">
@@ -179,11 +169,10 @@ export default function CategoriesBar() {
                 <a onClick={popularClick} className={`btn btn-ghost text-xl ${activeButton === "popular" ? "active" : ""}`}>Popular</a>
                 <a onClick={recentClick} className={`btn btn-ghost text-xl ${activeButton === "recent" ? "active" : ""}`}>Recent</a>
                 {utils.isNormalUser() ? <a onClick={exclusiveClick} className={`btn btn-ghost text-xl ${activeButton === "exclusive" ? "active" : ""}`}>Exclusive</a> : <></>}
-                {!utils.isNormalUser() ? <a onClick={toggleAddVideo} className={`btn btn-ghost text-xl ${activeButton === "addvideo" ? "active" : ""}`}>Add Video</a> : <></>}
             </div>
             <div className="flex flex-col gap-4">
                 {(mockedData.length === 0 && !showAddVideo) ? (
-                    <div className='text-center'>No videos available.</div>
+                    <div className='text-center'>No workouts available.</div>
                 ) : (
                     mockedData.map((workout, index) => (
                         <Workoutcard key={index} workout={workout} />
@@ -191,5 +180,5 @@ export default function CategoriesBar() {
                 {showAddVideo && <AddVideo />}
             </div>
         </>
-    )
+    );
 }
