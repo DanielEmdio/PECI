@@ -4,7 +4,7 @@ Projeto da disciplina de PECI.
 ## Index
 * [Sobre o projeto](#sobre-o-projeto)
 * [Autores](#Autores)
-* [Uso](#Uso)
+* [Uso](#Uso-Sem-Docker)
 
 ### Sobre o projeto
 Projeto de Engenharia de Computadores e Informática.
@@ -17,7 +17,7 @@ Projeto de Engenharia de Computadores e Informática.
 - Diogo Borges **Nº 102954**
 - Diogo Martins **Nº 108548**
 
-### Uso
+### Uso (Sem Docker)
 1. Instalar as dependencias  
 Para utilizar este projeto é necessário instalar [Node.js](https://nodejs.org).
 
@@ -47,4 +47,11 @@ npm i
 - Para iniciar o frontend:
 ```sh
 npm start
+```
+
+### Uso (Com Docker)
+
+```sh
+cd fastapi-react/
+sudo docker compose up
 ```
