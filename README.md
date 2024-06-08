@@ -4,7 +4,7 @@ Projeto da disciplina de PECI.
 ## Index
 * [Sobre o projeto](#sobre-o-projeto)
 * [Autores](#Autores)
-* [Uso](#Uso)
+* [Uso](#Uso Sem Docker)
 
 ### Sobre o projeto
 Projeto de Engenharia de Computadores e Informática.
